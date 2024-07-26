@@ -1,0 +1,80 @@
+extends clients-base
+
+include _pagination.pug
+
+block content
+  main
+    article
+      section.section.aboutUs(aria-label="our latest aboutUs" id="aboutUs")
+        .about-Us
+          .profile-card
+            .card-top
+              //- img(src=`/img/users/${user ? user.photo : 'default.jpg'}` alt=`Photo of ${user ? user.name : 'Default User'}`)
+              img(src=`/img/users/user-1.jpg` alt=`Photo of user`)
+              .card-top-inner
+                .card-top-info 
+                  .card-top-name
+                    //- h2= `${user ? user.name : 'Nnodimele Udodirim'} 💡`
+                    h2 Nnodimele Udodirim 💡
+                    p Senior Web Engineer. Creative Developer.
+                  .card-top-date 
+                    span August 19th
+                    span.mx-2 •
+                    span Joined Jan 2023
+                .text-muted-p
+                  p.text-muted Brings ideas to life with code! ✨
+                  p.text-muted Content Creator. Whimsical Specialist. International Speaker. Ex-Google.
+                .card-info-link 
+                  span.text-green-500 Available
+                  a(href="#") /links
+                p.text-muted Keep up to date with my latest projects and adventures!
+            .follow-btn
+              a(href="" target="_blank" aria-label="follow-btn")
+                i.fa.fa-twitter
+              a(href="" target="_blank" aria-label="follow-btn")
+                i.fa.fa-tiktok
+              a(href="" target="_blank" aria-label="follow-btn")
+                i.fa.fa-youtube
+              a(href="" target="_blank" aria-label="follow-btn")
+                i.fa.fa-facebook
+              a(href="" target="_blank" aria-label="follow-btn")
+                i.fa.fa-whatsapp
+
+        .menu-opt 
+          .menu-top
+            button.menu-bottom.active Me
+            button.menu-bottom Testimonies
+            button.menu-bottom Contents
+          .menu-body
+            .menu-body-item.active-item
+              .menu-body-item-content 
+                p Content for Me
+
+            .menu-body-item
+              .menu-body-item-content 
+                p Content for Testimonies
+            .menu-body-item
+
+              .menu-body-item-content 
+                .item-content 
+                  .item-name-content 
+                    //- img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+                    img(src=`/img/users/user-1.jpg` alt=`Photo of user`)
+                    .item-inform
+                      h4 Content Title 1 
+                      h5 01 Jan 2024
+                  p.text-muted Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus sapiente sequi incidunt omnis laboriosam dolorum nesciunt, molestiae odit commodi corporis, quis est deleniti illum eos atque aliquam nam laborum neque.
+                  button.read-more-btn  Read more!
+                  .item-read-more 
+                    button.item-close-btn x
+                    .item-read-more-content
+                      p.item-read-content Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum nisi neque debitis sapiente distinctio cum, asperiores culpa corporis rerum saepe minima atque, excepturi tempora fuga necessitatibus aperiam. Quaerat, deserunt consequuntur.
+                  img(src="/img/blogs/news-1.jpg" alt="")
+                  .item-name-button 
+                    button Like
+
+              +paginate('blog', 2, 5)
+              //- +paginate('admin/messages', page, pages)
+
+
+

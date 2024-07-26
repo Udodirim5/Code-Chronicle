@@ -1,0 +1,54 @@
+extends admin-base
+
+block content
+  main.admin-main
+    section#new-posts
+      h2 Create New Post
+
+      form.new-content-form#createPost
+        .post-group
+          label(for="new-post-title") Title
+          input#new-post-title(type="text" name="title" required autofocus)
+
+        .post-group
+          ul.elements
+            li: button(type="button" data-element="h1") h1
+            li: button(type="button" data-element="h2") h2
+            li: button(type="button" data-element="h3") h3
+            li: button(type="button" data-element="h4") h4
+            li: button(type="button" data-element="h5") h5
+            li: button(type="button" data-element="h6") h6
+            li: button(type="button" data-element="ul") ul
+            li: button(type="button" data-element="li") li
+            li: button(type="button" data-element="p") p
+            li: button(type="button" data-element="a") a
+            li: button(type="button" data-element="code") code
+            li: button(type="button" data-element="pre") pre
+            li: button(type="button" data-element="img") img
+
+          label(for="new-post-content") Content
+          textarea#new-post-content(name="content" required)
+
+        .post-group
+          label(for="excerpt") Excerpt:
+          input(type="text" id="excerpt" name="excerpt" required)
+
+        .post-group
+          label(for="tags") Tags:
+          input(type="text" id="tags" name="tags")
+
+        .post-group
+          label(for="categories") Choose a category:
+          select#categories(name="category" required)
+            option(value="") Select a category
+            each category in categories
+              option(value=category._id) #{category.name}
+
+        .iPNG
+          .post-group
+            label(for="new-post-img" aria-label="upload image")
+              img#iPNGimg(src="/img/svg/cloud-upload.svg" alt="")
+            input#new-post-img(type="file" name="photo" required)
+
+        .post-group
+          button(type="submit") Submit

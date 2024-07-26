@@ -1,0 +1,55 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    //- Primary meta tags
+    title My Portfolio  | #{title}
+    meta(name="title" content="Unigine - Epic Games Made For True Gamers!")
+    meta(name="description" content="This is an esports and gaming html template made by codewithsadee")
+
+    link(rel="shortcut icon" href="/img/favicon.svg" type="image/svg+xml")
+
+    //- Google font link
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Work+Sans:wght@600&display=swap" rel="stylesheet")
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
+
+    //- Custom CSS link
+    link(rel="stylesheet" href="/css/style.css")
+
+    //- Preload images
+    link(rel="preload" as="image" href="/img/hero-banner.png")
+    link(rel="preload" as="image" href="/img/hero-banner-bg.png")
+
+  body#top
+    //- HEADER
+    include _header
+
+    //- CONTENT
+    block content
+      h1 This is a placeholder text
+
+    //- FOOTER
+    include _footer
+
+
+    //- BACK TO TOP
+    a.back-top-btn(href="#top" aria-label="back to top" data-back-top-btn)
+      ion-icon(name="arrow-up-outline" aria-hidden="true")
+
+
+    //- CUSTOM CURSOR
+    .cursor(id="data-cursor")
+
+
+    //- Custom JS link
+    script(src='/js/bundle.js')
+    script(src='/js/script.js')
+
+    //- Ionicon link
+    script(type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js")
+    script(nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js")

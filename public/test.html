@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e3eaf2;
+    }
+    
+    .work-section {
+      padding: 50px;
+      text-align: center;
+      color: #333;
+    }
+    
+    header h1 {
+      font-size: 2em;
+      color: #6b5b95;
+    }
+    
+    header h2 {
+      font-size: 1.5em;
+      color: #4a4a4a;
+    }
+    
+    .project {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 50px;
+    }
+    
+    .project-info {
+      max-width: 50%;
+      text-align: left;
+    }
+    
+    .project-title {
+      font-size: 1.8em;
+      color: #f39c12;
+    }
+    
+    .project-description {
+      font-size: 1em;
+      color: #333;
+      margin: 20px 0;
+    }
+    
+    .project-description a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    .project-description a:hover {
+      text-decoration: underline;
+    }
+    
+    .tech-icons {
+      margin: 20px 0;
+    }
+    
+    .tech-icons i {
+      font-size: 1.5em;
+      margin-right: 10px;
+      color: #555;
+    }
+    
+    .project-links {
+      margin: 20px 0;
+    }
+    
+    .project-links .btn {
+      background-color: #2ecc71;
+      color: white;
+      padding: 10px 20px;
+      margin-right: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    
+    .project-links .btn.view-repo {
+      background-color: #3498db;
+    }
+    
+    .project-links .btn:hover {
+      background-color: #27ae60;
+    }
+    
+    .project-links .btn.view-repo:hover {
+      background-color: #2980b9;
+    }
+    
+    .project-image {
+      max-width: 40%;
+    }
+    
+    .project-image img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+  </style>
+</head>
+<body>
+  <main class="work-section">
+    <header>
+      <h1>WORK</h1>
+      <h2>A Selection Of Stuff I've Built</h2>
+    </header>
+    <section class="project">
+      <div class="project-info">
+        <h3 class="project-title">Personal Date Night</h3>
+        <p class="project-description">
+          For when you need a break from your partner but already got a babysitter. Now couples can go to different events in similar locations and at the same time. A group programming project with 
+          <a href="#">Can Rozanes</a>, <a href="#">Irene Truong</a>, and <a href="#">Jamie Yeung</a>.
+        </p>
+        <div class="tech-icons">
+          <i class="fab fa-html5"></i>
+          <i class="fab fa-css3-alt"></i>
+          <i class="fab fa-js"></i>
+          <i class="fab fa-react"></i>
+          <i class="fab fa-node"></i>
+          <i class="fab fa-github"></i>
+        </div>
+        <div class="project-links">
+          <a href="#" class="btn view-project">View It Here</a>
+          <a href="#" class="btn view-repo">View GitHub Repo</a>
+        </div>
+      </div>
+      <div class="project-image">
+        <img src="./img/blogs/news-1.jpg" alt="Personal Date Night project screenshot">
+      </div>
+    </section>
+  </main>
+  <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+</body>
+</html>

@@ -1,0 +1,53 @@
+# Ignore Node.js modules
+node_modules/
+
+# Ignore environment variables file
+config.env
+
+# Ignore ESLint configuration file
+.eslintrc.json
+
+# Ignore Prettier configuration file
+.prettierrc
+
+# Ignore log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/editor specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Ignore build output
+dist/
+build/
+
+# Ignore npm package-lock files
+package-lock.json
+
+# Ignore coverage files
+coverage/
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore other config files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore generated bundle.js files
+/public/js/bundle.js
+/public/js/bundle.js.map

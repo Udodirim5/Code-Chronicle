@@ -1,0 +1,34 @@
+extends admin-base
+
+include _pagination.pug
+
+block content
+  main.admin-main
+    section#all-messages
+      h1.head-msg All Posts 
+      if posts && posts.length
+        table
+          thead
+            tr
+              th ID
+              th Title
+              th Author
+              th Date
+              th Actions
+          tbody
+            each post, index in posts
+              tr.message(data-id=post._id class="posts")
+                td= index + 1
+                td= post.title
+                td= post.author.name
+                - const releasedAt = new Date(post.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                td= releasedAt
+                td.actions
+                  span.fas.fa-ellipsis-v
+                  .actions-inner
+                    a.warning(href=`/admin/edit-post/${post._id}`) Edit
+                    button(type="button" class="delete-btn danger" data-id=post._id data-type="posts") Delete
+      else 
+        .empty-message No posts found.
+
+    +paginate('admin/admin-posts', page, pages)

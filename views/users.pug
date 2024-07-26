@@ -1,0 +1,40 @@
+extends admin-base
+
+block content
+  main.admin-main
+    section#all-messages
+      h1.head-msg All Users 
+      if users && users.length
+        table
+          thead
+            tr
+              th ID
+              th Name
+              th Email
+              th Role
+              th Actions
+          tbody
+            each user, index in users
+              tr.message(data-id=user._id class=`users`)
+                td= index + 1
+                td= user.name 
+                td= user.email
+                td= user.role
+                td.actions
+                  span.fas.fa-ellipsis-v
+                  .actions-inner
+                    a.warning(href="") Edit
+                    button(type="button" class="delete-btn danger" data-id=user._id data-type="users") Delete
+      else 
+        .empty-message No user found.
+
+    .paginator
+      if page > 1
+        a.previous(href=`/admin/all-users?page=${page - 1}`) Previous
+      if page < pages
+        a.next(href=`/admin/all-users?page=${page + 1}`) Next
+      if pages > 1
+        span.pages
+          span.current= page
+          span.of of
+          span.total= pages

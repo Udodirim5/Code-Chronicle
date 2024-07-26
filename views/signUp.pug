@@ -1,0 +1,37 @@
+extends login-base
+
+block content
+  body(id="admin-body")
+    main(class="admin-main")
+
+      section(id="getIn")
+        div(id="getIn-inner")
+          form(class="new-content-form" id='signUpForm')
+            h2 Register
+
+            .post-group
+              label(for="sg-name") Name
+              input(type="text" id="sg-name" required autofocus)
+
+            .post-group
+              label(for="sg-email") Email Address
+              input(type="email" id="sg-email" required)
+
+            .post-group
+              label(for="sg-password") Password
+              input(type="password" id="sg-password" required)
+              button(type="button" id="showPassword" class="toggle-password") Show
+    
+            .post-group
+              label(for="sg-passwordConfirm") Confirm Password
+              input(type="password" id="sg-passwordConfirm" required)
+              button(type="button" id="showPasswordConfirm" class="toggle-password") Show
+
+            .post-group
+              button(type="submit") Register
+
+            p.goIn
+              | Already have an account? 
+              a(href="/login") Log In
+
+    script(src="/js/script.js")

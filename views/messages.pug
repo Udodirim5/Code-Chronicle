@@ -1,0 +1,48 @@
+extends admin-base
+
+include _pagination.pug
+
+block content
+  main.admin-main
+    section#all-messages
+      h1.head-msg All Messages 
+      if contacts && contacts.length
+        table
+          thead
+            tr
+              th ID
+              th Name 
+              th Email
+              th Date
+              th Actions
+          tbody
+            each contact, index in contacts
+              tr.message(data-id=contact._id class=`contact-us`)
+                td= index + 1
+                td= contact.name 
+                td= contact.email
+                - const releasedAt = new Date(contact.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                td= `${releasedAt}`
+                td.actions
+                  span.fas.fa-ellipsis-v
+                  .actions-inner
+                    button(type="button" class="open-btn" data-id=contact._id) View 
+                    button(type="button" class="delete-btn danger" data-id=contact._id data-type="contact-us") Delete
+                .msg-content(data-id=contact._id)
+                  button(type="button" class="close-btn" data-id=contact._id) x
+                  p= contact.message
+      else 
+        .empty-message No message found.
+
+    +paginate('admin/messages', page, pages)
+
+    //- .paginator
+      if page > 1
+        a.previous(href=`/admin/messages?page=${page - 1}`) Previous
+      if page < pages
+        a.next(href=`/admin/messages?page=${page + 1}`) Next
+      if pages > 1
+        span.pages
+          span.current= page
+          span.of of
+          span.total= pages

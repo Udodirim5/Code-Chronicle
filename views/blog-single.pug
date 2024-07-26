@@ -1,0 +1,69 @@
+extends clients-base
+
+block content
+  main#post-single-container
+    section#post-single
+      .container
+        article#the-article
+          .post-meta
+            h1#post-title.h2= post.title
+            .post-meta-inner
+              - const releasedAt = new Date(post.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+              span.post-date= `Posted on: ${releasedAt}`
+              span.post-author= `By: ${post.author.name}`
+              span= `Category: ${post.category.name}`
+              span.post-views= `Views: ${post.views}`
+              span.post-comments= `Comments: ${post.comments ? post.comments.length : 0}`
+              span.post-likes= `Likes: ${post.likes.length}`
+              span.post-dislikes= `Dislikes: ${post.dislikes.length}`
+          img.post-cover(src=`/img/blogs/${post.photo}`, alt=`the cover photo of ${post.title}`)
+          #post-content
+            != post.content
+
+          .feedback
+            p
+              | Did You Find This Content Helpful?
+              button.like-btn(aria-label='like' data-id=`${post._id}`) 
+                i.fa.fa-thumbs-up
+              button.dislike-btn(aria-label='Dislike' data-id=`${post._id}`) 
+                i.fa.fa-thumbs-down
+
+        aside#related-posts
+          h2 Related Posts
+          ul
+            li: a(href='#') Understanding Scope in JavaScript
+            li: a(href='#') An Introduction to JavaScript Promises
+            li: a(href='#') How to Use Async/Await in JavaScript
+          h2 Tags
+          - const tags = Array.isArray(post.tags) ? post.tags : (post.tags ? post.tags.split(',') : [])
+          if tags.length
+            ul
+              each tag in tags
+                li: a(href='#', title=tag)= tag.trim()
+
+  section#comments
+    .container
+      form#comment-form(data-post-id=`${post._id}`)
+        label(for='commenter-name') Name:
+        input#commenter-name(type='text', required)
+        label(for='comment') Comment:
+        textarea#comment(required, maxlength='1000')
+        button(type='submit' class="btn") Submit
+        p#character-counter 1000/1000
+
+      .commentsLists
+        h2 Comments
+        .comment-out
+          if post.comments && post.comments.length
+            each comment in post.comments
+              .comment-card
+                .comment-img C C
+                .textBox
+                  .commentContent
+                    p.commenter= comment.name
+                    - const releasedAt = new Date(comment.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                    span.spanDate= `${releasedAt}`
+                  p.comment-main= comment.comment
+          else 
+            .no-comments
+              p No comments yet. Be the first to comment!

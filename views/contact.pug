@@ -1,0 +1,56 @@
+extends clients-base
+
+block content
+  main
+    article
+      //- CONTACT
+      section.section.news(id="contact")
+        .container
+          .contact 
+            form.contact-form
+              .form-group
+                label(for="name") Name
+                input#name(type="text" required)
+              .form-group
+                label(for="email") Email
+                input#email(type="email" required)
+              .form-group
+                label(for="message") Share Your Thoughts 
+                textarea#message(rows="3" required)
+              .form-group
+                button(type="submit" class="btn btn-primary") Submit
+
+            .contact-msg
+              .msg-txt
+                h2.h1 Contact 
+                h2.h1
+                  span.line
+                  |  Us
+              p it's very important for us to keep in touch with you, so we're always ready to answer any question that interest you! 
+              .contact-social
+                if socialLinks
+                  if socialLinks.twitter
+                    a(href=`https://twitter.com/${socialLinks.twitter}` target="_blank")
+                      i.fa.fa-twitter
+                  if socialLinks.facebook
+                    a(href=`https://facebook.com/${socialLinks.facebook}` target="_blank")
+                      i.fa.fa-facebook-f
+                  if socialLinks.linkedin
+                    a(href=`https://linkedin.com/in/${socialLinks.linkedin}` target="_blank")
+                      i.fa.fa-linkedin
+                  if socialLinks.github
+                    a(href=`https://github.com/${socialLinks.github}` target="_blank")
+                      i.fa.fa-github
+                  if socialLinks.youtube
+                    a(href=`https://youtube.com/${socialLinks.youtube}` target="_blank")
+                      i.fa.fa-youtube
+                  if socialLinks.instagram
+                    a(href=`https://instagram.com/${socialLinks.instagram}` target="_blank")
+                      i.fa.fa-instagram
+                  if socialLinks.telegram
+                    a(href=`https://t.me/${socialLinks.telegram}` target="_blank")
+                      i.fa.fa-telegram
+                  if socialLinks.whatsapp
+                    a(href=`https://whatsapp.com/channel/${socialLinks.whatsapp}` target="_blank")
+                      i.fa.fa-whatsapp
+

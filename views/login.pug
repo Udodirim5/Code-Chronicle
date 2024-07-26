@@ -1,0 +1,31 @@
+extends login-base
+
+block content
+  body(id="admin-body")
+    main(class="admin-main")
+
+      section(id="getIn")
+        div(id="getIn-inner")
+          form(class="new-content-form" id='form--login')
+            h2 Log in
+
+            .post-group
+              label(for="email") Email Address
+              input(type="email" id="email" required)
+
+            .post-group
+              label(for="password") Password
+              input(type="password" id="password" required)
+              button(type="button" id="showPassword" class="toggle-password") Show
+
+            .post-group
+              button(type="submit") Login
+
+            p.goIn
+              | Don't have an account? 
+              a(href="/signup") Register
+
+          .forgot-password
+            a(href="#") Forgot Password?
+
+    script(src="/js/script.js")

@@ -1,0 +1,58 @@
+extends admin-base
+
+block content
+  main.admin-main
+    h2 Dashboard 
+    section#dashboard
+      .info 
+        img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+        .cards
+          span= `Name: ${user.name}` 
+          p= `Username: ${user.username}` 
+          p= `Email: ${user.email}` 
+          p= `User Role: ${user.role}` 
+
+
+
+
+      .top 
+        h2.traffic Traffics
+        .top-inner
+          .box
+            h2 Daily
+            h3#dailyCount Loading...
+            .detailed#daily
+              span 0
+            i.fas.fa-user-tie
+          .box
+            h2 Monthly
+            h3#monthlyCount Loading...
+            .detailed#monthly
+              span 0
+            i.fas.fa-user-tie
+          .box
+            h2 All Time
+            h3#allTimeCount Loading...
+            .detailed#allTime 
+              span 0
+            i.fas.fa-user-tie
+
+      .two
+        .box
+          h3#dailyCountTwo Loading...
+          p Daily Traffic
+          i.fas.fa-user-tie
+        .box.big
+          h3#monthlyCountTwo Loading...
+          p Monthly Traffic
+          i.fas.fa-shopping-cart
+
+      .three 
+        .box
+          h3#allTimeCountThree Loading...
+
+
+
+
+
+

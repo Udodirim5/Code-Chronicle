@@ -1,0 +1,15 @@
+mixin paginate(path, page, pages)
+  .paginator
+    .previous.child
+      if page > 1
+        a.previous(href=`/${path}?page=${page - 1}`) Previous
+    .current.child
+      if pages > 1
+        span.pages
+          span.current= page
+          span.of of
+          span.total= pages
+    .next.child
+      if page < pages
+        a.next(href=`/${path}?page=${page + 1}`) Next
+

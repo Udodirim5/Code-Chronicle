@@ -1,0 +1,81 @@
+extends admin-base
+
+block content
+  main.admin-main
+    section#user
+      form.new-content-form.item.form-user-data
+        h2 Profile
+        .post-group
+          label(for="name") Name
+          input#name(type="text")
+        .post-group
+          label(for="email") Email
+          input#email(type="email")
+        .post-group
+          label(for="bio") Bio
+          textarea#bio
+        .post-group 
+          label(for="forImg") 
+          input#forImg(type="file")
+        .post-group 
+          img(id="imgForImg" src="/img/news-2.jpg" alt="")
+        .post-group 
+          button(type="submit") Update
+
+      form.new-content-form.item.updateSocial
+        h2 Social Media Links
+
+        .post-group
+          label(for="twitter") Twitter
+          input#twitter(type="text" required)
+
+        .post-group
+          label(for="facebook") Facebook
+          input#facebook(type="text" required)
+
+        .post-group
+          label(for="linkedin") LinkedIn
+          input#linkedin(type="text" required)
+
+        .post-group
+          label(for="github") GitHub
+          input#github(type="text" required)
+
+        .post-group
+          label(for="youtube") YouTube
+          input#youtube(type="text" required)
+
+        .post-group
+          label(for="instagram") Instagram
+          input#instagram(type="text" required)
+
+        .post-group
+          label(for="telegram") Telegram
+          input#telegram(type="text" required)
+
+        .post-group
+          label(for="whatsapp") Whatsapp
+          input#whatsapp(type="text" required)
+
+        .post-group
+          button(type="submit") Update Socials
+
+      form.new-content-form.item.form-user-password
+        h2 Reset Password
+        .post-group
+          label(for="passwordCurrent") Current Password
+          input#passwordCurrent(type="password" required)
+          button#showPasswordCurrent.toggle-password(type="button") Show
+        .post-group
+          label(for="password") Password
+          input#password(type="password" required)
+          button#showPassword.toggle-password(type="button") Show
+        .post-group
+          label(for="passwordConfirm") Confirm Password
+          input#passwordConfirm(type="password" required)
+          button#showPasswordConfirm.toggle-password(type="button") Show
+        .post-group
+          button#save-password(type="submit") Update
+
+  script(src='/js/script.js')
+

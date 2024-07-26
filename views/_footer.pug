@@ -1,0 +1,63 @@
+footer.footer
+  .section.footer-top
+    .container
+      .footer-brand
+        a.logo(href="/")
+          img(src="/img/logo.svg" width="150" height="73" loading="lazy" alt="Unigine logo")
+        p.footer-text
+          | Our success in creating business solutions is due in large part to our talented and highly committed team.
+        ul.social-list
+          li
+            a.social-link(href="#" target="_blank")
+              ion-icon(name="logo-facebook")
+          li
+            a.social-link(href="#" target="_blank")
+              ion-icon(name="logo-twitter")
+          li
+            a.social-link(href="#" target="_blank")
+              ion-icon(name="logo-instagram")
+          li
+            a.social-link(href="#" target="_blank")
+              ion-icon(name="logo-youtube")
+
+      .footer-list
+        p.title.footer-list-title.has-after Useful Links
+        ul
+          li
+            a.footer-link(href="#") Tournaments
+          li
+            a.footer-link(href="#") Help Center
+          li
+            a.footer-link(href="#") Privacy and Policy
+          li
+            a.footer-link(href="#") Terms of Use
+          li
+            a.footer-link(href='/contact') Contact Us
+
+      .footer-list
+        p.title.footer-list-title.has-after Contact Us
+        .contact-item
+          span.span Location:
+          address.contact-link 153 Williamson Plaza, Maggieberg, MT 09514
+        .contact-item
+          span.span Join Us:
+          a.contact-link(href="mailto:udodirimwisdom@gmail.com") udodirimwisdom@gmail.com
+        .contact-item
+          span.span Phone:
+          a.contact-link(href="tel:+2349033951020") +234 (903) 395-1020
+
+      .footer-list
+        p.title.footer-list-title.has-after Newsletter Signup
+        form.footer-form(action="/" method="get")
+          input.input-field(type="email" name="email_address" required placeholder="Your Email" autocomplete="off")
+          button.btn(type="submit" data-btn) Subscribe Now
+
+  .footer-bottom
+    .container
+      - const currentYear = new Date().getFullYear();
+      p.copyright &copy; #{currentYear} All Rights Reserved.
+
+  //- GO TO User
+  .admin-end
+    if user
+      a.go-to-user-btn(href="/express-admin") Admin

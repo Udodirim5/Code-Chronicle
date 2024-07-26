@@ -1,0 +1,82 @@
+aside.sidebar
+  .sidebar-header
+    a(href="/") 
+      img(src="/img/logo.png" alt="logo")
+      h2 My Portfolio
+
+  ul.sidebar-links
+    h4
+      span Main Menu
+      .menu-separator
+
+    li
+      a(href="/express-admin")
+        i(class="fas fa-tachometer-alt")
+        |  Dashboard
+    li
+      a(href="/admin/create-post")
+        i(class="fas fa-plus")
+        |  Add New Post
+    li
+      a(href="/admin/admin-posts")
+        i(class="fas fa-file-alt")
+        |  Posts
+    li
+      a(href="/admin/profile")
+        i(class="fas fa-user-circle")
+        |  Profile
+    li
+      a(href="#")
+        i(class="fas fa-calendar-alt")
+        |  My Events
+
+
+
+    - if (user.role === 'admin')
+      h4
+        span Admin Menu
+        .menu-separator
+
+      li
+        a(href="/admin/create-project")
+          i(class="fas fa-plus")
+          |  Add Work
+      li
+        a(href="/admin/myWork")
+          i(class="fas fa-file-alt")
+          |  My Work
+      li
+        a(href="/admin/messages")
+          i(class="fas fa-comments")
+          |  Messages
+      li
+        a(href="/admin/all-users")
+          i(class="fas fa-users")
+          |  Users
+      li
+        a(href="#")
+          i(class="fas fa-calendar-alt")
+          |  Events
+      li
+        a(href="#")
+          i(class="fas fa-comments")
+          |  Comments
+      li
+        a(href="#")
+          i(class="fas fa-chart-bar")
+          |  Reports
+      li
+        a(href="#")
+          i(class="fas fa-cog")
+          |  Settings
+    li
+      a(class='logoutBtn')
+        i(class="fas fa-sign-out-alt")
+        |  Logout
+
+  .user-account
+    .user-profile
+      img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+      .user-details
+        h3= user.name.split(' ')[0]
+        span= user.role

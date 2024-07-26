@@ -1,0 +1,65 @@
+extends admin-base
+
+block content
+  main.admin-main
+    section#new-project
+      h2 Create New Project 
+
+      form.new-content-form#createProject
+        .post-group
+          label(for="new-project-title") Title
+          input#new-project-title(type="text" name="title" required autofocus)
+
+        .post-group
+          label(for="description") Description:
+          textarea#description(name="description" rows="5" required)
+
+        .post-group
+          label(for="live-url") Live URL:
+          input(type="url" id="live-url" name="live-url")
+
+        .post-group
+          label(for="github-url") GitHub URL:
+          input(type="url" id="github-url" name="github-url")
+
+        .checkboxes
+          fieldset
+            legend Technologies:
+            .checkbox-inner
+              label.switch(for="html") HTML
+                input#html(type="checkbox" name="technologies" value="html")
+              
+              label.switch(for="css") CSS
+                input#css(type="checkbox" name="technologies" value="css")
+
+              label.switch(for="jquery") JQuery 
+                input#jquery(type="checkbox" name="technologies" value="jquery")
+
+              label.switch(for="php") PHP 
+                input#php(type="checkbox" name="technologies" value="php")
+
+              label.switch(for="express") Express
+                input#express(type="checkbox" name="technologies" value="express")
+
+              label.switch(for="react") React JS 
+                input#react(type="checkbox" name="technologies" value="react")
+
+              label.switch(for="javascript") JavaScript 
+                input#javascript(type="checkbox" name="technologies" value="javascript")
+
+              label.switch(for="node") Node JS 
+                input#node(type="checkbox" name="technologies" value="node")
+
+        .select-img
+          .post-desktop
+            label(for="desktop-img" aria-label="upload image") Desktop View
+              img#desktop-img-view(src="/img/svg/cloud-upload.svg" alt="")
+            input#desktop-img(type="file" name="photo" required)
+
+          .post-mobile 
+            label(for="mobile-img" aria-label="upload image") Mobile View
+              img#mobile-img-view(src="/img/svg/cloud-upload.svg" alt="")
+            input#mobile-img(type="file" name="photo" required)
+
+        .post-group
+          button(type="submit") Submit

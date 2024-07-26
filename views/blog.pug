@@ -1,0 +1,76 @@
+extends clients-base
+
+include _pagination
+
+mixin searchBox
+  .search-box
+    .search-box-inner
+      form#search-form
+        input(type="search", id="search-input", placeholder="Search...")
+        button(type="submit", aria-label="search button")
+          i.fa.fa-search 
+      .search-results(aria-label="search results")
+        ul
+
+mixin preloaderCard
+  div.card.data-reveal.bottom(aria-hidden="true")
+    img.card-img-top(src="/img/blogs/default.png" alt="...")
+    div.card-body
+      h5.card-title.placeholder-glow
+        span.placeholder.span-6
+      p.card-text.placeholder-glow
+        span.placeholder.span-7
+        span.placeholder.span-4
+        span.placeholder.span-4
+        span.placeholder.span-6
+        span.placeholder.span-8
+      a.btn.btn-primary.disabled.placeholder.span-6(aria-disabled="true")
+
+mixin newsCard(post)
+  li.data-reveal.bottom
+    .news-card
+      figure.card-banner.img-holder(style="--width: 600; --height: 400")
+        img(src=`/img/blogs/${post.photo}`, width="600", height="400", loading="lazy", alt="Innovative Business All Over The World.", class="img-cover")
+      .card-content
+        a.card-tag(href="#")= post.category.name
+        ul.card-meta-list
+          - const releasedAt = post.createdAt.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+          li.card-meta-item
+            ion-icon(name="calendar-outline", aria-hidden="true")
+            time.card-meta-text(datetime="2022-01-01")= `${releasedAt}`
+          li.card-meta-item
+            ion-icon(name="person-outline", aria-hidden="true")
+            p.card-meta-text= post.author.role
+        h3.h3
+          - const title = post.title.length > 50 ? `${post.title.substring(0, 50)}...` : post.title
+          a.card-title(href=`/blog/${post.slug}`)= title
+        - const excerpt = post.excerpt.length > 100 ? `${post.excerpt.substring(0, 100)}...` : post.excerpt
+        p.card-text= excerpt
+        a.link.has-before(href=`/blog/${post.slug}`) Read More
+
+block content
+  main
+    article
+      //- POST
+      section.section.post(aria-label="our latest posts", id="news")
+        .container
+          +searchBox()
+          p.section-subtitle.data-reveal.bottom What's On Our Mind
+          h2.h2.section-title.data-reveal.bottom
+            | News And
+            span.span Headlines
+          p.section-text.data-reveal.bottom
+            | Our success in creating business solutions is due in large part to
+            | our talented and highly committed team.
+        .container
+          .preloader.news-list
+            +preloaderCard()
+            +preloaderCard()
+            +preloaderCard()
+          if posts.length > 0
+            ul.news-list.hidden
+              each post in posts
+                +newsCard(post)
+            +paginate('blog', page, pages)
+          else
+            p.no-results.hidden No posts found. Please try again later.
