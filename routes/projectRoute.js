@@ -1,14 +1,18 @@
 const express = require('express');
-
 const projectController = require('../controllers/projectController');
 
 const router = express.Router();
 
-// THIS IS WHERE THE ROUTE FOR THE PROJECTS ARE HANDLED
+
+// Routes for handling other project-related requests
 router
   .route('/')
   .get(projectController.getAllProjects)
-  .post(projectController.createProjects);
+  .post(
+    projectController.uploadProjectImages,
+    projectController.createProject  
+  );
+
 router
   .route('/:id')
   .get(projectController.getProject)

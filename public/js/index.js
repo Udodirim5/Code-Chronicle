@@ -225,19 +225,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       const technologies = Array.from(
         document.querySelectorAll('input[name="technologies"]:checked')
       ).map((el) => el.value);
+
       const desktopImg = document.querySelector("#desktop-img").files[0];
       const mobileImg = document.querySelector("#mobile-img").files[0];
 
+      // Create FormData object
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("liveUrl", liveUrl);
+      formData.append("githubUrl", githubUrl);
+      formData.append("technologies", JSON.stringify(technologies));
+      formData.append("desktopImg", desktopImg);
+      formData.append("mobileImg", mobileImg);
+
       // Call the addProject function
-      await addProject(
-        title,
-        description,
-        liveUrl,
-        githubUrl,
-        technologies,
-        desktopImg,
-        mobileImg
-      );
+      await addProject(formData);
     });
   }
+
 });

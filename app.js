@@ -1,10 +1,12 @@
-const hpp = require('hpp');
+const express = require('express');
 const path = require('path');
 const multer = require('multer');
-const xss = require('xss-clean');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const express = require('express');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+// const cors = require('cors');
+// const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -13,7 +15,7 @@ const AppError = require('./utils/appError');
 const trafficTracker = require('./middlewares/trafficTracker');
 const globalErrorHandler = require('./controllers/errorController');
 
-// 2) ROUTES
+// Import routes
 const userRouter = require('./routes/userRoute');
 const logoRouter = require('./routes/logoRoute');
 const viewRouter = require('./routes/viewRoute');
@@ -25,7 +27,8 @@ const projectRouter = require('./routes/projectRoute');
 const contactRoutes = require('./routes/contactRoute');
 const commentRoutes = require('./routes/commentRoute');
 const categoryRoute = require('./routes/categoryRoute');
-require("./utils/cronJobs"); 
+require("./utils/cronJobs");
+
 const app = express();
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +47,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // 1) GLOBAL MIDDLEWARES
+
+// Enable CORS
+// app.use(cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -54,21 +61,19 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// app.use((req, res, next) => {
-//   res.locals.API_BASE_URL = process.env.API_BASE_URL;
-//   next();
-// });
+// Compress response bodies
+// app.use(compression());
 
 // Limiting the requests from one IP per hour
 const limiter = rateLimit({
-  max: 500, // Adjust the value to meet the requirement of the specific application
-  windowMs: 60 * 60 * 1000, // Corrected timeWindowMs to windowMs
+  max: 500, // Adjust as necessary
+  windowMs: 60 * 60 * 1000, // 1 hour
   message: 'Too many requests from this IP, please try again in an hour',
 });
 app.use('/api', limiter);
 
 // Body parser
-app.use(express.json({ limit: '10kb' })); // Adjust the value to meet the requirement of the specific application
+app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
@@ -96,6 +101,15 @@ app.use(
   })
 );
 
+// Middleware to handle missing source maps gracefully
+app.use((req, res, next) => {
+  if (req.path.endsWith('.map')) {
+    return res.status(404).send();
+  }
+  next();
+});
+
+// Add request timestamp
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
@@ -103,7 +117,7 @@ app.use((req, res, next) => {
 
 app.use(trafficTracker);
 
-// 3) ROUTES
+// 2) ROUTES
 
 app.use('/', viewRouter);
 app.use('/api', trafficRouter);
@@ -118,9 +132,9 @@ app.use('/api/v1/categories', categoryRoute);
 app.use('/api/v1/contact-us', contactRoutes);
 
 // Handle requests for favicon.ico
-app.get('/favicon.ico', (req, res) => res.status(204));
+app.get('/favicon.ico', (req, res) => res.status(204).send());
 
-// 4) ERROR HANDLER
+// 3) ERROR HANDLER
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });

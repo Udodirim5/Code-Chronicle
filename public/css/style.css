@@ -529,6 +529,90 @@ body {
 
 
 /*-----------------------------------*\
+  #TESTIMONIALS
+\*-----------------------------------*/
+
+.testimonials {
+  padding: 50px 0;
+  margin-top: 50px;
+}
+
+.testimonials .section-subtitle {
+  font-size: 2.25rem;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.testimonials .testimonial-content {
+  display: flex;
+  gap: 50px;
+  background: var(--bg-oxford-blue-beta-80);
+  padding: 20px 50px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.testimonials .quote {
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 30px;
+  position: relative;
+}
+
+.testimonials .quote .quote-icon {
+  color: #f39c12;
+  font-size: 6rem;
+  position: absolute;
+}
+
+.testimonials .quote .opening {
+  top: -10px;
+  left: 0;
+}
+
+.testimonials .quote .closing {
+  bottom: -40px;
+  right: 0;
+}
+
+.testimonials .quote .quote-text {
+  margin: 40px 0;
+}
+
+.testimonials .author {
+  margin-top: 100px;
+  position: relative;
+}
+
+.testimonials .author img {
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.testimonials .author strong {
+  font-size: 1.2rem;
+}
+
+.testimonials .author a {
+  display: inline;
+}
+
+.testimonials .author a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
   #UPCOMING
 \*-----------------------------------*/
 
@@ -2111,14 +2195,15 @@ main#post-single-container {
   border: 2px solid var(--bg-oxford-blue);
 }
 
-.paginator .child span{
-    border: 2px solid var(--bg-oxford-blue);
-    padding: 5px;
-  }
+.paginator .child span {
+  border: 2px solid var(--bg-oxford-blue);
+  padding: 5px;
+}
 
-  .paginator .child a {
+.paginator .child a {
   padding: 10px;
 }
+
 /*-----------------------------------*\
   #DASHBOARD
 \*-----------------------------------*/
@@ -2854,6 +2939,7 @@ header h2 {
   background: var(--bg-oxford-blue-beta-80);
   border-radius: 10px;
 }
+
 /* #new-project .checkboxes * {
   border: 2px solid red;
 } */
@@ -2861,7 +2947,8 @@ header h2 {
   padding: 20px;
   width: 100%;
 }
-#new-project .checkboxes fieldset legend{
+
+#new-project .checkboxes fieldset legend {
   padding: 10px;
   font-size: 2.5rem;
 }
@@ -2887,7 +2974,7 @@ header h2 {
 }
 
 #new-project .checkboxes label.selected {
-  background: #20bf6b 
+  background: #20bf6b
 }
 
 
@@ -2900,11 +2987,11 @@ header h2 {
   gap: 20px;
 }
 
-#new-project .select-img input{
+#new-project .select-img input {
   display: none;
 }
 
-#new-project .select-img img{
+#new-project .select-img img {
   margin-top: 10px;
   max-width: 400px;
   height: 250px;
@@ -2990,6 +3077,77 @@ header h2 {
   #search-form {
     width: 100%;
   }
+
+
+  /*-----------------------------------*\
+  #PROJECTS
+\*-----------------------------------*/
+
+  .up-head {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 40vh;
+  }
+
+  .up-head h1 {
+    font-size: 7rem;
+  }
+
+  .up-head h2 {
+    word-spacing: 6px;
+    margin-bottom: 0;
+    font-size: 2rem;
+  }
+
+  .project-card {
+    flex-direction: column;
+    margin-top: 50px;
+  }
+
+
+
+
+
+  /*-----------------------------------*\
+  #ABOUT
+\*-----------------------------------*/
+
+  .card-top-inner {
+    width: 90dvw;
+  }
+
+  .card-top {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .card-top img {
+    margin: 20px auto;
+  }
+
+  .card-top-inner {
+    margin-left: 1rem;
+    flex: 1;
+  }
+
+  .card-top-info {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .card-top-date,
+  .card-top-name p,
+  .text-muted,
+  .text-muted-p {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
 
 }
 
