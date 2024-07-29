@@ -1,18 +1,23 @@
-const express = require('express');
+const express = require("express");
 
-const socialController = require('../controllers/socialController');
+const socialController = require("../controllers/socialController");
+const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-// THIS IS WHERE THE ROUTE FOR THE SOCIAL ARE HANDLED
+router.patch(
+  "/update-socials",
+  authController.protect,
+  socialController.updateSocials
+);
+
 router
-  .route('/')
+  .route("/")
   .get(socialController.getAllSocials)
   .post(socialController.createSocial);
 router
-  .route('/:id')
+  .route("/:id")
   .get(socialController.getSocial)
-  .patch(socialController.updateSocial)
   .delete(socialController.deleteSocial);
 
 module.exports = router;

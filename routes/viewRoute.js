@@ -13,7 +13,7 @@ router.get('/signup', viewController.getSignUpForm);
 router.use(authController.isLoggedIn);
 
 // Client routes
-router.get('/', authController.isLoggedIn, viewController.getHomePage);
+router.get('/', viewController.getHomePage);
 router.get('/blog', viewController.getPosts);
 router.get('/blog/:slug', viewController.getPost);
 router.get('/contact', viewController.getContact);

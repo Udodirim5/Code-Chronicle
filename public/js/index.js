@@ -19,6 +19,7 @@ const contactForm = document.querySelector(".contact-form");
 const commentForm = document.getElementById("comment-form");
 const createPostForm = document.querySelector("#createPost");
 const userDataForm = document.querySelector(".form-user-data");
+const updateSocialForm = document.querySelector(".updateSocial");
 const createProjectForm = document.querySelector("#createProject");
 const updatePasswordForm = document.querySelector(".form-user-password");
 
@@ -95,6 +96,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSettings(form, "data");
     });
   }
+  
+  // FIXME: updateSocialForm Not working
+  if (updateSocialForm) {
+    updateSocialForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const form = new FormData();
+      form.append("twitter", document.getElementById("twitter").value);
+      form.append("facebook", document.getElementById("facebook").value);
+      form.append("linkedin", document.getElementById("linkedin").value);
+      form.append("github", document.getElementById("github").value);
+      form.append("youtube", document.getElementById("youtube").value);
+      form.append("instagram", document.getElementById("instagram").value);
+      form.append("telegram", document.getElementById("telegram").value);
+      form.append("whatsapp", document.getElementById("whatsapp").value);
+      updateSettings(form, "socials");
+    });
+  }
 
   if (updatePasswordForm) {
     updatePasswordForm.addEventListener("submit", async (e) => {
@@ -143,6 +161,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // FIXME: commentForm Not working
   if (commentForm) {
     commentForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -189,6 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("allTime")
     .querySelector("span").innerText = allTimeCount;
 
+  // FIXME: editPost Not working
   if (editPost) {
     const tagsInput = document.querySelector("#tags");
     editPost.addEventListener("submit", async (e) => {
@@ -213,10 +233,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // FIXME: createProjectForm Not working
   if (createProjectForm) {
     createProjectForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
+  
       // Extract form data
       const title = document.querySelector("#new-project-title").value;
       const description = document.querySelector("#description").value;
@@ -225,23 +246,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       const technologies = Array.from(
         document.querySelectorAll('input[name="technologies"]:checked')
       ).map((el) => el.value);
-
+  
       const desktopImg = document.querySelector("#desktop-img").files[0];
       const mobileImg = document.querySelector("#mobile-img").files[0];
-
+  
       // Create FormData object
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
       formData.append("liveUrl", liveUrl);
       formData.append("githubUrl", githubUrl);
-      formData.append("technologies", JSON.stringify(technologies));
+      formData.append("technologies", JSON.stringify(technologies)); // Correctly format technologies
       formData.append("desktopImg", desktopImg);
       formData.append("mobileImg", mobileImg);
-
+  
       // Call the addProject function
       await addProject(formData);
     });
   }
+  
 
 });

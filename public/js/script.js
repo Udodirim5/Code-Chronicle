@@ -172,10 +172,19 @@ initializePasswordToggle("#sg-password", "#showPassword");
 initializePasswordToggle("#sg-passwordConfirm", "#showPasswordConfirm");
 
 // Show Image
-initializeImagePreview("#iPNGimg", "#new-post-img");
-initializeImagePreview("#proPNGimg", "#new-project-img");
-initializeImagePreview("#imgForImg", "#forImg");
+// initializeImagePreview("#proPNGimg", "#new-project-img");
+// initializeImagePreview("#imgForImg", "#forImg");
 
+
+const createPostForm = document.querySelector("#createPost");
+if (createPostForm) {
+  initializeImagePreview("#iPNGimg", "#new-post-img");
+}
+const createProjectForm = document.querySelector("#createProject");
+if (createProjectForm) {
+  initializeImagePreview("#desktop-img-view", "#desktop-img");
+  initializeImagePreview("#mobile-img-view", "#mobile-img");
+}
 /**
  * Post single
  */

@@ -27,13 +27,13 @@ const projectSchema = new mongoose.Schema({
     validate: [isURL, "Invalid URL"],
   },
   technologies: [String],
-  desktopView: {
+  desktopImg: {
     type: String,
     required: [true, "Desktop view image is required"],
     trim: true,
     // validate: [isURL, "Invalid URL"],
   },
-  mobileView: {
+  mobileImg: {
     type: String,
     required: [true, "Mobile view image is required"],
     trim: true,

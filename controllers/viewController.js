@@ -166,11 +166,11 @@ exports.getSignUpForm = (req, res) => {
   });
 };
 
-exports.admin = (req, res) => {
+exports.admin = catchAsync(async (req, res) => {
   res.render("admin-profile", {
     title: "Admin Profile",
   });
-};
+});
 
 exports.userProfile = (req, res) => {
   res.render("admin-dashboard", {

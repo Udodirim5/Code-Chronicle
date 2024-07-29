@@ -6,7 +6,15 @@ const AppError = require("./../utils/appError");
 const factory = require("./handlerFactory");
 const filterObj = require("./../utils/filterObject");
 
-
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/img/users");
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = file.mimetype.split("/")[1];
+//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//   },
+// });
 // Middleware to handle file uploads
 const multerStorage = multer.memoryStorage();
 
@@ -17,6 +25,7 @@ const multerFilter = (req, file, cb) => {
     cb(new AppError("Not an image! Please upload only images.", 400), false);
   }
 };
+
 
 const upload = multer({
   storage: multerStorage,
