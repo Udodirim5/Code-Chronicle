@@ -175,7 +175,6 @@ initializePasswordToggle("#sg-passwordConfirm", "#showPasswordConfirm");
 // initializeImagePreview("#proPNGimg", "#new-project-img");
 // initializeImagePreview("#imgForImg", "#forImg");
 
-
 const createPostForm = document.querySelector("#createPost");
 if (createPostForm) {
   initializeImagePreview("#iPNGimg", "#new-post-img");
@@ -497,19 +496,43 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const checkboxes = document.querySelectorAll('.checkboxes input[type="checkbox"]');
+document.addEventListener("DOMContentLoaded", () => {
+  const checkboxes = document.querySelectorAll(
+    '.checkboxes input[type="checkbox"]'
+  );
 
-  checkboxes.forEach(checkbox => {
+  checkboxes.forEach((checkbox) => {
     const label = document.querySelector(`label[for="${checkbox.id}"]`);
 
     // Add event listener for checkbox change
-    checkbox.addEventListener('change', () => {
+    checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
-        label.classList.add('selected');
+        label.classList.add("selected");
       } else {
-        label.classList.remove('selected');
+        label.classList.remove("selected");
       }
     });
   });
+
+  const toggleAdminMenu = document.querySelector(".toggle-box");
+  const adminMenu = document.querySelector(".sidebar");
+
+  if (toggleAdminMenu) {
+    toggleAdminMenu.addEventListener("click", () => {
+      adminMenu.classList.toggle("menu-visible");
+    });
+  }
 });
+
+const adminActionButtons = document.querySelectorAll(".fa-ellipsis-v");
+if (adminActionButtons) {
+  adminActionButtons.forEach((showMore) => {
+    showMore.addEventListener("click", (e) => {
+      e.preventDefault();
+      const actionsInner = showMore.nextElementSibling;
+      if (actionsInner) {
+        actionsInner.classList.toggle('show-actions');
+      }
+    });
+  });
+}

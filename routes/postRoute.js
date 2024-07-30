@@ -14,7 +14,7 @@ router.post(
 );
 
 router.patch(
-  "/update-post",
+  "/update-post/:id",
   authController.protect,
   postController.uploadPostPhoto,
   postController.resizePostPhoto,

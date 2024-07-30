@@ -128,10 +128,10 @@ exports.getPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.userProfile = catchAsync(async (req, res, next) => {
-  const user = res.locals.user;
-  res.render("admin-users", {
-    title: "Admin Dashboard",
-    user,
+  const users = await User.find();
+  res.render("users", {
+    title: "All users",
+    users,
   });
 });
 
@@ -159,6 +159,11 @@ exports.getLoginForm = (req, res) => {
     title: "Log In",
   });
 };
+exports.getForgetPasswordForm = (req, res) => {
+  res.status(200).render("forgetPassword", {
+    title: "Forget Password",
+  });
+};
 
 exports.getSignUpForm = (req, res) => {
   res.status(200).render("signUp", {
@@ -172,7 +177,7 @@ exports.admin = catchAsync(async (req, res) => {
   });
 });
 
-exports.userProfile = (req, res) => {
+exports.userDashboard = (req, res) => {
   res.render("admin-dashboard", {
     title: "Admin Dashboard",
   });

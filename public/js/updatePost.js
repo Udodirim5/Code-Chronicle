@@ -6,7 +6,7 @@ export const updatePost = async (formData, postId) => {
   try {
     const response = await axios({
       method: "PATCH",
-      url: `http://localhost:3000/api/v1/posts/${postId}`,
+      url: `/api/v1/posts/updatePost/${postId}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
