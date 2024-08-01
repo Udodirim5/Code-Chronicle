@@ -1,10 +1,9 @@
 .toggle-admin-menu 
   input(type="checkbox" id="toggler-icon")
-  label(for="toggler-icon" class="toggle-box ")
+  label(for="toggler-icon" class="toggle-box")
     div(class="bars" id="bar1")
     div(class="bars" id="bar2")
     div(class="bars" id="bar3")
-
 
 aside.sidebar 
   .sidebar-header
@@ -38,9 +37,7 @@ aside.sidebar
         i(class="fas fa-calendar-alt")
         |  My Events
 
-
-
-    - if (user.role === 'admin')
+    if user.role === 'admin'
       h4
         span Admin Menu
         .menu-separator
@@ -77,8 +74,9 @@ aside.sidebar
         a(href="#")
           i(class="fas fa-cog")
           |  Settings
+
     li
-      a(class='logoutBtn')
+      a(class="logoutBtn")
         i(class="fas fa-sign-out-alt")
         |  Logout
 

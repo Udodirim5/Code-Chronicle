@@ -1,7 +1,7 @@
 const express = require('express');
+const relatedPosts = require('./../middlewares/relatedPosts');
 const authController = require('../controllers/authController');
 const viewController = require('./../controllers/viewController');
-const relatedPosts = require('./../middlewares/relatedPosts');
 
 const router = express.Router();
 
@@ -21,15 +21,19 @@ router.get('/contact', viewController.getContact);
 router.get('/about', viewController.getAboutPage);
 router.get('/projects', viewController.getProjects);
 
-// Admin routes
-router.get('/express-admin', viewController.userDashboard);
+// Admin- side routes
 router.get('/admin/profile', viewController.admin);
-router.get('/admin/create-post', viewController.getCreatePostForm);
-router.get('/admin/edit-post/:id', viewController.getEditPost);
-router.get('/admin/create-project', viewController.getCreateProjectForm);
+router.get('/express-admin', viewController.userDashboard);
 router.get('/admin/admin-posts', viewController.getAdminPost);
+router.get('/admin/edit-post/:id', viewController.getEditPost);
+router.get('/admin/create-post', viewController.getCreatePostForm);
+
+// Admin Only
+// router.use(authController.restrictTo('admin'));
+
+router.get('/admin/all-users', viewController.userProfile);
 router.get('/admin/myWork', viewController.getAdminProject);
 router.get('/admin/messages', viewController.getAdminMessages);
-router.get('/admin/all-users', viewController.userProfile);
+router.get('/admin/create-project', viewController.getCreateProjectForm);
 
 module.exports = router;

@@ -531,8 +531,23 @@ if (adminActionButtons) {
       e.preventDefault();
       const actionsInner = showMore.nextElementSibling;
       if (actionsInner) {
-        actionsInner.classList.toggle('show-actions');
+        actionsInner.classList.toggle("show-actions");
       }
     });
+  });
+}
+
+const loginPass = document.getElementById("pass");
+if (loginPass) {
+  const getIn = document.getElementById("getIn");
+  const adminLoginPass = document.querySelector(".admin-login-pass");
+  loginPass.addEventListener("change", () => {
+    if (loginPass.value === "123456") {
+      getIn.classList.add('get-active')
+      adminLoginPass.style.display = 'none'
+    } else {
+      getIn.classList.remove('get-active')
+      adminLoginPass.style.display = 'block'
+    }
   });
 }
