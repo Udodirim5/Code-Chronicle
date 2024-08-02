@@ -23,18 +23,44 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadPostPhoto = upload.single("photo");
+// UPLOAD MULTIPLE IMAGES
+exports.uploadPostImages = upload.fields([
+  { name: "images", maxCount: 8 },
+  { name: "photo", maxCount: 1 },
+]);
 
-exports.resizePostPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
+// RESIZE UPLOADED IMAGES
+exports.resizePostImages = catchAsync(async (req, res, next) => {
+  if (!req.files.photo && !req.files.images) return next();
 
-  req.file.filename = `post-${req.user.id}-${Date.now()}.jpeg`;
+  // Process cover image
+  if (req.files.photo) {
+    req.body.photo = `post-${req.params.id}-${Date.now()}-cover.jpeg`;
+    await sharp(req.files.photo[0].buffer)
+      .resize(2000, 1333)
+      .toFormat("jpeg")
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/blogs/${req.body.photo}`);
+  }
 
-  await sharp(req.file.buffer)
-    .resize(800, 600)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/blogs/${req.file.filename}`);
+  // Process other images
+  if (req.files.images) {
+    req.body.images = [];
+
+    await Promise.all(
+      req.files.images.map(async (file, i) => {
+        const filename = `post-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
+        await sharp(file.buffer)
+          .resize(2000, 1333)
+          .toFormat("jpeg")
+          .jpeg({ quality: 90 })
+          .toFile(`public/img/posts/${filename}`);
+
+        req.body.images.push(filename);
+      })
+    );
+  }
 
   next();
 });
@@ -51,7 +77,7 @@ exports.getAllPosts = factory.getAll(Post, { path: "author" });
 exports.deletePost = factory.deleteOne(Post);
 
 // Sanitize and validate post data for creating a new post
-exports.submitPost = catchAsync(async (req, res) => {
+exports.submitPost = catchAsync(async (req, res, next) => {
   const sanitizedContent = sanitizeHtml(req.body.content, {
     allowedTags: [
       "h1",
@@ -102,9 +128,10 @@ exports.submitPost = catchAsync(async (req, res) => {
     title,
     content: sanitizedContent,
     excerpt,
-    tags: tags.split(","),
+    tags: tags ? tags.split(",") : [],
     category: mongoose.Types.ObjectId(category),
-    photo: req.file ? req.file.filename : undefined,
+    photo: req.body.photo,
+    images: req.body.images,
     author: req.user._id,
     published: published === "true",
   });
@@ -170,13 +197,17 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     title,
     content: sanitizedContent,
     excerpt,
-    tags: tags.split(","),
+    tags: tags ? tags.split(",") : [],
     category: mongoose.Types.ObjectId(category),
     published: published === "true",
   };
 
-  if (req.file) {
-    updateData.photo = req.file.filename;
+  if (req.body.photo) {
+    updateData.photo = req.body.photo;
+  }
+
+  if (req.body.images) {
+    updateData.images = req.body.images;
   }
 
   const post = await Post.findByIdAndUpdate(req.params.id, updateData, {
@@ -205,212 +236,6 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // const mongoose = require("mongoose");
-// // const Category = require("./../models/categoryModel");
-// // const sanitizeHtml = require("sanitize-html");
-// // const catchAsync = require("./../utils/catchAsync");
-// // const Post = require("./../models/postModel");
-// // const factory = require("./handlerFactory");
-// // const upload = require("./../middlewares/multerConfig");
-
-// // // Set up multer for file uploads
-// // const postUpload = upload("public/img/blogs");
-
-// // exports.recentPosts = (req, res, next) => {
-// //   req.query.limit = "6";
-// //   req.query.sort = "-createdAt";
-// //   req.query.fields = "title,excerpt,createdAt";
-// //   next();
-// // };
-
-// // exports.getPost = factory.getOne(Post, { path: "author" });
-// // exports.getAllPosts = factory.getAll(Post, { path: "author" });
-// // exports.updatePost = factory.updateOne(Post);
-// // exports.deletePost = factory.deleteOne(Post);
-
-// // // Sanitize and validate post data
-// // exports.submitPost = [
-// //   postUpload.single("photo"), // Add Multer middleware here
-// //   catchAsync(async (req, res, next) => {
-// //     try {
-// //       const sanitizedContent = sanitizeHtml(req.body.content, {
-// //         allowedTags: [
-// //           "h1",
-// //           "h2",
-// //           "h3",
-// //           "h4",
-// //           "h5",
-// //           "h6",
-// //           "p",
-// //           "ul",
-// //           "li",
-// //           "img",
-// //           "a",
-// //           "pre",
-// //           "code",
-// //         ],
-// //         allowedAttributes: {
-// //           a: ["href", "name", "target"],
-// //           img: ["src"],
-// //         },
-// //       });
-
-// //       const { title, excerpt, tags, category, published } = req.body;
-// //       const photo = req.file;
-
-// //       if (!mongoose.Types.ObjectId.isValid(category)) {
-// //         return res.status(400).json({
-// //           status: "fail",
-// //           message: "Invalid category ID",
-// //         });
-// //       }
-
-// //       if (!title || !req.body.content || !excerpt || !category) {
-// //         return res.status(400).json({
-// //           status: "fail",
-// //           message: "Missing required fields",
-// //         });
-// //       }
-
-// //       const categoryExists = await Category.findById(category);
-// //       if (!categoryExists) {
-// //         return res.status(400).json({
-// //           status: "fail",
-// //           message: "Category does not exist",
-// //         });
-// //       }
-
-// //       const newPost = new Post({
-// //         title,
-// //         content: sanitizedContent,
-// //         excerpt,
-// //         tags: tags.split(","),
-// //         category: mongoose.Types.ObjectId(category),
-// //         photo: photo ? photo.filename : undefined,
-// //         author: req.user._id,
-// //         published: published === "true",
-// //       });
-
-// //       const post = await newPost.save();
-// //       res.status(201).json({
-// //         status: "success",
-// //         data: {
-// //           post,
-// //         },
-// //       });
-// //     } catch (error) {
-// //       next(error); // Forward to global error handling middleware
-// //     }
-// //   }),
-// // ];
-
-
-
-
-
-
-// // the working code
-// const mongoose = require("mongoose");
-// const Category = require("./../models/categoryModel");
-// const sanitizeHtml = require("sanitize-html");
-// const catchAsync = require("./../utils/catchAsync");
-// const Post = require("./../models/postModel");
-// const factory = require("./handlerFactory");
-
-// exports.recentPosts = (req, res, next) => {
-//   req.query.limit = "6";
-//   req.query.sort = "-createdAt";
-//   req.query.fields = "title,excerpt,createdAt";
-//   next();
-// };
-
-// exports.getPost = factory.getOne(Post, { path: "author" });
-// exports.getAllPosts = factory.getAll(Post, { path: "author" });
-// exports.updatePost = factory.updateOne(Post);
-// exports.deletePost = factory.deleteOne(Post);
-
-// // Sanitize and validate post data
-// exports.submitPost = catchAsync(async (req, res) => {
-//   const sanitizedContent = sanitizeHtml(req.body.content, {
-//     allowedTags: [
-//       "h1",
-//       "h2",
-//       "h3",
-//       "h4",
-//       "h5",
-//       "h6",
-//       "p",
-//       "ul",
-//       "li",
-//       "img",
-//       "a",
-//       "pre",
-//       "code",
-//     ],
-//     allowedAttributes: {
-//       a: ["href", "name", "target"],
-//       img: ["src"],
-//     },
-//   });
-
-//   const { title, excerpt, tags, category, published } = req.body;
-//   const photo = req.file;
-
-//   if (!mongoose.Types.ObjectId.isValid(category)) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Invalid category ID",
-//     });
-//   }
-
-//   if (!title || !req.body.content || !excerpt || !category) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Missing required fields",
-//     });
-//   }
-
-//   const categoryExists = await Category.findById(category);
-//   if (!categoryExists) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Category does not exist",
-//     });
-//   }
-
-//   const newPost = new Post({
-//     title,
-//     content: sanitizedContent,
-//     excerpt,
-//     tags: tags.split(","),
-//     category: mongoose.Types.ObjectId(category),
-//     photo: photo ? photo.filename : undefined,
-//     author: req.user._id,
-//     published: published === "true",
-//   });
-
-//   const post = await newPost.save();
-//   res.status(201).json({
-//     status: "success",
-//     data: {
-//       post,
-//     },
-//   });
-// });
 
 // // // Like a post
 // // // router.post('/posts/:id/like', authController.protect, async (req, res) => {

@@ -8,17 +8,9 @@ const router = express.Router();
 router.post(
   "/submit-post",
   authController.protect,
-  postController.uploadPostPhoto,
-  postController.resizePostPhoto,
+  postController.uploadPostImages,
+  postController.resizePostImages,
   postController.submitPost
-);
-
-router.patch(
-  "/update-post/:id",
-  authController.protect,
-  postController.uploadPostPhoto,
-  postController.resizePostPhoto,
-  postController.updatePostWithPhoto
 );
 
 router.route("/:id/related-posts").get(relatedPosts);
@@ -30,6 +22,12 @@ router
 router.route("/").get(postController.getAllPosts);
 router
   .route("/:id")
+  .patch(
+    authController.protect,
+    postController.uploadPostImages,
+    postController.resizePostImages,
+    postController.updatePostWithPhoto
+  )
   .get(postController.getPost)
   .delete(authController.protect, postController.deletePost);
 

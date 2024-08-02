@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const Category = require('./categoryModel');
 
 const postSchema = new mongoose.Schema(
   {
