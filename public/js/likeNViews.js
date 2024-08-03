@@ -21,14 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
   likeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       const postId = button.getAttribute('data-id');
-      handleResponse(`/api/v1/posts/${postId}/like`, 'POST');
+      handleResponse(`${req.protocol}://${req.get('host')}/api/v1/posts/${postId}/like`, 'POST');
     });
   });
 
   dislikeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       const postId = button.getAttribute('data-id');
-      handleResponse(`/api/v1/posts/${postId}/dislike`, 'POST');
+      handleResponse(`${req.protocol}://${req.get('host')}/api/v1/posts/${postId}/dislike`, 'POST');
     });
   });
 });

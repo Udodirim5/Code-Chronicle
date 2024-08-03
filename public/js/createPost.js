@@ -28,7 +28,7 @@ export const createPost = async (
 
     const res = await axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/posts/submit-post",
+      url: `${req.protocol}://${req.get('host')}/api/v1/posts/submit-post`,
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data'

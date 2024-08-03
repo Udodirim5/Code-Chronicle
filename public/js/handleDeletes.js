@@ -3,7 +3,7 @@ import { showAlert } from './alert';
 
 export const deleteItem = async (type, id) => {
   try {
-    const res = await axios.delete(`http://localhost:3000/api/v1/${type}/${id}`);
+    const res = await axios.delete(`${req.protocol}://${req.get('host')}/api/v1/${type}/${id}`);
     if (res.status === 204) {
       showAlert('success', `${type} deleted successfully!`);
       // Optionally, remove the deleted item from the DOM

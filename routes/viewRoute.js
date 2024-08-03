@@ -22,7 +22,7 @@ router.get('/about', viewController.getAboutPage);
 router.get('/projects', viewController.getProjects);
 
 // Admin- side routes
-router.get('/admin/profile', viewController.admin);
+router.get('/profile', viewController.admin);
 router.get('/express-admin', viewController.userDashboard);
 router.get('/admin/admin-posts', viewController.getAdminPost);
 router.get('/admin/edit-post/:id', viewController.getEditPost);

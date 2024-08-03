@@ -539,10 +539,10 @@ if (adminActionButtons) {
 
 const loginPass = document.getElementById("pass");
 if (loginPass) {
-  const getIn = document.getElementById("getIn");
+  const getIn = document.querySelector(".log-pass");
   const adminLoginPass = document.querySelector(".admin-login-pass");
   loginPass.addEventListener("change", () => {
-    if (loginPass.value === "123456") {
+    if (loginPass.value === "1234") {
       getIn.classList.add('get-active')
       adminLoginPass.style.display = 'none'
     } else {

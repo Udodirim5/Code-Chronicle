@@ -1939,17 +1939,22 @@ aside#related-posts {
   margin-bottom: 15px;
 }
 
+#admin-body .log-pass {
+  display: none;
+}
+
+#admin-body .log-pass.get-active {
+  display: flex;
+}
 
 #admin-body #getIn {
-  display: none;
   position: absolute;
-  inset: 0 0 0 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
   padding: 20px;
-}
-#admin-body #getIn.get-active {
-  display: flex;
 }
 
 #admin-body #getIn form {
