@@ -20,6 +20,7 @@ router.get('/blog/:slug', viewController.getPost);
 router.get('/contact', viewController.getContact);
 router.get('/about', viewController.getAboutPage);
 router.get('/projects', viewController.getProjects);
+router.get('/market-place', viewController.marketPlace);
 
 // Admin- side routes
 router.get('/profile', viewController.admin);

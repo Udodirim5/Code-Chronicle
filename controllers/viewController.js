@@ -8,6 +8,7 @@ const Contact = require("./../models/contactModel");
 const Category = require("./../models/categoryModel");
 const Comment = require("./../models/commentModel");
 const User = require("./../models/userModel");
+const Item = require("./../models/itemModel");
 
 exports.getContact = catchAsync(async (req, res) => {
   const socialLinks = await Social.findOne({});
@@ -228,3 +229,13 @@ exports.getHomePage = (req, res) => {
     user,
   });
 };
+
+exports.marketPlace = catchAsync(async (req, res) => {
+  const user = await User.find();
+  const items = await Item.find();
+  res.status(200).render("market-place", {
+    title: "Home Page",
+    items,
+    user,
+  });
+});

@@ -68,9 +68,6 @@ const postSchema = new mongoose.Schema(
 // Indexing for slug to ensure uniqueness and efficient querying
 postSchema.index({ slug: 1 });
 
-
-
-
 // Increment views middleware
 postSchema.methods.incrementViews = async function () {
   this.views += 1;
@@ -109,28 +106,23 @@ postSchema.methods.removeDislike = async function (userId) {
   await this.save();
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
 // Document middleware: runs before .save() and .create()
-postSchema.pre("save", function (next) {
-  // If the title is not modified, proceed to the next middleware
-  if (!this.isModified("title")) return next();
+postSchema.pre("save", async function (next) {
+  if (this.isModified("title")) {
+    // Slugify the title to create a URL-friendly version
+    let slug = slugify(this.title, { lower: true });
 
-  // Slugify the title to create a URL-friendly version
-  this.slug = slugify(this.title, { lower: true });
+    // Check if the slug already exists and handle duplicates
+    const existingPost = await mongoose.model("Post").findOne({ slug });
+    if (existingPost && existingPost._id.toString() !== this._id.toString()) {
+      slug = `${slug}-${Date.now()}`;
+    }
 
-  // Update the updatedAt field
-  this.updatedAt = Date.now();
+    this.slug = slug;
+
+    // Update the updatedAt field
+    this.updatedAt = Date.now();
+  }
 
   next();
 });
@@ -145,7 +137,7 @@ postSchema.pre(/^find/, function (next) {
     path: "category",
     select: "name username"
   });
-  
+
   next();
 });
 
@@ -153,25 +145,9 @@ postSchema.pre(/^find/, function (next) {
 postSchema.pre("aggregate", function (next) {
   // Add a match stage to filter out secret posts unless explicitly included
   this.pipeline().unshift({ $match: { secretPost: { $ne: true } } });
-  
+
   next();
 });
-
-postSchema.pre('save', async function (next) {
-  if (!this.title.startsWith('Post: ')) {
-    this.title = `Post: ${this.title}`;
-  }
-  next();
-  const slug = slugify(this.title, { lower: true });
-  const existingPost = await Post.findOne({ slug });
-  if (existingPost && existingPost._id.toString()!== this._id.toString()) {
-    this.slug = `${slug}-${Date.now()}`;
-  } else {
-    this.slug = slug;
-  }
-});
-
-
 
 const Post = mongoose.model("Post", postSchema);
 

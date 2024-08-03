@@ -1,0 +1,33 @@
+extends clients-base
+
+include _pagination.pug
+
+mixin newsCard(item)
+  li(data-reveal="bottom")
+    .news-card
+      figure.card-banner.img-holder(style="--width: 600; --height: 400")
+        img(src=`${item.itemImage}` width="600" height="400" loading="lazy" alt="Innovative Business All Over The World." class="img-cover")
+      .card-content
+        a.card-tag(href=`/market-place/${item.slug}`)= `$${item.itemPrice}`
+        a.card-tag(href=`/market-place/`)= `$${item.itemPrice}`
+        h3
+          a.card-title(href=`/market-place/${item.slug}`)= item.itemName
+        p.card-meta-text bliu
+        a.link.has-before(href=`/market-place/${item.slug}`) Read More
+
+
+block content
+  main
+    article
+      section.section.market(aria-label="our latest market")
+        .container
+          .up-head
+            h1 MARKET PLACE
+            h2 A Selection Of Stuff I've Built
+
+          if items.length > 0
+            ul.news-list
+              each item in items
+                +newsCard(item)
+          else 
+            p.no-results.hidden No item found. Please try again later.

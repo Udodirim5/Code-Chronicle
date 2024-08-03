@@ -15,6 +15,7 @@ const trafficTracker = require("./middlewares/trafficTracker");
 const globalErrorHandler = require("./controllers/errorController");
 
 // Import routes
+const itemRouter = require("./routes/itemRoute");
 const userRouter = require("./routes/userRoute");
 const logoRouter = require("./routes/logoRoute");
 const viewRouter = require("./routes/viewRoute");
@@ -40,8 +41,18 @@ app.set("views", path.join(__dirname, "views"));
 // Serving static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Set security HTTP headers
-app.use(helmet());
+// Set security HTTP headers with CSP adjustments
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://i.pinimg.com"],
+      connectSrc: ["'self'", "ws://localhost:3300"],
+      scriptSrc: ["'self'", "https://unpkg.com"],
+      // Add other sources as needed
+    },
+  })
+);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -110,6 +121,7 @@ app.use("/api", trafficRouter);
 app.use("/api/v1", searchRoutes);
 app.use("/api/v1/logo", logoRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/items", itemRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/socials", socialRouter);
 app.use("/api/v1/comments", commentRoutes);

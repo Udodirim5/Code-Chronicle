@@ -1637,6 +1637,22 @@ aside#related-posts {
 
 
 
+/* ==============================
+  ========== MARKET ===========
+=================================*/
+
+.section.market .news-card .card-content {
+  position: relative;
+  padding: 30px;
+  height: 180px;
+}
+
+
+
+
+
+
+
 /* ======== MY WORKS =========== */
 
 #admin-body table {
@@ -3717,6 +3733,7 @@ header h2 {
     left: 0;
     width: 30px;
     height: 30px;
+    filter: blur(5px);
     background-color: var(--bg-purple);
     border-radius: var(--radius-circle);
     transform: translate(-50%, -50%);
