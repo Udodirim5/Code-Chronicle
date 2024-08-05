@@ -6,7 +6,7 @@ import { createItems } from "./createItems";
 import { deleteItem } from "./handleDeletes";
 import { login, logout, signup } from "./login";
 import { createComment } from "./createCommentFn";
-import { updateSettings, forgotPassword } from "./updateSettings";
+import { updateSettings } from "./updateSettings";
 import { fetchTrafficData } from "./fetchTrafficData.js";
 import { addProject } from "./createProject";
 
@@ -22,7 +22,6 @@ const userDataForm = document.querySelector(".form-user-data");
 const updateSocialForm = document.querySelector(".updateSocial");
 const createProjectForm = document.querySelector("#createProject");
 const updatePasswordForm = document.querySelector(".form-user-password");
-const forgotPasswordForm = document.getElementById('forgotPasswordForm')
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (loginForm) {
@@ -148,16 +147,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  if (forgotPasswordForm) {
-    forgotPasswordForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-
-      await forgotPassword(email, "forgot");
-      forgotPasswordForm.reset();
-      });
-  }
   // Event listener for delete buttons
   const deleteButtons = document.querySelectorAll(".delete-btn");
 

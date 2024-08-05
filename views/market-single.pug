@@ -1,0 +1,146 @@
+extends clients-base
+
+block content
+  main
+    article
+      section.section.market(aria-label="our latest market")
+        .container
+          .app-container
+            .course-container
+              .course-header
+                h1= item.name
+                p=  item.description
+                .app-ratings
+                  span 4.7
+                  span ★★★★★
+                  span 3661 reviews
+              .course-subscription
+                button.subscribe lorem
+                button.buy#buy-now-btn= `Get for $${item.price}`
+            .course-overview
+              h2 App Features
+              ul
+                li Beginner to Pro
+                li 12 hours of HD video
+                li 200 lessons
+                li Downloadable content
+                li Hands-on exercises
+                li English captions
+                li Certificate of completion
+                li Lifetime access
+                li Learn at your own pace
+
+          .purchase-form-container 
+            form.purchase-form
+              .close-container
+                button#close-pay-btn(type="button") x 
+              .form-group
+                label(for="name") Name 
+                input#name(type="text", required)
+              .form-group
+                label(for="email") Email 
+                input#email(type="email", required)
+              .form-group
+                button#pay-it(type="submit" class="pay")= `Pay $${item.price}`
+
+
+          .review 
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            .card
+              .review-header
+                .user-info
+                  p.username John Doe
+                  p.date June 1, 2000
+              .title-rating
+                h3.title Great Experience!
+                .rating
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star.filled
+                  i.fa.fa-star.star
+                  i.fa.fa-star.star
+              .description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+
+            //- if review.length > 10 
+            .card.all-reviews
+              button(type='button') SEE ALL

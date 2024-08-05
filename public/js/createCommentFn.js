@@ -3,7 +3,7 @@ import { showAlert } from "./alert";
 
 export const createComment = async (postId, name, comment) => {
   try {
-    const res = await axios.post(`${req.protocol}://${req.get('host')}/api/v1/posts/${postId}/comments`, {
+    const res = await axios.post(`http://localhost:3000/api/v1/posts/${postId}/comments`, {
       post: postId,
       name,
       comment,

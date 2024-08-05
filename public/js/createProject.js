@@ -4,7 +4,7 @@ import { showAlert } from "./alert";
 export const addProject = async (formData) => {
   try {
     const res = await axios.post(
-      `${req.protocol}://${req.get("host")}/api/v1/projects`,
+      "http://localhost:3000/api/v1/projects",
       formData,
       {
         headers: {

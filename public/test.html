@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Page</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    article {
+      flex: 1;
+      min-width: 60%;
+      margin-right: 1rem;
+    }
+
+    aside {
+      flex: 1;
+      min-width: 30%;
+    }
+
+    .flex-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-image {
+      width: 100%;
+      border-radius: 0.5rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: #e2e8f0;
+      color: #2d3748;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+    }
+
+    .comment-form button {
+      background-color: #4a5568;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .comment-form button:hover {
+      background-color: #2d3748;
+    }
+
+    .comment {
+      background-color: #f7fafc;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment button {
+      background: none;
+      border: none;
+      color: #2d3748;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .comment button:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+      }
+
+      article,
+      aside {
+        min-width: 100%;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <main>
+      <article>
+        <h2>Blog Post Title</h2>
+        <p>Author Name | Publication Date</p>
+        <div class="my-4">
+          <img src="https://openui.fly.dev/openui/800x400.svg?text=Blog+Image" alt="Blog Image" class="article-image">
+        </div>
+        <p>Main blog content goes here...</p>
+        <div class="my-4">
+          <span class="tag">Tag 1</span>
+          <span class="tag">Tag 2</span>
+        </div>
+      </article>
+      <aside>
+        <section class="my-4">
+          <h3>Related Posts</h3>
+        </section>
+        <section class="my-4">
+          <h3>Popular Posts</h3>
+        </section>
+        <section class="my-4">
+          <h3>Categories</h3>
+        </section>
+      </aside>
+    </main>
+    <section class="p-4">
+      <h2>Comments</h2>
+      <form action="#" method="POST" class="comment-form mb-4">
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <textarea placeholder="Your Comment" rows="4"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+      <div>
+        <div class="comment">
+          <p>Commenter Name | Comment Date</p>
+          <p>Comment Text</p>
+          <button>Reply</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

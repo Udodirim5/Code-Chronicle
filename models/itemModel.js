@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const slugify = require("slugify");
 
 const itemSchema = new mongoose.Schema({
-  itemName: {
+  name: {
     type: String,
     required: [true, "An item must have a name."],
   },
-  itemDescription: {
+  description: {
     type: String,
     required: [true, "An item must have a description."],
     trim: true,
@@ -18,7 +18,7 @@ const itemSchema = new mongoose.Schema({
     index: true,
     match: /^[a-z0-9-]+$/,
   },
-  itemPrice: {
+  price: {
     type: Number,
     required: [true, "An item must have a price."],
   },
@@ -55,10 +55,10 @@ itemSchema.pre(/^find/, function (next) {
 
 itemSchema.pre("save", async function (next) {
   // If the itemName is not modified, proceed to the next middleware
-  if (!this.isModified("itemName")) return next();
+  if (!this.isModified("name")) return next();
 
   // Slugify the itemName to create a URL-friendly version
-  let slug = slugify(this.itemName, { lower: true });
+  let slug = slugify(this.name, { lower: true });
 
   // Check if the slug already exists and handle duplicates
   const existingItem = await mongoose.model("Item").findOne({ slug });

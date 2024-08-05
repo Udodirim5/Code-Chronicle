@@ -3,7 +3,7 @@ import { showAlert } from "./alert";
 
 export async function fetchTrafficData() {
   try {
-    const url = `${req.protocol}://${req.get('host')}/api`;
+    const url = 'http://localhost:3000/api';
     const [dailyResponse, monthlyResponse, allTimeResponse] = await Promise.all([
       axios.get(`${url}/traffic/daily`),
       axios.get(`${url}/traffic/monthly`),

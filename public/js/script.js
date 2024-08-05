@@ -539,10 +539,10 @@ if (adminActionButtons) {
 
 const loginPass = document.getElementById("pass");
 if (loginPass) {
-  const getIn = document.querySelector(".log-pass");
+  const getIn = document.getElementById("getIn");
   const adminLoginPass = document.querySelector(".admin-login-pass");
   loginPass.addEventListener("change", () => {
-    if (loginPass.value === "1234") {
+    if (loginPass.value === "123456") {
       getIn.classList.add('get-active')
       adminLoginPass.style.display = 'none'
     } else {
@@ -550,4 +550,21 @@ if (loginPass) {
       adminLoginPass.style.display = 'block'
     }
   });
+}
+
+
+const clickToPay = document.querySelector('#buy-now-btn')
+const closeClickToPay = document.querySelector('#close-pay-btn')
+const payForm = document.querySelector('.purchase-form-container')
+
+
+if (payForm) {
+  clickToPay.addEventListener('click', () => {
+    payForm.classList.add("add-pay-active")
+    document.body.style.overflow = 'hidden'
+  })
+  closeClickToPay.addEventListener('click', () => {
+    payForm.classList.remove("add-pay-active")
+    document.body.style.overflow = ''
+  })
 }

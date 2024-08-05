@@ -6,7 +6,7 @@ export const updatePost = async (formData, postId) => {
   try {
     const response = await axios({
       method: "PATCH",
-      url: `${req.protocol}://${req.get('host')}/api/v1/posts/${postId}`,
+      url: `/api/v1/posts/${postId}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

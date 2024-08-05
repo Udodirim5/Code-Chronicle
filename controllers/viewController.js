@@ -230,12 +230,39 @@ exports.getHomePage = (req, res) => {
   });
 };
 
-exports.marketPlace = catchAsync(async (req, res) => {
-  const user = await User.find();
-  const items = await Item.find();
+exports.getMarketPlace = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(Item.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+
+  const items = await features.query;
+
+  const totalItems = await Item.countDocuments();
+  const limit = req.query.limit * 1 || 12;
+  const page = req.query.page * 1 || 1;
+  const pages = Math.ceil(totalItems / limit);
+
   res.status(200).render("market-place", {
-    title: "Home Page",
+    title: "Market Place",
     items,
+    currentPage: page,
+    totalPages: pages
+  });
+});
+
+exports.getItem = catchAsync(async (req, res, next) => {
+  const item = await Item.findOne({ slug: req.params.slug });
+  const user = await User.findOne();
+
+  if (!item) {
+    return next(new AppError("There is no item with that name.", 404));
+  }
+
+  res.status(200).render("market-single", {
+    title: `${item.name} Item`,
+    item,
     user,
   });
 });

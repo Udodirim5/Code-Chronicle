@@ -20,10 +20,11 @@ router.get('/blog/:slug', viewController.getPost);
 router.get('/contact', viewController.getContact);
 router.get('/about', viewController.getAboutPage);
 router.get('/projects', viewController.getProjects);
-router.get('/market-place', viewController.marketPlace);
+router.get('/market-place/:slug', viewController.getItem);
+router.get('/market-place', viewController.getMarketPlace);
 
 // Admin- side routes
-router.get('/profile', viewController.admin);
+router.get('/admin/profile', viewController.admin);
 router.get('/express-admin', viewController.userDashboard);
 router.get('/admin/admin-posts', viewController.getAdminPost);
 router.get('/admin/edit-post/:id', viewController.getEditPost);
