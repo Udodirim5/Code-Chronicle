@@ -3,7 +3,7 @@ const purchaseController = require('../controllers/purchaseController');
 
 const router = express.Router();
 
-router.post('/', purchaseController.createPurchase);
+router.post('/create-purchase', purchaseController.createPurchase);
 router.post('/webhook', purchaseController.webhookCheckout);
 
 module.exports = router;

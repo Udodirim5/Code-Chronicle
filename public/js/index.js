@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
 
     const amount = document.querySelector(".pay").innerText.replace("Pay $", "");
+    // const amount = '10';
     const email = document.getElementById("email").value;
     const name = document.getElementById("name").value;
     const itemId = form.dataset.itemId;
