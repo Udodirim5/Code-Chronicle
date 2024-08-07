@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { showAlert } from './alert';
+import { getBaseUrl } from "./baseUrl";
 
 export const deleteItem = async (type, id) => {
   try {
-    const res = await axios.delete(`http://localhost:3000/api/v1/${type}/${id}`);
+    const res = await axios.delete(`${getBaseUrl()}/api/v1/${type}/${id}`);
     if (res.status === 204) {
       showAlert('success', `${type} deleted successfully!`);
       // Optionally, remove the deleted item from the DOM

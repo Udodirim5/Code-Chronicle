@@ -253,13 +253,20 @@ exports.getMarketPlace = catchAsync(async (req, res, next) => {
 });
 
 exports.getItem = catchAsync(async (req, res, next) => {
-  const item = await Item.findOne({ slug: req.params.slug });
+  // 1) Get the data, for the requested items (including reviews and guides)
+  const item = await Item.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review rating user'
+  });
   const user = await User.findOne();
 
   if (!item) {
     return next(new AppError("There is no item with that name.", 404));
   }
 
+  
+    // 2) Build template
+    // 3) Render template using data from 1)
   res.status(200).render("market-single", {
     title: `${item.name} Item`,
     item,

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export const createPost = async (
   title,
@@ -17,7 +18,7 @@ export const createPost = async (
     formData.append('title', title);
     formData.append('content', content);
     formData.append('excerpt', excerpt);
-    formData.append('tags', tags); // Convert tags to string if necessary
+    formData.append('tags', tags);
     formData.append('category', category);
     formData.append('photo', photo);
     formData.append('author', author);
@@ -28,7 +29,7 @@ export const createPost = async (
 
     const res = await axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/posts/submit-post",
+      url: `${getBaseUrl()}/api/v1/posts/submit-post`,
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data'

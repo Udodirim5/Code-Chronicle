@@ -1,12 +1,13 @@
 /* eslint-disable */
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export const updatePost = async (formData, postId) => {
   try {
     const response = await axios({
       method: "PATCH",
-      url: `/api/v1/posts/${postId}`,
+      url: `${getBaseUrl()}/api/v1/posts/${postId}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -19,7 +20,6 @@ export const updatePost = async (formData, postId) => {
       location.assign(`/admin/admin-posts`);
     }
   } catch (error) {
-    console.error("Error updating the post:", error);
     showAlert("error", "An error occurred while updating the post.");
   }
 };

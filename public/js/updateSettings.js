@@ -1,17 +1,18 @@
 /* eslint-disable */
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 // type is either 'password' or 'data'
 export const updateSettings = async (data, type) => {
   try {
     let url;
     if (type === "password") {
-      url = "/api/v1/users/updateMyPassword";
+      url = `${getBaseUrl()}/api/v1/users/updateMyPassword`;
     } else if (type === "data") {
-      url = "/api/v1/users/updateMe";
+      url = `${getBaseUrl()}/api/v1/users/updateMe`;
     } else if (type === "socials") {
-      url = "/api/v1/socials/update-socials";
+      url = `${getBaseUrl()}/api/v1/socials/update-socials`;
     }
     const res = await axios({
       method: "PATCH",

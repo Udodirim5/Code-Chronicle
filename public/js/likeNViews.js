@@ -1,4 +1,7 @@
-import { showAlert } from "./alert";
+import axios from 'axios';
+import { showAlert } from './alert';
+import { getBaseUrl } from "./baseUrl";
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const likeButtons = document.querySelectorAll('.like-btn');
@@ -21,14 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
   likeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       const postId = button.getAttribute('data-id');
-      handleResponse(`/api/v1/posts/${postId}/like`, 'POST');
+      handleResponse(`${getBaseUrl()}/api/v1/posts/${postId}/like`, 'POST');
     });
   });
 
   dislikeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
       const postId = button.getAttribute('data-id');
-      handleResponse(`/api/v1/posts/${postId}/dislike`, 'POST');
+      handleResponse(`${getBaseUrl()}/api/v1/posts/${postId}/dislike`, 'POST');
     });
   });
 });

@@ -2,25 +2,29 @@
 import axios from "axios";
 import { showAlert } from "./alert";
 
-export const handlePayment = async (name, email) => {
-  try {
-    const res = await axios.post(
-      `${req.protocol}://${req.get(
-        "host"
-      )}/api/v1/purchases/checkout-session/${itemId}`,
-      {
-        name,
-        email,
-      }
-    );
+export const handlePaymentCallback = async (data, itemId, name, email, amount, getBaseUrl) => {
+  const reference = data.tx_ref;
+  console.log("Payment complete! Reference:", reference);
 
-    if (res.data.status === "success") {
-      showAlert("success", "Ready to process the payment.");
-      // Redirect to the checkout session link
-      window.location.href = res.data.session.link;
+  try {
+    console.log("Sending POST request to backend...");
+    const response = await axios.post(`${getBaseUrl}/api/purchases`, {
+      item: itemId,
+      buyerName: name,
+      buyerEmail: email,
+      price: amount,
+      paid: true,
+    });
+
+    const result = response.data;
+    if (result.status === "success") {
+      showAlert("success", "Payment complete! Reference: " + reference);
+      window.location.href = `${getBaseUrl}/payment-success?tx_ref=${reference}`;
+    } else {
+      showAlert("error", "Error processing payment. Please try again.");
     }
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error("Error sending POST request to backend:", error);
     showAlert("error", "Error processing payment. Please try again.");
   }
 };

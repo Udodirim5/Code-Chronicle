@@ -1,12 +1,13 @@
 /* eslint-disable */
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export const login = async (email, password) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/users/login",
+      url: `${getBaseUrl()}/api/v1/users/login`,
       data: {
         email,
         password,
@@ -15,7 +16,6 @@ export const login = async (email, password) => {
 
     if (res.data.status === "success") {
       showAlert("success", "Login successful");
-      console.log('Login successful, redirecting...'); // Debugging line
 
       window.setTimeout(() => {
         location.assign("/express-admin");
@@ -24,16 +24,18 @@ export const login = async (email, password) => {
       showAlert("error", "Unexpected response from the server");
     }
   } catch (err) {
-    showAlert("error", err.response ? err.response.data.message : 'Error logging in');
+    showAlert(
+      "error",
+      err.response ? err.response.data.message : "Error logging in"
+    );
   }
 };
-
 
 export const logout = async () => {
   try {
     const res = await axios({
       method: "GET",
-      url: "http://localhost:3000/api/v1/users/logout",
+      url: `${getBaseUrl()}/api/v1/users/logout`,
     });
     if (res.data.status === "success") {
       location.assign("/login");
@@ -47,7 +49,7 @@ export const signup = async (name, email, password, passwordConfirm) => {
   try {
     const res = await axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/users/signup",
+      url: `${getBaseUrl()}/api/v1/users/signup`,
       data: {
         name,
         email,

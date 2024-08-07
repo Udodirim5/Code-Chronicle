@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export async function fetchTrafficData() {
   try {
-    const url = 'http://localhost:3000/api';
+    const url = `${getBaseUrl()}/api`;
     const [dailyResponse, monthlyResponse, allTimeResponse] = await Promise.all([
       axios.get(`${url}/traffic/daily`),
       axios.get(`${url}/traffic/monthly`),

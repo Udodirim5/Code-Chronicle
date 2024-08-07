@@ -1,9 +1,10 @@
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export const createComment = async (postId, name, comment) => {
   try {
-    const res = await axios.post(`http://localhost:3000/api/v1/posts/${postId}/comments`, {
+    const res = await axios.post(`${getBaseUrl()}/api/v1/posts/${postId}/comments`, {
       post: postId,
       name,
       comment,

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
 export const createItems = async (name, email, message, contactForm) => {
   try {
-    const res = await axios.post("http://localhost:3000/api/v1/contact-us", {
+    const res = await axios.post(`${getBaseUrl()}/api/v1/contact-us`, {
       name,
       email,
       message,

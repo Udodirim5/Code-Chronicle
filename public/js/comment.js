@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { showAlert } from './alert';
+import { getBaseUrl } from "./baseUrl";
 
 // export const submitComment = async (data, type, method, action, postId) => {
 //   try {
@@ -30,7 +31,7 @@ import { showAlert } from './alert';
 
 export const submitComment = async (content, name, postId) => {
   try {
-    const url = `/api/v1/posts/${postId}/comments`;
+    const url = `${getBaseUrl()}/api/v1/posts/${postId}/comments`;
     const res = await axios({
       method: 'POST',
       url,

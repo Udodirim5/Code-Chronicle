@@ -1,5 +1,18 @@
 extends clients-base
 
+mixin reviewCard(review)
+  .card
+    .review-header
+      .user-info
+        p.username= review.username
+        p.date= review.date
+    .title-rating
+      h3.title= review.title
+      .rating
+        each star in [1, 2, 3, 4, 5]
+          i.fa.fa-star.star(class= review.rating >= star ? 'filled' : '')
+    .description= review.description
+
 block content
   main
     article
@@ -9,7 +22,7 @@ block content
             .course-container
               .course-header
                 h1= item.name
-                p=  item.description
+                p= item.description
                 .app-ratings
                   span 4.7
                   span ★★★★★
@@ -31,7 +44,7 @@ block content
                 li Learn at your own pace
 
           .purchase-form-container 
-            form.purchase-form
+            form#purchase-form.purchase-form(data-item-id=item._id)
               .close-container
                 button#close-pay-btn(type="button") x 
               .form-group
@@ -43,104 +56,20 @@ block content
               .form-group
                 button#pay-it(type="submit" class="pay")= `Pay $${item.price}`
 
-
           .review 
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+            //- each review in item.reviews
+              +reviewCard(review)
+            +reviewCard({
+              username: 'John Doe',
+              date: 'June 1, 2000',
+              title: 'Great Experience!',
+              rating: 3,
+              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.'
+            })
 
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
+            //- if item.reviews.length > 10 
+              .card.all-reviews
+                button(type='button') SEE ALL
 
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
-
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
-
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
-
-            .card
-              .review-header
-                .user-info
-                  p.username John Doe
-                  p.date June 1, 2000
-              .title-rating
-                h3.title Great Experience!
-                .rating
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star.filled
-                  i.fa.fa-star.star
-                  i.fa.fa-star.star
-              .description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.
-
-            //- if review.length > 10 
-            .card.all-reviews
-              button(type='button') SEE ALL
+  script(src="https://checkout.flutterwave.com/v3.js")
+  //- script(src="/js/flutterWave.js")

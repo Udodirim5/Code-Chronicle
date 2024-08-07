@@ -4,11 +4,12 @@ import { createPost } from "./createPost";
 import { updatePost } from "./updatePost.js";
 import { createItems } from "./createItems";
 import { deleteItem } from "./handleDeletes";
+import { addProject } from "./createProject";
 import { login, logout, signup } from "./login";
 import { createComment } from "./createCommentFn";
 import { updateSettings } from "./updateSettings";
 import { fetchTrafficData } from "./fetchTrafficData.js";
-import { addProject } from "./createProject";
+import { handlePaymentCallback } from "./handlePayment.js";
 
 // DOM ELEMENTS
 const editPost = document.querySelector("#editPost");
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateSettings(form, "data");
     });
   }
-  
+
   // FIXME: updateSocialForm Not working
   if (updateSocialForm) {
     updateSocialForm.addEventListener("submit", (e) => {
@@ -237,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (createProjectForm) {
     createProjectForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-  
+
       // Extract form data
       const title = document.querySelector("#new-project-title").value;
       const description = document.querySelector("#description").value;
@@ -246,10 +247,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       const technologies = Array.from(
         document.querySelectorAll('input[name="technologies"]:checked')
       ).map((el) => el.value);
-  
+
       const desktopImg = document.querySelector("#desktop-img").files[0];
       const mobileImg = document.querySelector("#mobile-img").files[0];
-  
+
       // Create FormData object
       const formData = new FormData();
       formData.append("title", title);
@@ -259,11 +260,49 @@ document.addEventListener("DOMContentLoaded", async () => {
       formData.append("technologies", JSON.stringify(technologies)); // Correctly format technologies
       formData.append("desktopImg", desktopImg);
       formData.append("mobileImg", mobileImg);
-  
+
       // Call the addProject function
       await addProject(formData);
     });
   }
-  
+});
 
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("#purchase-form");
+  const getBaseUrl = `${window.location.protocol}//${window.location.host}`;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const amount = document.querySelector(".pay").innerText.replace("Pay $", "");
+    const email = document.getElementById("email").value;
+    const name = document.getElementById("name").value;
+    const itemId = form.dataset.itemId;
+
+    try {
+      console.log("Initiating Flutterwave checkout...");
+
+      // Initiate Flutter wave checkout
+      FlutterwaveCheckout({
+        public_key: "FLWPUBK_TEST-b3755023095a7d59d52636b219e61c79-X",
+        tx_ref: "AK_" + Math.floor(Math.random() * 1000000000 + 1),
+        amount: amount,
+        currency: "USD",
+        payment_options: "card",
+        customer: {
+          email: email,
+          name: name,
+        },
+        callback: (data) => handlePaymentCallback(data, itemId, name, email, amount, getBaseUrl),
+        customizations: {
+          title: "AppKinda",
+          description: "FlutterWave Integration in Javascript.",
+          // logo: "flutterwave/usecover.gif",
+        },
+      });
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+    }
+  });
 });
