@@ -267,43 +267,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("#purchase-form");
+document.addEventListener("DOMContentLoaded", function() {
+  const itemPurchaseForm = document.querySelector("#purchase-form");
   const getBaseUrl = `${window.location.protocol}//${window.location.host}`;
 
-  form.addEventListener("submit", async (e) => {
+  if (itemPurchaseForm) {
+    itemPurchaseForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value;
+      const itemId = itemPurchaseForm.dataset.itemId;
+      const price = itemPurchaseForm.dataset.price; // Accessing the price
+      // const price = 10
+
+      // Log itemId and price to debug
+      console.log("Item ID:", itemId);
+      console.log("Price:", price);
+
+      try {
+        // Initiate Flutterwave checkout
+        FlutterwaveCheckout({
+          public_key: "FLWPUBK_TEST-b3755023095a7d59d52636b219e61c79-X",
+          tx_ref: "AK_" + Math.floor(Math.random() * 1000000000 + 1),
+          amount: price,
+          currency: "USD",
+          payment_options: "card",
+          customer: {
+            email: email,
+            name: name,
+          },
+          callback: (data) =>
+            handlePaymentCallback(
+              data,
+              itemId,
+              name,
+              email,
+              price,
+              getBaseUrl
+            ),
+          customizations: {
+            title: "Dev Memoirs",
+            description: "FlutterWave Integration in Javascript.",
+            // logo: "flutterwave/usecover.gif",
+          },
+        });
+      } catch (error) {
+        console.error("Error initiating payment:", error);
+      }
+    });
+  }
+});
+
+
+const submitReviews = document.querySelector("#submit-review");
+if (submitReviews) {
+  submitReviews.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const amount = document.querySelector(".pay").innerText.replace("Pay $", "");
-    // const amount = '10';
-    const email = document.getElementById("email").value;
-    const name = document.getElementById("name").value;
-    const itemId = form.dataset.itemId;
-
-    try {
-      console.log("Initiating Flutterwave checkout...");
-
-      // Initiate Flutter wave checkout
-      FlutterwaveCheckout({
-        public_key: "FLWPUBK_TEST-b3755023095a7d59d52636b219e61c79-X",
-        tx_ref: "AK_" + Math.floor(Math.random() * 1000000000 + 1),
-        amount: amount,
-        currency: "USD",
-        payment_options: "card",
-        customer: {
-          email: email,
-          name: name,
-        },
-        callback: (data) => handlePaymentCallback(data, itemId, name, email, amount, getBaseUrl),
-        customizations: {
-          title: "AppKinda",
-          description: "FlutterWave Integration in Javascript.",
-          // logo: "flutterwave/usecover.gif",
-        },
-      });
-    } catch (error) {
-      console.error("Error initiating payment:", error);
-    }
+    alert('okay')
   });
-});
+}

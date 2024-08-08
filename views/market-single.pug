@@ -25,7 +25,11 @@ block content
                 p= item.description
                 .app-ratings
                   span 4.7
-                  span ★★★★★
+                  - const rating = 4
+                  .rating
+                    each star in [1, 2, 3, 4, 5]
+                      i.fa.fa-star.star(class= rating >= star ? 'filled' : '')
+
                   span 3661 reviews
               .course-subscription
                 button.subscribe lorem
@@ -44,7 +48,7 @@ block content
                 li Learn at your own pace
 
           .purchase-form-container 
-            form#purchase-form.purchase-form(data-item-id=item._id)
+            form#purchase-form.purchase-form(data-item-id=item._id data-price=item.price)
               .close-container
                 button#close-pay-btn(type="button") x 
               .form-group
@@ -72,4 +76,3 @@ block content
                 button(type='button') SEE ALL
 
   script(src="https://checkout.flutterwave.com/v3.js")
-  //- script(src="/js/flutterWave.js")
