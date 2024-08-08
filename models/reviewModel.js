@@ -15,9 +15,9 @@ const reviewSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now
     },
-    item: {
+      item: {
       type: mongoose.Schema.ObjectId,
       ref: 'Item',
       required: [true, 'Review must belong to an item.'],

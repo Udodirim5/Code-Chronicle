@@ -20,7 +20,7 @@ const purchaseSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   paid: {
     type: Boolean,
@@ -31,9 +31,31 @@ const purchaseSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  purchaseId: {
+    type: String,
+    unique: true,
+  },
 });
 
-purchaseSchema.pre(/^find/, function(next) {
+// Pre-save hook to generate a 6-digit purchase ID
+purchaseSchema.pre("save", async function (next) {
+  if (!this.purchaseId) {
+    // Generate a 6-digit unique ID
+    this.purchaseId = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Ensure the generated ID is unique
+    const existingPurchase = await mongoose.models.Purchase.findOne({
+      purchaseId: this.purchaseId,
+    });
+
+    if (existingPurchase) {
+      return next(new Error("Purchase ID collision, please try again."));
+    }
+  }
+  next();
+});
+
+purchaseSchema.pre(/^find/, function (next) {
   this.populate({
     path: "item",
     select: "name",

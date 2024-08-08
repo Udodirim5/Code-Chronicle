@@ -1,5 +1,6 @@
 /* eslint-disable */
 import "@babel/polyfill";
+import { showAlert } from "./alert";
 import { createPost } from "./createPost";
 import { updatePost } from "./updatePost.js";
 import { createItems } from "./createItems";
@@ -298,14 +299,7 @@ document.addEventListener("DOMContentLoaded", function() {
             name: name,
           },
           callback: (data) =>
-            handlePaymentCallback(
-              data,
-              itemId,
-              name,
-              email,
-              price,
-              getBaseUrl
-            ),
+            handlePaymentCallback(data, itemId, name, email, price, getBaseUrl),
           customizations: {
             title: "Dev Memoirs",
             description: "FlutterWave Integration in Javascript.",
@@ -319,12 +313,36 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-
 const submitReviews = document.querySelector("#submit-review");
 if (submitReviews) {
   submitReviews.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    alert('okay')
+    alert("okay");
+  });
+}
+
+const viewOTPForm = document.querySelector(".verify-to-download-form");
+
+if (viewOTPForm) {
+  const input1 = document.querySelector("#otp-input1");
+  const input2 = document.querySelector("#otp-input2");
+  const input3 = document.querySelector("#otp-input3");
+  const input4 = document.querySelector("#otp-input4");
+  const input5 = document.querySelector("#otp-input5");
+  const input6 = document.querySelector("#otp-input6");
+
+  const verifyButton = document.querySelector(".access-download");
+  const getBaseUrl = `${window.location.protocol}//${window.location.host}`;
+
+  verifyButton.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const inputValue = `${input1.value}${input2.value}${input3.value}${input4.value}${input5.value}${input6.value}`;
+
+    if (inputValue === "123456") {
+      window.location.href = `${getBaseUrl}/payment-success`//?tx_ref=${reference}`;
+    } else {
+      showAlert("error", "Verification failed. Please try again.");
+    }
   });
 }

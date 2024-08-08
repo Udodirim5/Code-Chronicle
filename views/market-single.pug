@@ -32,7 +32,7 @@ block content
 
                   span 3661 reviews
               .course-subscription
-                button.subscribe lorem
+                button.subscribe#view-download lorem
                 button.buy#buy-now-btn= `Get for $${item.price}`
             .course-overview
               h2 App Features
@@ -60,19 +60,50 @@ block content
               .form-group
                 button#pay-it(type="submit" class="pay")= `Pay $${item.price}`
 
-          .review 
-            //- each review in item.reviews
-              +reviewCard(review)
-            +reviewCard({
-              username: 'John Doe',
-              date: 'June 1, 2000',
-              title: 'Great Experience!',
-              rating: 3,
-              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.'
-            })
+          .verify-to-download-form 
+            form.access-download 
+              button(type="button" id="otp-close") x
+              .title OTP 
+              .title Verification Code
+              .message We have sent a verification code to your mobile number
+              .inputs 
+                input(id="otp-input1" type="text" maxlength="1" autofocus) 
+                input(id="otp-input2" type="text" maxlength="1") 
+                input(id="otp-input3" type="text" maxlength="1") 
+                input(id="otp-input4" type="text" maxlength="1") 
+                input(id="otp-input5" type="text" maxlength="1") 
+                input(id="otp-input6" type="text" maxlength="1") 
+              button(type="submit" class="action") Verify me
 
-            //- if item.reviews.length > 10 
-              .card.all-reviews
-                button(type='button') SEE ALL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .review 
+    //- each review in item.reviews
+      +reviewCard(review)
+    +reviewCard({
+      username: 'John Doe',
+      date: 'June 1, 2000',
+      title: 'Great Experience!',
+      rating: 3,
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.'
+    })
+
+    //- if item.reviews.length > 10 
+      .card.all-reviews
+        button(type='button') SEE ALL
 
   script(src="https://checkout.flutterwave.com/v3.js")

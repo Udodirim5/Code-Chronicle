@@ -7,9 +7,11 @@ const Social = require("./../models/socialModel");
 const Contact = require("./../models/contactModel");
 const Category = require("./../models/categoryModel");
 const Comment = require("./../models/commentModel");
+const Purchase = require("./../models/purchaseModel");
 const User = require("./../models/userModel");
 const Item = require("./../models/itemModel");
 const Flutterwave = require("flutterwave-node-v3");
+
 const flw = new Flutterwave(
   process.env.FLUTTERWAVE_PUBLIC_KEY,
   process.env.FLUTTERWAVE_SECRET_KEY
@@ -278,52 +280,81 @@ exports.getItem = catchAsync(async (req, res, next) => {
   });
 });
 
-// const axios = require("axios");
 
-exports.paidGetItem = catchAsync(async (req, res) => {
-  // const txRef = req.query.tx_ref;
+exports.paidGetItem = catchAsync(async (req, res, next) => {
+  const purchase = await Purchase.findOne({ purchaseId: req.params.purchaseId });
 
-  // // try {
-  //   // Manually verify the transaction using Axios
-  //   const response = await axios.get(
-  //     `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${txRef}`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
-  //       },
-  //     }
-  //   );
+  if (!purchase) {
+    return next(new AppError('No purchase found with that ID', 404));
+  }
 
-  //   const transaction = response.data.data;
-
-  //   if (transaction.status !== "successful") {
-  //     return res.status(400).json({
-  //       status: "fail",
-  //       message: "Payment not successful",
-  //     });
-  //   }
-
-  //   // Assuming the transaction response contains an item_id, adjust as needed
-  //   const itemId = transaction.meta.item_id;
-  //   const item = await Item.findById(itemId);
-
-  //   // if (!item) {
-  //   //   return res.status(404).json({
-  //   //     status: "fail",
-  //   //     message: "Item not found",
-  //   //   });
-  //   // }
-
-    res.status(200).render("paid-get-item", {
-      title: "paid-get-item",
-      // transaction,
-      // item,
-    });
-  // } catch (error) {
-  //   console.error("Verification error:", error);
-  //   res.status(500).json({
-  //     status: "error",
-  //     message: "Server error while verifying transaction",
-  //   });
-  // }
+  res.status(200).render('paid-get-item', {
+    title: 'Download Item',
+    purchase,
+  });
 });
+
+
+
+
+
+
+
+
+
+// exports.paidGetItem = catchAsync(async (req, res) => {
+//   // const purchase = await Purchase.findOne({ secret: req.params.secret });
+//   const purchase = await Purchase.find();
+//   console.log(req.params.secret);
+
+//   if (!purchase) {
+//     return next(new AppError("No purchase found with that ID", 404));
+//   }
+
+//   // const txRef = req.query.tx_ref;
+
+//   // // try {
+//   //   // Manually verify the transaction using Axios
+//   //   const response = await axios.get(
+//   //     `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${txRef}`,
+//   //     {
+//   //       headers: {
+//   //         Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
+//   //       },
+//   //     }
+//   //   );
+
+//   //   const transaction = response.data.data;
+
+//   //   if (transaction.status !== "successful") {
+//   //     return res.status(400).json({
+//   //       status: "fail",
+//   //       message: "Payment not successful",
+//   //     });
+//   //   }
+
+//   //   // Assuming the transaction response contains an item_id, adjust as needed
+//   //   const itemId = transaction.meta.item_id;
+//   //   const item = await Item.findById(itemId);
+
+//   //   // if (!item) {
+//   //   //   return res.status(404).json({
+//   //   //     status: "fail",
+//   //   //     message: "Item not found",
+//   //   //   });
+//   //   // }
+
+//   res.status(200).render("paid-get-item", {
+//     title: "paid-get-item",
+//     // transaction,
+//     purchase,
+//     // item,
+//   });
+//   // } catch (error) {
+//   //   console.error("Verification error:", error);
+//   //   res.status(500).json({
+//   //     status: "error",
+//   //     message: "Server error while verifying transaction",
+//   //   });
+//   // }
+// });

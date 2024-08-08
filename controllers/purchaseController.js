@@ -1,9 +1,17 @@
 const crypto = require("crypto");
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+
+const sendEmail = require("./../utils/email");
 const Flutterwave = require("flutterwave-node-v3");
 const Purchase = require("../models/purchaseModel");
 const Item = require("../models/itemModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const factory = require('./handlerFactory');
+
+
+
 
 const generateSecret = () => {
   return crypto.randomBytes(16).toString("hex");
@@ -94,3 +102,9 @@ const createPurchaseCheckout = catchAsync(async (eventData) => {
   });
   console.log("Purchase created from webhook");
 });
+
+exports.getPurchase = factory.getOne(Purchase, { path: "item" });
+exports.getAllPurchases = factory.getAll(Purchase, { path: "item" });
+exports.deletePurchase = factory.deleteOne(Purchase);
+
+

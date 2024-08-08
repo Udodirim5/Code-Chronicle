@@ -6,20 +6,21 @@ block content
       section.get-download(aria-label="our latest market")
         .download-paid-section
           .confirmation-message
-            h1 Thank you for your purchase!
+            h1= `Thank you for your purchase, ${purchase.buyerName}!`
             p Order Number: #123456
-            p Date of Purchase: August 7, 2024
+            p Date of Purchase: #{purchase.createdAt.toDateString()} 
 
           .product-info
-            h2 Product Name
+            h2= purchase.item.name
             p Product description goes here...
             a(href="" class="download-btn" download="file.txt") Download Now
 
           .review-section
             h2 Leave a Review
-            form#submit-review
+            form#submit-review(data-item-id=purchase.item._id data-price=purchase.price)
               .rating-system
-                .reviewer Name
+                .reviewer= purchase.buyerName
+                input(type="hidden", value=purchase ? purchase.buyerEmail : '')
                 .rating-star
                   input(type="radio" id="star5" name="rating" value="5")
                   label(for="star5") ★
@@ -34,7 +35,7 @@ block content
 
               .form-group
                 textarea(placeholder="Write your review here...")
-              button.custom-send-button
+              button(class='custom-send-button' type="submit")
                 .outline
                 .state.state--default
                   .icon

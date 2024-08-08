@@ -560,9 +560,45 @@ if (payForm) {
   clickToPay.addEventListener("click", () => {
     payForm.classList.add("add-pay-active");
     document.body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
   closeClickToPay.addEventListener("click", () => {
     payForm.classList.remove("add-pay-active");
     document.body.style.overflow = "";
   });
 }
+
+const clickToView = document.querySelector("#view-download");
+const closeClickToView = document.querySelector("#otp-close");
+const viewOTPForm = document.querySelector(".verify-to-download-form");
+
+if (viewOTPForm) {
+  clickToView.addEventListener("click", () => {
+    viewOTPForm.classList.add("view-active");
+    document.body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  closeClickToView.addEventListener("click", () => {
+    viewOTPForm.classList.remove("view-active");
+    document.body.style.overflow = "";
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const inputContainer = document.querySelector(".inputs");
+  const inputs = document.querySelectorAll(".inputs input");
+  if (inputContainer) {
+    inputs.forEach((input, index) => {
+      input.addEventListener("keyup", (e) => {
+        const nextInput = inputs[index + 1];
+        const prevInput = inputs[index - 1];
+
+        if (input.value.length === 1 && nextInput) {
+          nextInput.focus();
+        } else if (e.key === "Backspace" && prevInput) {
+          prevInput.focus();
+        }
+      });
+    });
+  }
+});
