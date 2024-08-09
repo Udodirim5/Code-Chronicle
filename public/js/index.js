@@ -9,6 +9,7 @@ import { addProject } from "./createProject";
 import { login, logout, signup } from "./login";
 import { createComment } from "./createCommentFn";
 import { updateSettings } from "./updateSettings";
+import { createReview } from "./handleReview";
 import { fetchTrafficData } from "./fetchTrafficData.js";
 import { handlePaymentCallback } from "./handlePayment.js";
 
@@ -310,10 +311,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const submitReviews = document.querySelector("#submit-review");
 if (submitReviews) {
-  submitReviews.addEventListener("submit", (e) => {
+  submitReviews.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    alert("okay");
+    const form = event.target;
+    const itemId = form.getAttribute("data-item-id");
+    const rating = form.querySelector('input[name="rating"]:checked').value;
+    const reviewTitle = form.querySelector("#review-title").value;
+    const reviewContent = form.querySelector("textarea").value;
+    const purchaseSecret = form.getAttribute('data-purchase-secret');
+
+    const data = {
+      title: reviewTitle,
+      review: reviewContent,
+      rating,
+      item: itemId,
+    };
+  
+    try {
+      await createReview(data, purchaseSecret);
+    } catch (error) {
+      showAlert('error', 'There was an error submitting your review.');
+    }
   });
 }
 

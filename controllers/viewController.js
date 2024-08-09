@@ -11,6 +11,8 @@ const Purchase = require("./../models/purchaseModel");
 const User = require("./../models/userModel");
 const Item = require("./../models/itemModel");
 const Flutterwave = require("flutterwave-node-v3");
+const Review = require('./../models/reviewModel');
+
 
 const flw = new Flutterwave(
   process.env.FLUTTERWAVE_PUBLIC_KEY,
@@ -238,43 +240,26 @@ exports.getHomePage = (req, res) => {
 };
 
 exports.getMarketPlace = catchAsync(async (req, res, next) => {
-  const items = await Tour.findOne({ slug: req.params.slug }).populate(
-    "reviews"
-  );
+  const features = new APIFeatures(Item.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
 
-  if (!items) {
-    return next(new AppError("There is no tour with that name.", 404));
-  }
+  const items = await features.query;
+
+  const totalItems = await Item.countDocuments();
+  const limit = req.query.limit * 1 || 12;
+  const page = req.query.page * 1 || 1;
+  const pages = Math.ceil(totalItems / limit);
 
   res.status(200).render("market-place", {
     title: "Market Place",
     items,
+    currentPage: page,
+    totalPages: pages,
   });
 });
-// exports.getMarketPlace = catchAsync(async (req, res, next) => {
-//   const features = new APIFeatures(
-//     Item.find().populate("reviews"), // Populate the reviews field
-//     req.query
-//   )
-//     .filter()
-//     .sort()
-//     .limitFields()
-//     .paginate();
-
-//   const items = await features.query;
-
-//   const totalItems = await Item.countDocuments();
-//   const limit = req.query.limit * 1 || 12;
-//   const page = req.query.page * 1 || 1;
-//   const pages = Math.ceil(totalItems / limit);
-
-//   res.status(200).render("market-place", {
-//     title: "Market Place",
-//     items,
-//     currentPage: page,
-//     totalPages: pages,
-//   });
-// });
 
 exports.getItem = catchAsync(async (req, res, next) => {
   // 1) Get the data, for the requested items (including reviews and guides)
@@ -306,9 +291,17 @@ exports.paidGetItem = catchAsync(async (req, res, next) => {
     return next(new AppError("No purchase found with that ID", 404));
   }
 
+  // Check if a review already exists for this item and email
+  const existingReview = await Review.findOne({
+    item: purchase.item._id,
+    email: purchase.buyerEmail,
+  });
+
   res.status(200).render("paid-get-item", {
     title: "Download Item",
     purchase,
+    // existingReview,
+    reviewExists: !!existingReview, // Boolean to indicate if a review exists
   });
 });
 
