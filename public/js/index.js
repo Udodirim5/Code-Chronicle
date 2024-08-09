@@ -164,16 +164,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // FIXME: commentForm Not working
   if (commentForm) {
     commentForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const postId = commentForm.getAttribute("data-post-id"); // Ensure postId is fetched correctly
-      const name = document.getElementById("commenter-name").value;
-      const comment = document.getElementById("comment").value;
-
-      await createComment(postId, name, comment); // Pass postId to createComment
+      const form = event.target;
+      const postId = form.getAttribute("data-post-id");
+      const name = form.querySelector("#commenter-name").value;
+      const email = form.querySelector("#email").value;
+      const comment = form.querySelector("#comment").value;
+  
+      await createComment(postId, name, email, comment);
     });
   }
 

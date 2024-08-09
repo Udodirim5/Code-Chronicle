@@ -11,8 +11,7 @@ const Purchase = require("./../models/purchaseModel");
 const User = require("./../models/userModel");
 const Item = require("./../models/itemModel");
 const Flutterwave = require("flutterwave-node-v3");
-const Review = require('./../models/reviewModel');
-
+const Review = require("./../models/reviewModel");
 
 const flw = new Flutterwave(
   process.env.FLUTTERWAVE_PUBLIC_KEY,
@@ -146,11 +145,8 @@ exports.userProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-  const post = await Post.findOne({ slug: req.params.slug });
-  const user = await User.findOne();
-  const category = await Category.findOne();
-  const comment = await Comment.findOne();
-
+  const post = await Post.findOne({ slug: req.params.slug }).populate("comments");
+  
   if (!post) {
     return next(new AppError("There is no post with that name.", 404));
   }
@@ -158,9 +154,8 @@ exports.getPost = catchAsync(async (req, res, next) => {
   res.status(200).render("blog-single", {
     title: `${post.name} Post`,
     post,
-    user,
-    category,
-    comment,
+    category: post.category,
+    comments: post.comments, // Pass comments to the view
   });
 });
 

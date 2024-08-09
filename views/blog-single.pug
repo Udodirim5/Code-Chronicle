@@ -13,8 +13,8 @@ block content
             span= `Category: ${post.category.name}`
             span.post-views= `Views: ${post.views}`
             span.post-comments= `Comments: ${post.comments ? post.comments.length : 0}`
-            span.post-likes= `Likes: ${post.likes.length}`
-            span.post-dislikes= `Dislikes: ${post.dislikes.length}`
+            //- span.post-likes= `Likes: ${post.likes.length}`
+            //- span.post-dislikes= `Dislikes: ${post.dislikes.length}`
         img.post-cover(src=`/img/blogs/${post.photo}`, alt=`the cover photo of ${post.title}`)
         #post-content
           != post.content
@@ -50,7 +50,7 @@ block content
 
     section#comments
       .container
-      h2 Comments
+      h2 Leave a Comment
         form#comment-form(data-post-id=`${post._id}`)
           label(for='commenter-name') Name:
           input#commenter-name(type='text', name='name' required)
@@ -66,8 +66,9 @@ block content
           .comment-out
             if post.comments && post.comments.length
               each comment in post.comments
+                - const initials = comment.name.split(" ").map(n => n[0].toUpperCase()).join("");
                 .comment-card
-                  .comment-img C C
+                  .comment-img= initials
                   .textBox
                     .commentContent
                       p.commenter= comment.name

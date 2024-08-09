@@ -51,9 +51,6 @@ const postSchema = new mongoose.Schema(
     },
     updatedAt: { type: Date },
     published: { type: Boolean, default: false },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     createdAt: {
       type: Date,
       default: Date.now,
@@ -64,6 +61,12 @@ const postSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+postSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "post",
+});
 
 // Indexing for slug to ensure uniqueness and efficient querying
 postSchema.index({ slug: 1 });

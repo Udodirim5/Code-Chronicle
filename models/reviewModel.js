@@ -44,7 +44,7 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-reviewSchema.index({ item: 1, email: 1 }, { unique: true });
+reviewSchema.index({ post: 1, email: 1 }, { unique: true });
 
 // reviewSchema.pre(/^find/, function(next) {
 //   this.populate({

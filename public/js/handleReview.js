@@ -9,8 +9,9 @@ export const createReview = async (data, purchaseSecret) => {
       `${getBaseUrl()}/api/v1/reviews?secret=${purchaseSecret}`,
       data
     );
-    if (response.data.status === "success") {
+    if (response.data.status === "created") {
       showAlert("success", "Review submitted successfully!");
+      location.reload();
     }
   } catch (err) {
     showAlert("error", err.response.data.message);
