@@ -13,14 +13,14 @@ exports.setReviewData = catchAsync(async (req, res, next) => {
     return next(new AppError('Invalid or expired link.', 400));
   }
 
-  req.body.item = purchase.item;
+  // req.body.item = purchase.item;
   req.body.name = purchase.buyerName;
   req.body.email = purchase.buyerEmail;
   next();
 });
 
-exports.getAllReviews = factory.getAll(Review);
-exports.getReview = factory.getOne(Review);
+exports.getAllReviews = factory.getAll(Review, { path: "item" });
+exports.getReview = factory.getOne(Review, { path: "item" });
 exports.createReview = factory.createOne(Review);
 exports.updateReview = factory.updateOne(Review);
 exports.deleteReview = factory.deleteOne(Review);

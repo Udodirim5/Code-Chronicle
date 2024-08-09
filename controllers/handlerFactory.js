@@ -22,7 +22,7 @@ exports.getOne = (Model, popOptions) =>
       return next(new AppError("No document found with that ID", 404));
     }
 
-    await doc.incrementViews(); // Increment views
+    // await doc.incrementViews(); // Increment views
 
     res.status(200).json({
       status: "success",

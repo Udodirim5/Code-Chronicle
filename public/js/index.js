@@ -280,14 +280,9 @@ document.addEventListener("DOMContentLoaded", function() {
       const name = document.getElementById("name").value;
       const itemId = itemPurchaseForm.dataset.itemId;
       const price = itemPurchaseForm.dataset.price; // Accessing the price
-      // const price = 10
-
-      // Log itemId and price to debug
-      console.log("Item ID:", itemId);
-      console.log("Price:", price);
 
       try {
-        // Initiate Flutterwave checkout
+        // Initiate Flutter wave checkout
         FlutterwaveCheckout({
           public_key: "FLWPUBK_TEST-b3755023095a7d59d52636b219e61c79-X",
           tx_ref: "AK_" + Math.floor(Math.random() * 1000000000 + 1),

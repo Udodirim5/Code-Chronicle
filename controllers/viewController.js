@@ -238,26 +238,43 @@ exports.getHomePage = (req, res) => {
 };
 
 exports.getMarketPlace = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Item.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
+  const items = await Tour.findOne({ slug: req.params.slug }).populate(
+    "reviews"
+  );
 
-  const items = await features.query;
-
-  const totalItems = await Item.countDocuments();
-  const limit = req.query.limit * 1 || 12;
-  const page = req.query.page * 1 || 1;
-  const pages = Math.ceil(totalItems / limit);
+  if (!items) {
+    return next(new AppError("There is no tour with that name.", 404));
+  }
 
   res.status(200).render("market-place", {
     title: "Market Place",
     items,
-    currentPage: page,
-    totalPages: pages,
   });
 });
+// exports.getMarketPlace = catchAsync(async (req, res, next) => {
+//   const features = new APIFeatures(
+//     Item.find().populate("reviews"), // Populate the reviews field
+//     req.query
+//   )
+//     .filter()
+//     .sort()
+//     .limitFields()
+//     .paginate();
+
+//   const items = await features.query;
+
+//   const totalItems = await Item.countDocuments();
+//   const limit = req.query.limit * 1 || 12;
+//   const page = req.query.page * 1 || 1;
+//   const pages = Math.ceil(totalItems / limit);
+
+//   res.status(200).render("market-place", {
+//     title: "Market Place",
+//     items,
+//     currentPage: page,
+//     totalPages: pages,
+//   });
+// });
 
 exports.getItem = catchAsync(async (req, res, next) => {
   // 1) Get the data, for the requested items (including reviews and guides)
@@ -280,27 +297,20 @@ exports.getItem = catchAsync(async (req, res, next) => {
   });
 });
 
-
 exports.paidGetItem = catchAsync(async (req, res, next) => {
-  const purchase = await Purchase.findOne({ purchaseId: req.params.purchaseId });
+  const purchase = await Purchase.findOne({
+    purchaseId: req.params.purchaseId,
+  });
 
   if (!purchase) {
-    return next(new AppError('No purchase found with that ID', 404));
+    return next(new AppError("No purchase found with that ID", 404));
   }
 
-  res.status(200).render('paid-get-item', {
-    title: 'Download Item',
+  res.status(200).render("paid-get-item", {
+    title: "Download Item",
     purchase,
   });
 });
-
-
-
-
-
-
-
-
 
 // exports.paidGetItem = catchAsync(async (req, res) => {
 //   // const purchase = await Purchase.findOne({ secret: req.params.secret });

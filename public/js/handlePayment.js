@@ -16,8 +16,10 @@ export const handlePaymentCallback = async (data, itemId, name, email, amount, g
 
     const result = response.data;
     if (result.status === "success") {
+      const purchaseId = result.data.purchaseId; 
       showAlert("success", "Payment complete! Reference: " + reference);
       window.location.href = `${getBaseUrl}/payment-success?tx_ref=${reference}`;
+      // window.location.href = `${getBaseUrl}/payment-success?purchase_id=${purchaseId}`;
     } else {
       showAlert("error", "Error processing payment. Please try again.");
     }

@@ -4,14 +4,15 @@ mixin reviewCard(review)
   .card
     .review-header
       .user-info
-        p.username= review.username
-        p.date= review.date
+        p.username= review.name
+        - const releasedAt = new Date(review.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        p.date= `${releasedAt}`
     .title-rating
       h3.title= review.title
       .rating
         each star in [1, 2, 3, 4, 5]
           i.fa.fa-star.star(class= review.rating >= star ? 'filled' : '')
-    .description= review.description
+    .description= review.review
 
 block content
   main
@@ -75,35 +76,12 @@ block content
                 input(id="otp-input6" type="text" maxlength="1") 
               button(type="submit" class="action") Verify me
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  .review 
-    //- each review in item.reviews
-      +reviewCard(review)
-    +reviewCard({
-      username: 'John Doe',
-      date: 'June 1, 2000',
-      title: 'Great Experience!',
-      rating: 3,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec in efficitur ipsum, sed dapibus eros.'
-    })
-
-    //- if item.reviews.length > 10 
-      .card.all-reviews
-        button(type='button') SEE ALL
+          if item.reviews.length > 0
+            .review 
+              each review in item.reviews
+                +reviewCard(review)
+              if item.reviews.length > 9 
+                .card.all-reviews
+                  button(type='button') SEE ALL
 
   script(src="https://checkout.flutterwave.com/v3.js")

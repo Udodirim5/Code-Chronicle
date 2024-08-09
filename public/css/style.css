@@ -1934,11 +1934,20 @@ button.buy:hover {
   display: flex;
 }
 
-.review .date,
-.review .title,
+.review .title {
+  font-size: 1.5rem;
+}
+
 .review .username {
+  text-transform: uppercase;
   font-size: 1.5rem;
   font-weight: bold;
+  margin-top: 4px;
+}
+
+.review .date {
+  margin-top: 6px;
+  font-size: 1rem;
 }
 
 .review .rating {

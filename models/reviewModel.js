@@ -1,36 +1,41 @@
-const mongoose = require('mongoose');
-const Item = require('./itemModel');
+const mongoose = require("mongoose");
+const Item = require("./itemModel");
 
 const reviewSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: [true, "Title can not be empty!"],
+      trim: true,
+    },
     review: {
       type: String,
-      required: [true, 'Review can not be empty!'],
+      required: [true, "Review can not be empty!"],
     },
     rating: {
       type: Number,
       min: 1,
       max: 5,
-      required: [true, 'Rating is required'],
+      required: [true, "Rating is required"],
     },
     createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
-      item: {
+    item: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Item',
-      required: [true, 'Review must belong to an item.'],
+      ref: "Item",
+      required: [true, "Review must belong to an item."],
     },
     name: {
       type: String,
-      required: [true, 'Review must have a name.'],
+      required: [true, "Review must have a name."],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Review must have an email.'],
-      match: [/\S+@\S+\.\S+/, 'Please enter a valid email address.'],
+      required: [true, "Review must have an email."],
+      match: [/\S+@\S+\.\S+/, "Please enter a valid email address."],
     },
   },
   {
@@ -41,24 +46,24 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.index({ item: 1, email: 1 }, { unique: true });
 
-reviewSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'item',
-    select: 'name',
-  });
-  next();
-});
+// reviewSchema.pre(/^find/, function(next) {
+//   this.populate({
+//     path: "item",
+//     select: "name -createdBy",
+//   });
+//   next();
+// });
 
-reviewSchema.statics.calcAverageRatings = async function (itemId) {
+reviewSchema.statics.calcAverageRatings = async function(itemId) {
   const stats = await this.aggregate([
     {
       $match: { item: itemId },
     },
     {
       $group: {
-        _id: '$item',
+        _id: "$item",
         nRating: { $sum: 1 },
-        avgRating: { $avg: '$rating' },
+        avgRating: { $avg: "$rating" },
       },
     },
   ]);
@@ -76,19 +81,19 @@ reviewSchema.statics.calcAverageRatings = async function (itemId) {
   }
 };
 
-reviewSchema.post('save', function () {
+reviewSchema.post("save", function() {
   this.constructor.calcAverageRatings(this.item);
 });
 
-reviewSchema.pre(/^findOneAnd/, async function (next) {
+reviewSchema.pre(/^findOneAnd/, async function(next) {
   this.r = await this.findOne();
   next();
 });
 
-reviewSchema.post(/^findOneAnd/, async function () {
+reviewSchema.post(/^findOneAnd/, async function() {
   await this.r.constructor.calcAverageRatings(this.r.item);
 });
 
-const Review = mongoose.model('Review', reviewSchema);
+const Review = mongoose.model("Review", reviewSchema);
 
 module.exports = Review;

@@ -54,6 +54,7 @@ exports.createPurchase = catchAsync(async (req, res, next) => {
       status: "success",
       data: {
         purchase: newPurchase,
+        // purchaseId: purchase.purchaseId,
       },
     });
   } catch (error) {
