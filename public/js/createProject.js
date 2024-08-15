@@ -14,7 +14,7 @@ export const addProject = async (formData) => {
       }
     );
 
-    if (res.data.status === "success") {
+    if (res.data.status === "created") {
       showAlert("success", "Project created successfully!");
       window.setTimeout(() => {
         location.assign("/admin/myWork");

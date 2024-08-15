@@ -12,25 +12,32 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+exports.getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (popOptions) query = query.populate(popOptions);
+    if (populateOptions) {
+      if (typeof populateOptions === "string") {
+        query = query.populate(populateOptions);
+      } else {
+        populateOptions.forEach((option) => {
+          query = query.populate(option);
+        });
+      }
+    }
     const doc = await query;
 
     if (!doc) {
       return next(new AppError("No document found with that ID", 404));
     }
 
-    // await doc.incrementViews(); // Increment views
-
     res.status(200).json({
       status: "success",
-      data: { data: doc },
+      data: {
+        data: doc,
+      },
     });
   });
 
-// FIXME: TRY LOOKING IN THE REASON WHY THE ROLE FILTERING IS NOT WORKING AS INTENDED
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET review on tour

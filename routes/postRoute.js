@@ -1,7 +1,7 @@
 const express = require("express");
 const authController = require("./../controllers/authController");
 const postController = require("./../controllers/postController");
-const relatedPosts = require("../middlewares/relatedPosts");
+// const relatedPosts = require("../middlewares/relatedPosts");
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.post(
   postController.submitPost
 );
 
-router.route("/:id/related-posts").get(relatedPosts);
+// router.route("/:id/related-posts").get(relatedPosts);
 
 router
   .route("/recent-posts")
@@ -28,7 +28,11 @@ router
     postController.resizePostImages,
     postController.updatePostWithPhoto
   )
-  .get(postController.getPost)
+  .get(
+    postController.relatePosts,
+    postController.popularPosts,
+    postController.getPost
+  )
   .delete(authController.protect, postController.deletePost);
 
 module.exports = router;

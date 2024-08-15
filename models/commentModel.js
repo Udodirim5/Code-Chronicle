@@ -20,8 +20,8 @@ const commentSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: [true, "A comment is required"],
-      minlength: [10, "Comment must not be less than 10 characters"],
-      maxlength: [900, "Comment must not be more than 900 characters"],
+      minlength: [1, "Comment must not be less than 1 characters"],
+      maxlength: [1000, "Comment must not be more than 1000 characters"],
       trim: true,
     },
 

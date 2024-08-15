@@ -18,26 +18,37 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: [true, "Live URL is required"],
     trim: true,
-    validate: [isURL, "Invalid URL"],
+    validate: {
+      validator: isURL,
+      message: "Please provide a valid URL",
+    },
   },
   gitHubUrl: {
     type: String,
     required: [true, "GitHub URL is required"],
     trim: true,
-    validate: [isURL, "Invalid URL"],
+    validate: {
+      validator: isURL,
+      message: "Please provide a valid URL",
+    },
   },
-  technologies: [String],
+  technologies: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: (arr) => Array.isArray(arr) && arr.length > 0,
+      message: "At least one technology is required",
+    },
+  },
   desktopImg: {
     type: String,
-    required: [true, "Desktop view image is required"],
+    // required: [true, "Desktop image is required"],
     trim: true,
-    // validate: [isURL, "Invalid URL"],
   },
   mobileImg: {
     type: String,
-    required: [true, "Mobile view image is required"],
+    // required: [true, "Mobile image is required"],
     trim: true,
-    // validate: [isURL, "Invalid URL"],
   },
   createdAt: {
     type: Date,

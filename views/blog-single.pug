@@ -38,22 +38,40 @@ block content
 
       aside#related-posts
         h2 Related Posts
-        ul
-          li: a(href='#') Understanding Scope in JavaScript
-          li: a(href='#') An Introduction to JavaScript Promises
-          li: a(href='#') How to Use Async/Await in JavaScript
+        ul.related-posts
+          if relatedPosts && relatedPosts.length
+            each relatedPost in relatedPosts
+              li: a(href=`/blog/${relatedPost.slug}`)= relatedPost.title
+          else
+            li No related posts found.
 
-        section.my-4
-          h3 Popular Posts
-        section.my-4
-          h3 Categories
+        h2 Popular Posts
+        ul.popular-posts
+          if popularPosts && popularPosts.length
+            each popularPost in popularPosts
+              li: a(href=`/blog/${popularPost.slug}`)= popularPost.title
+          else
+            li No popular posts found.
+
+
+    section.recent-post-container
+      h2 Recently Added Posts
+      .recent-post
+        if recentPosts && recentPosts.length
+          each recentPost in recentPosts
+            .recent-post-inner
+              a(href=`/blog/${recentPost.slug}`)
+                img(src=`/img/blogs/${recentPost.photo}`, alt=recentPost.title)
+                h2.recent-post-title= recentPost.title
+        else
+          p No recent posts available.
 
     section#comments
       .container
       h2 Leave a Comment
         form#comment-form(data-post-id=`${post._id}`)
           label(for='commenter-name') Name:
-          input#commenter-name(type='text', name='name' required)
+          input#commenter-name(type='text' name='name' required)
           label(for='email') Your Email:
           input#email(type="email" name="email" required)
           label(for='comment') Comment:

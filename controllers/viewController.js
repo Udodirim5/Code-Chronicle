@@ -145,18 +145,42 @@ exports.userProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-  const post = await Post.findOne({ slug: req.params.slug }).populate("comments");
-  
+  // Fetch the post by slug, along with comments and category
+  const post = await Post.findOne({ slug: req.params.slug }).populate(
+    "comments category"
+  );
+
   if (!post) {
     return next(new AppError("There is no post with that name.", 404));
   }
+
+  // Fetch related posts with matching category, excluding the current post
+  const relatedPosts = await Post.find({
+    category: { $in: post.category },
+    _id: { $ne: post._id },
+  })
+    .limit(5)
+    .select("title slug");
+
+  // Fetch recent posts (limited to 3 and sorted by creation date)
+  const recentPosts = await Post.find()
+    .sort("-createdAt")
+    .limit(3)
+    .select("title slug photo createdAt");
 
   res.status(200).render("blog-single", {
     title: `${post.name} Post`,
     post,
     category: post.category,
     comments: post.comments, // Pass comments to the view
+    relatedPosts, // Pass related posts to the view
+    popularPosts: req.popularPosts, // Pass popular posts to the view
+    recentPosts, // Pass recent posts to the view
   });
+
+  // Log the values for debugging
+  console.log("relatedPosts", relatedPosts);
+  console.log(req.popularPosts);
 });
 
 exports.getLoginForm = (req, res) => {
@@ -177,11 +201,12 @@ exports.getSignUpForm = (req, res) => {
 };
 
 exports.admin = catchAsync(async (req, res) => {
+  const social = await Social.findOne(); // Assuming there's only one set of social links
   res.render("admin-profile", {
     title: "Admin Profile",
+    social, // Passing the single social object to the template
   });
 });
-
 exports.userDashboard = (req, res) => {
   res.render("admin-dashboard", {
     title: "Admin Dashboard",

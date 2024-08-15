@@ -18,7 +18,8 @@ block content
           label(for="forImg") 
           input#forImg(type="file" accept='image/*' name='photo')
         .post-group 
-          img#imgForImg(src=`/img/users/${user.photo}` alt=`A photo of ${user.title}`)
+          //- img#imgForImg(src=`/img/users/${user.photo}` alt=`A photo of ${user.title}`)
+          img#imgForImg(src=`/img/users/user-1.jpg` alt=`A photo of`)
         .post-group 
           button(type="submit") Update
 
@@ -27,35 +28,35 @@ block content
 
         .post-group
           label(for="twitter") Twitter
-          input#twitter(type="text", name='twitter', required value=social ? social.twitter : '')
+          input(type="text" id='twitter' name="twitter", value=social && social.twitter ? social.twitter : '', required)
 
         .post-group
           label(for="facebook") Facebook
-          input#facebook(type="text", name='facebook', required value=social ? social.facebook : '')
+          input(type="text" id='facebook' name="facebook", value=social && social.facebook ? social.facebook : '', required)
 
         .post-group
           label(for="linkedin") LinkedIn
-          input#linkedin(type="text", name='linkedin', required value=social ? social.linkedin : '')
+          input(type="text" id='linkedin' name="linkedin", value=social && social.linkedin ? social.linkedin : '', required)
 
         .post-group
           label(for="github") GitHub
-          input#github(type="text", name='github', required value=social ? social.github : '')
+          input(type="text" id='github' name="github", value=social && social.github ? social.github : '', required)
 
         .post-group
           label(for="youtube") YouTube
-          input#youtube(type="text", name='youtube', required value=social ? social.youtube : '')
+          input(type="text" id='youtube' name="youtube", value=social && social.youtube ? social.youtube : '', required)
 
         .post-group
           label(for="instagram") Instagram
-          input#instagram(type="text", name='instagram', required value=social ? social.instagram : '')
+          input(type="text" id='instagram' name="instagram", value=social && social.instagram ? social.instagram : '', required)
 
         .post-group
           label(for="telegram") Telegram
-          input#telegram(type="text", name='telegram', required value=social ? social.telegram : '')
+          input(type="text" id='telegram' name="telegram", value=social && social.telegram ? social.telegram : '', required)
 
         .post-group
           label(for="whatsapp") Whatsapp
-          input#whatsapp(type="text", name='whatsapp', required value=social ? social.whatsapp : '')
+          input(type="text" id='whatsapp' name="whatsapp", value=social && social.whatsapp ? social.whatsapp : '', required)
 
         .post-group
           button(type="submit") Update Socials

@@ -33,9 +33,12 @@ exports.uploadPostImages = upload.fields([
 exports.resizePostImages = catchAsync(async (req, res, next) => {
   if (!req.files.photo && !req.files.images) return next();
 
+    // Generate a random unique identifier
+    const randomId = `${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
+
   // Process cover image
   if (req.files.photo) {
-    req.body.photo = `post-${req.params.id}-${Date.now()}-cover.jpeg`;
+    req.body.photo = `post-${randomId}-cover.jpeg`;
     await sharp(req.files.photo[0].buffer)
       .resize(2000, 1333)
       .toFormat("jpeg")
@@ -66,14 +69,49 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
 });
 
 exports.recentPosts = (req, res, next) => {
-  req.query.limit = "6";
+  req.query.limit = "3";
   req.query.sort = "-createdAt";
   req.query.fields = "title,excerpt,createdAt";
   next();
 };
 
-exports.getPost = factory.getOne(Post, { path: "author" });
-exports.getAllPosts = factory.getAll(Post, { path: "author" });
+exports.relatePosts = catchAsync(async (req, res, next) => {
+  const currentPost = await Post.findById(req.params.id);
+  if (!currentPost) {
+    return next(new AppError("No post found with that ID", 404));
+  }
+
+  // Debug log to check current post's categories
+  console.log("Current Post Categories:", currentPost.category);
+
+  // Find posts with at least one matching tag/category, excluding the current post
+  const relatedPosts = await Post.find({
+    _id: { $ne: req.params.id },
+    category: { $in: currentPost.category }, // Assuming 'category' is an array field in your Post model
+  }).limit(5);
+
+  // Debug log to check related posts
+  console.log("Related Posts:", relatedPosts);
+
+  req.relatedPosts = relatedPosts;
+  next();
+});
+
+exports.popularPosts = catchAsync(async (req, res, next) => {
+  // Fetch the most popular posts, sorted by a specific metric (e.g., views)
+  const popularPosts = await Post.find()
+    .sort({ views: -1 })
+    .limit(5);
+
+  // Debug log to check popular posts
+  console.log("Popular Posts:", popularPosts);
+
+  req.popularPosts = popularPosts;
+  next();
+});
+
+exports.getPost = factory.getOne(Post, { path: "author category" });
+exports.getAllPosts = factory.getAll(Post, { path: "author category" });
 exports.deletePost = factory.deleteOne(Post);
 
 // Sanitize and validate post data for creating a new post
@@ -226,16 +264,6 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     },
   });
 });
-
-
-
-
-
-
-
-
-
-
 
 // // // Like a post
 // // // router.post('/posts/:id/like', authController.protect, async (req, res) => {

@@ -10,7 +10,7 @@ export const createItems = async (name, email, message, contactForm) => {
       message,
     });
 
-    if (res.data.status === "success") {
+    if (res.data.status === "created") {
       showAlert("success", "Message sent successfully!");
     }
   } catch (err) {
