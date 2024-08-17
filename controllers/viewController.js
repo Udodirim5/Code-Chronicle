@@ -12,6 +12,7 @@ const User = require("./../models/userModel");
 const Item = require("./../models/itemModel");
 const Flutterwave = require("flutterwave-node-v3");
 const Review = require("./../models/reviewModel");
+const Token = require("../models/tokenModel");
 
 const flw = new Flutterwave(
   process.env.FLUTTERWAVE_PUBLIC_KEY,
@@ -177,10 +178,6 @@ exports.getPost = catchAsync(async (req, res, next) => {
     popularPosts: req.popularPosts, // Pass popular posts to the view
     recentPosts, // Pass recent posts to the view
   });
-
-  // Log the values for debugging
-  console.log("relatedPosts", relatedPosts);
-  console.log(req.popularPosts);
 });
 
 exports.getLoginForm = (req, res) => {
@@ -282,34 +279,48 @@ exports.getMarketPlace = catchAsync(async (req, res, next) => {
 });
 
 exports.getItem = catchAsync(async (req, res, next) => {
-  // 1) Get the data, for the requested items (including reviews and guides)
+  // 1) Get the item data (including reviews)
   const item = await Item.findOne({ slug: req.params.slug }).populate({
     path: "reviews",
-    fields: "review rating user",
+    select: "review rating user",
   });
-  const user = await User.findOne();
 
+  // Check if Item
   if (!item) {
     return next(new AppError("There is no item with that name.", 404));
   }
 
-  // 2) Build template
-  // 3) Render template using data from 1)
+  const purchase = await Purchase.findOne({
+    item: item._id,
+    // Add conditions like buyerEmail if relevant
+  });
+
   res.status(200).render("market-single", {
     title: `${item.name} Item`,
+    purchase,
     item,
-    user,
   });
 });
 
 exports.paidGetItem = catchAsync(async (req, res, next) => {
-  const purchase = await Purchase.findOne({
-    purchaseId: req.params.purchaseId,
-  });
+  const { token } = req.params;
+
+  // Find the token in the database
+  const tokenDoc = await Token.findOne({ token, used: false });
+
+  if (!tokenDoc || tokenDoc.expiresAt < Date.now()) {
+    return next(new AppError("Invalid or expired token.", 400));
+  }
+
+  // Retrieve the associated purchase using the stored purchase ID
+  const purchase = await Purchase.findById(tokenDoc.purchase);
 
   if (!purchase) {
     return next(new AppError("No purchase found with that ID", 404));
   }
+
+  // Mark the token as used to prevent reuse
+  tokenDoc.used = true;
 
   // Check if a review already exists for this item and email
   const existingReview = await Review.findOne({
@@ -317,13 +328,69 @@ exports.paidGetItem = catchAsync(async (req, res, next) => {
     email: purchase.buyerEmail,
   });
 
+  // Render the page with purchase details and review status
   res.status(200).render("paid-get-item", {
     title: "Download Item",
     purchase,
-    // existingReview,
     reviewExists: !!existingReview, // Boolean to indicate if a review exists
   });
 });
+
+exports.paidRedirect = catchAsync(async (req, res, next) => {
+  const buyerEmail = req.session.buyerEmail;
+  const buyerName = req.session.buyerName;
+  const itemId = req.session.item;
+
+  // Ensure both buyerEmail and itemId are provided
+  // if (!buyerEmail || !itemId) {
+  //   return next(new AppError("Buyer email and item ID are required.", 400));
+  // }
+
+  // Fetch purchase details (uncomment and adjust if needed)
+  // const purchase = await Purchase.findOne({
+  //   buyerEmail: buyerEmail.toLowerCase(),
+  //   item: itemId,
+  // });
+
+  // If purchase not found
+  // if (!purchase) {
+  //   return next(new AppError("No purchase found with that ID", 404));
+  // }
+
+  // Render the view with the purchase and review details
+  res.status(200).render('pay-success', {
+    title: 'Redirecting',
+    // purchase,
+    item: itemId, // Pass the item ID to the view
+    buyerEmail,
+    buyerName
+  });
+});
+
+// exports.paidRedirect = catchAsync(async (req, res, next) => {
+//   const { purchaseId } = req.params;
+//   console.log(purchaseId);
+
+//   // Find the purchase by ID
+//   const purchase = await Purchase.findById(purchaseId);
+
+//   if (!purchase) {
+//     return next(new AppError("No purchase found with that ID", 404));
+//   }
+
+//   // Check if a review already exists for this item and email
+//   const existingReview = await Review.findOne({
+//     item: purchase.item._id,
+//     email: purchase.buyerEmail,
+//   });
+
+//   // Render the page with purchase details and review status
+//   res.status(200).render("pay-success", {
+//     title: "Redirecting",
+//     purchase,
+//     reviewExists: !!existingReview, // Boolean to indicate if a review exists
+//   });
+// });
 
 // exports.paidGetItem = catchAsync(async (req, res) => {
 //   // const purchase = await Purchase.findOne({ secret: req.params.secret });

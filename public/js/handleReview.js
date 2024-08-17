@@ -18,3 +18,40 @@ export const createReview = async (data, purchaseSecret) => {
   }
 };
 
+export const verifyEmailFn = async (email, itemId) => {
+  try {
+    const response = await axios.post(
+      `${getBaseUrl()}/api/v1/purchases/verify-email`,
+      {
+        email,
+        itemId,
+      }
+    );
+
+    if (response.data.status === "success") {
+      const token = response.data.data.token;
+      // Redirect user to the download page with the purchase token
+      window.location.href = `/payment-success/${token}`;
+    } else {
+      // Handle the case where no purchase was found
+      showAlert("error", "No purchase found with that email for this item.");
+    }
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 400) {
+        showAlert(
+          "error",
+          "The token is invalid or has expired. Please request a new one."
+        );
+      } else {
+        showAlert(
+          "error",
+          error.response.data.message || "Something went wrong."
+        );
+      }
+    } else {
+      showAlert("error", "An unexpected error occurred. Please try again.");
+    }
+    console.error("Error verifying email:", error);
+  }
+};

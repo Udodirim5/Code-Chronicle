@@ -4,6 +4,7 @@ const ItemController = require('../controllers/itemController');
 
 const router = express.Router();
 
+router.route('/item-stats').get(ItemController.getItemStats);
 
 router
   .route('/')

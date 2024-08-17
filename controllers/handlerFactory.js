@@ -38,22 +38,35 @@ exports.getOne = (Model, populateOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET review on tour
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
     // EXECUTE QUERY
-    const features = new APIFeatures(Model.find(), req.query)
+    const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
-    const doc = await features.query;
-    // const doc = await features.query.explain();
 
-    // SENT RESPONSE
+    // Apply populate options if provided
+    if (populateOptions) {
+      if (Array.isArray(populateOptions)) {
+        // If it's an array, use forEach to apply each populate option
+        populateOptions.forEach((option) => {
+          features.query = features.query.populate(option);
+        });
+      } else {
+        // If it's a single object or string, apply populate directly
+        features.query = features.query.populate(populateOptions);
+      }
+    }
+
+    const doc = await features.query;
+
+    // SEND RESPONSE
     res.status(200).json({
       requestedAt: req.requestTime,
       status: "success",
@@ -91,6 +104,22 @@ exports.deleteOne = (Model) =>
       status: "success",
       data: null,
     });
+  });
+
+exports.viewsCounter = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    if (!doc) {
+      return next(new AppError("No document found with that ID", 404));
+    }
+
+    // Proceed to the next middleware or controller
+    next();
   });
 
 // exports.getAllPages = (Model, viewName) =>

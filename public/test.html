@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Chosen Alex</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Add Bootstrap Icons for social media links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #09122e;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .main-hero {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .main-hero .images {
+      position: relative;
+    }
+
+    .main-hero .blue-bg-outer {
+      width: 400px;
+      height: 400px;
+      background-color: #001f54;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-hero .white-bg {
+      width: 90%;
+      height: 90%;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-hero .blue-bg {
+      width: 90%;
+      height: 90%;
+      background-color: #001f54;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-hero .blue-bg img {
+      width:90%;
+      border-radius: 50%;
+    }
+
+    .main-hero .information {
+      text-align: right;
+    }
+
+    .main-hero .information h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .main-hero .animated_text .title {
+      font-size: 28px;
+      color: #0ea5e9;
+      margin-bottom: 20px;
+    }
+
+    .main-hero .information p {
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .main-hero .social {
+      text-align: right;
+    }
+
+    .main-hero .social a {
+      margin-right: 15px;
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .main-hero .social a:hover {
+      color: #0ea5e9;
+    }
+
+    .main-hero .cv-btn {
+      background-color: #0ea5e9;
+      padding: 10px 20px;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    .main-hero .cv-btn:hover {
+      background-color: #0077b6;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="main-hero">
+    <div class="images">
+      <div class="blue-bg-outer">
+        <div class="white-bg">
+          <div class="blue-bg">
+            <img src="./img//users/user-1.jpg" alt="profile image">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="information">
+      <h1>Hi, I'm Chosen Alex</h1>
+      <div class="animated_text">
+        <h1 class="title">Front-end Developer</h1>
+      </div>
+      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      <div class="social">
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-twitter"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <button class="cv-btn">Download CV</button>
+    </div>
+  </section>
+  <script src="js/index.js"></script>
+</body>
+
+</html>

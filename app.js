@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require('express-session');
 const path = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -30,6 +31,7 @@ const commentRoutes = require("./routes/commentRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const purchaseRoute = require("./routes/purchaseRoute");
 require("./utils/cronJobs");
+require('./utils/tokenCleanup');
 
 const app = express();
 app.set("view engine", "pug");
@@ -66,6 +68,14 @@ app.use(
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// Configure session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set `secure: true` if using HTTPS
+}));
 
 // Compress response bodies
 // app.use(compression());

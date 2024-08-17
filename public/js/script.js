@@ -159,26 +159,36 @@ const initializePasswordToggle = function(
   }
 };
 
-// Show Password
-initializePasswordToggle("#passwordCurrent", "#showPasswordCurrent");
-initializePasswordToggle("#passwordNew", "#showPassword");
-initializePasswordToggle("#passwordConfirm", "#showPasswordConfirm");
-
+// Forgot Password
+const userPasswordForm = document.querySelector(".form-user-password");
+if (userPasswordForm) {
+  initializePasswordToggle("#passwordCurrent", "#showPasswordCurrent");
+  initializePasswordToggle("#password", "#showPassword");
+  initializePasswordToggle("#passwordConfirm", "#showPasswordConfirm");
+}
 // Log In
-initializePasswordToggle("#password", "#showPassword");
+const loginForm = document.querySelector("#form--login");
+if (loginForm) {
+  initializePasswordToggle("#password", "#showPassword");
+}
 
 // Sign Up
-initializePasswordToggle("#sg-password", "#showPassword");
-initializePasswordToggle("#sg-passwordConfirm", "#showPasswordConfirm");
+const signupForm = document.querySelector("#signUpForm");
+if (signupForm) {
+  initializePasswordToggle("#sg-password", "#showPassword");
+  initializePasswordToggle("#sg-passwordConfirm", "#showPasswordConfirm");
+}
 
-// Show Image
-// initializeImagePreview("#proPNGimg", "#new-project-img");
-// initializeImagePreview("#imgForImg", "#forImg");
+const profileForm = document.querySelector(".form-user-data");
+if (profileForm) {
+  initializeImagePreview("#imgForImg", "#forImg");
+}
 
 const createPostForm = document.querySelector("#createPost");
 if (createPostForm) {
   initializeImagePreview("#iPNGimg", "#new-post-img");
 }
+
 const createProjectForm = document.querySelector("#createProject");
 if (createProjectForm) {
   initializeImagePreview("#desktop-img-view", "#desktop-img");
@@ -200,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function() {
       const comment = commentInput.value;
 
       if (name && comment) {
-        // addComment(name, comment);
         clearForm();
       }
     });
@@ -310,58 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// document.addEventListener("DOMContentLoaded", function() {
-//   const searchInput = document.getElementById("search-input");
-//   const searchResults = document.querySelector(".search-results");
-//   const searchResultUl = document.querySelector(".search-results ul");
-
-//   if (searchInput && searchResults) {
-//     searchInput.addEventListener("input", function(e) {
-//       const query = searchInput.value.trim();
-
-//       if (query) {
-//         fetch(`http://localhost:3000/api/v1/search?q=${query}`)
-//           .then((response) => response.json())
-//           .then((posts) => {
-//             searchResultUl.innerHTML = ""; // Clear previous results
-
-//             if (posts.length > 0) {
-//               posts.forEach((post, index) => {
-//                 const listItem = document.createElement("li");
-//                 listItem.classList.add("search-result-item");
-//                 listItem.setAttribute("data-index", index);
-//                 listItem.innerText = post.title;
-//                 searchResultUl.appendChild(listItem);
-//               });
-//             } else {
-//               searchResultUl.innerHTML = "<li>No results found</li>";
-//             }
-//           })
-//           .catch((error) => {
-//             console.error("Error fetching search results:", error);
-//             searchResultUl.innerHTML = "<li>Error fetching results</li>";
-//           });
-
-//         // Show the results
-//         searchResults.style.visibility = "visible";
-//         searchResults.style.zIndex = "1";
-//         searchResults.style.top = "50px";
-//       } else {
-//         searchResults.style.visibility = "hidden";
-//         searchResults.style.zIndex = "-1";
-//         searchResults.style.top = "-500px";
-//       }
-//     });
-
-//     searchInput.addEventListener("blur", function() {
-//       setTimeout(() => {
-//         searchResults.style.visibility = "hidden";
-//         searchResults.style.zIndex = "-1";
-//         searchResults.style.top = "-500px";
-//       }, 200); // Adding a delay to allow clicking on search results
-//     });
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function() {
   const searchInput = document.getElementById("search-input");
   const searchResults = document.querySelector(".search-results");

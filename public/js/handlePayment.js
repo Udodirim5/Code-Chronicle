@@ -1,25 +1,35 @@
 /* eslint-disable */
 import axios from "axios";
 import { showAlert } from "./alert";
+import { getBaseUrl } from "./baseUrl";
 
-export const handlePaymentCallback = async (data, itemId, name, email, amount, getBaseUrl) => {
+export const handlePaymentCallback = async (
+  data,
+  itemId,
+  name,
+  email,
+  amount
+) => {
   const reference = data.tx_ref;
 
   try {
-    const response = await axios.post(`${getBaseUrl}/api/v1/purchases/create-purchase`, {
-      item: itemId,
-      buyerName: name,
-      buyerEmail: email,
-      price: amount,
-      paid: true,
-    });
+    const response = await axios.post(
+      `${getBaseUrl()}/api/v1/purchases/create-purchase`,
+      {
+        item: itemId,
+        buyerName: name,
+        buyerEmail: email,
+        price: amount,
+        paid: true,
+      }
+    );
 
     const result = response.data;
     if (result.status === "success") {
-      const purchaseId = result.data.purchaseId; 
+      const purchaseId = response.data.data.purchaseId;
+      console.log(purchaseId);
       showAlert("success", "Payment complete! Reference: " + reference);
-      window.location.href = `${getBaseUrl}/payment-success?tx_ref=${reference}`;
-      // window.location.href = `${getBaseUrl}/payment-success?purchase_id=${purchaseId}`;
+      window.location.href = `/redirect/`;
     } else {
       showAlert("error", "Error processing payment. Please try again.");
     }

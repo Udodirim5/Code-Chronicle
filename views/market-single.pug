@@ -62,18 +62,13 @@ block content
                 button#pay-it(type="submit" class="pay")= `Pay $${item.price}`
 
           .verify-to-download-form 
-            form.access-download 
+            form.access-download(data-purchased-item-id=item._id)
               button(type="button" id="otp-close") x
-              .title OTP 
-              .title Verification Code
-              .message We have sent a verification code to your mobile number
+              .title Email 
+              .title Verification
+              .message Please enter the email you used when making the purchase
               .inputs 
-                input(id="otp-input1" type="text" maxlength="1" autofocus) 
-                input(id="otp-input2" type="text" maxlength="1") 
-                input(id="otp-input3" type="text" maxlength="1") 
-                input(id="otp-input4" type="text" maxlength="1") 
-                input(id="otp-input5" type="text" maxlength="1") 
-                input(id="otp-input6" type="text" maxlength="1") 
+                input(id="verify-email" type="email" autofocus) 
               button(type="submit" class="action") Verify me
 
           if item.reviews.length > 0

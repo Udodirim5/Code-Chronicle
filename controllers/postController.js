@@ -33,8 +33,8 @@ exports.uploadPostImages = upload.fields([
 exports.resizePostImages = catchAsync(async (req, res, next) => {
   if (!req.files.photo && !req.files.images) return next();
 
-    // Generate a random unique identifier
-    const randomId = `${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
+  // Generate a random unique identifier
+  const randomId = `${Date.now()}-${Math.floor(Math.random() * 1e9)}`;
 
   // Process cover image
   if (req.files.photo) {
@@ -81,17 +81,11 @@ exports.relatePosts = catchAsync(async (req, res, next) => {
     return next(new AppError("No post found with that ID", 404));
   }
 
-  // Debug log to check current post's categories
-  console.log("Current Post Categories:", currentPost.category);
-
   // Find posts with at least one matching tag/category, excluding the current post
   const relatedPosts = await Post.find({
     _id: { $ne: req.params.id },
     category: { $in: currentPost.category }, // Assuming 'category' is an array field in your Post model
   }).limit(5);
-
-  // Debug log to check related posts
-  console.log("Related Posts:", relatedPosts);
 
   req.relatedPosts = relatedPosts;
   next();
@@ -103,16 +97,14 @@ exports.popularPosts = catchAsync(async (req, res, next) => {
     .sort({ views: -1 })
     .limit(5);
 
-  // Debug log to check popular posts
-  console.log("Popular Posts:", popularPosts);
-
   req.popularPosts = popularPosts;
   next();
 });
 
-exports.getPost = factory.getOne(Post, { path: "author category" });
-exports.getAllPosts = factory.getAll(Post, { path: "author category" });
+exports.getPost = factory.getOne(Post, { path: "author" });
+exports.getAllPosts = factory.getAll(Post, { path: "author" });
 exports.deletePost = factory.deleteOne(Post);
+exports.incPost = factory.viewsCounter(Post);
 
 // Sanitize and validate post data for creating a new post
 exports.submitPost = catchAsync(async (req, res, next) => {

@@ -31,6 +31,7 @@ router
   .get(
     postController.relatePosts,
     postController.popularPosts,
+    postController.incPost,
     postController.getPost
   )
   .delete(authController.protect, postController.deletePost);

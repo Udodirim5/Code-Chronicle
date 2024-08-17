@@ -496,6 +496,7 @@ body {
 
 .hero .section-subtitle {
   letter-spacing: 5px;
+  font-size: 3rem;
 }
 
 .hero-title {
@@ -1893,23 +1894,25 @@ button.buy:hover {
 }
 
 .access-download .inputs {
-  margin-top: 10px;
+  width: 100%;
   display: flex;
-}
+  justify-content: center;
 
+}
 .access-download .inputs input {
-  width: 32px;
-  height: 32px;
-  text-align: center;
+  /* width: 100%; */
   border: none;
-  border-bottom: 1.5px solid #d2d2d2;
+  border: 1.5px solid #d2d2d2;
   color: var(--text-white);
-  margin: 0 10px;
+  margin: 10px;
+  padding: 10px;
+  background: var(--gradient-2);
+  border: 3px solid var(--bg-oxford-blue-alpha-90);
 }
 
 .access-download .inputs input:focus {
-  border-bottom: 1.5px solid royalblue;
-  outline: none;
+  border: 3px solid var(--bg-oxford-blue-alpha-90);
+  background: var(--bg-oxford-blue-beta-80);
 }
 
 .access-download .action {
@@ -2022,8 +2025,10 @@ button.buy:hover {
 
 /* Description text */
 .review .description {
+  padding: 10px;
   font-size: 1.25rem;
   line-height: 1.5;
+  word-break: break-all;
   margin-top: 1rem;
 }
 
@@ -2047,6 +2052,20 @@ button.buy:hover {
 
 
 
+.redirect-container button {
+  margin: 20px auto;
+  background-color: var(--bg-purple);
+  color: var(--text-white);
+  border: 2px solid var(--bg-purple);
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.redirect-container button:hover {
+  background-color: var(--bg-purple-dark);
+}
 
 
 
@@ -3615,7 +3634,7 @@ header h2 {
 
 .menu-opt .item-content img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 9;
 }
 
 .menu-opt .menu-body-item-content {
