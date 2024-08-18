@@ -5,32 +5,33 @@ include _pagination.pug
 block content
   main
     article
-      //- PROJECT
       section.section.project(aria-label="our latest posts" id="news")
         .container
-          .up-head
-            h1 WORKS
-            h2 A Selection Of Stuff I've Built
-          if projects && projects.length
-            each project in projects
-              section.project-card(data-reveal="bottom")
-                .project-info-outer
-                  .project-info
-                    h3.project-title= project.title
-                    p.project-description= project.description
-                    .tech-icons.project-technologies
-                      each technology in project.technologies
-                        img(src=`/img/svg/${technology}.svg`)
+          .project-inner
+            .up-head
+              h1 WORKS
+              h2 A Selection Of Stuff I've Built
+            if projects && projects.length
+              each project in projects
+                .project-card(data-reveal="bottom")
+                  .project-info-outer
+                    .project-info
+                      h3.project-title= project.title
+                      p.project-description= project.description
+                      .tech-icons.project-technologies
+                        each technology in project.technologies
+                          img(src=`/img/svg/${technology}.svg`)
 
-                    .project-links
-                      a.view-project(href=`${project.liveUrl}` target='blank') View It Here
-                      a.view-repo(href=`${project.gitHubUrl}` target='blank') View GitHub Repo
-                .project-image
-                  .desktop-look
-                    img(src=`/img/projects/${project.desktopImg}` alt=`The desktop illustration of ${project.title}`)
-                  .posit
-                    .mobile-look
-                      img(src=`/img/projects/${project.mobileImg}` alt=`The mobile illustration of ${project.title}`)
-            +paginate('/projects', page, pages)
-          else 
-            .empty-message No project found.
+                      .project-links
+                        a.view-project(href=`${project.liveUrl}` target='blank') View It Here
+                        a.view-repo(href=`${project.gitHubUrl}` target='blank') GitHub Repo
+                  .project-image
+                    .desktop-look
+                      img(src=`/img/projects/${project.desktopImg}` alt=`The desktop illustration of ${project.title}`)
+                    .posit
+                      .mobile-look
+                        img(src=`/img/projects/${project.mobileImg}` alt=`The mobile illustration of ${project.title}`)
+              +paginate('projects', page, pages)
+
+            else 
+              .empty-message No project found.

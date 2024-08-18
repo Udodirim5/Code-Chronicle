@@ -1813,7 +1813,7 @@ button.buy:hover {
   padding: 50px 30px;
   border-radius: 5px;
   background: var(--bg-oxford-blue-alpha-95);
-  box-shadow: 2px 2px 19px;
+  border: 2px solid var(--bg-purple);
 }
 
 .purchase-form-container .purchase-form .close-container {
@@ -1868,6 +1868,7 @@ button.buy:hover {
   background: var(--bg-oxford-blue-alpha-90);
   border-radius: 12px;
   padding: 20px;
+  border: 2px solid var(--bg-purple);
 }
 
 .access-download #otp-close {
@@ -1899,6 +1900,7 @@ button.buy:hover {
   justify-content: center;
 
 }
+
 .access-download .inputs input {
   /* width: 100%; */
   border: none;
@@ -1988,6 +1990,7 @@ button.buy:hover {
 
 .review .title {
   font-size: 1.5rem;
+  margin-top: -4px;
 }
 
 .review .username {
@@ -2682,6 +2685,7 @@ button.buy:hover {
 #admin-body .post-group fieldset {
   margin-bottom: 20px;
 }
+
 #admin-body .post-group .elements {
   display: grid;
   padding: 20px;
@@ -3218,7 +3222,8 @@ button.buy:hover {
 .up-head {
   display: grid;
   place-items: center;
-  height: 70vh;
+  margin-bottom: 40px;
+  background: var(--gradient-2);
 }
 
 .up-head h1 {
@@ -3256,6 +3261,10 @@ header h2 {
   margin-top: 50px;
 }
 
+.project-inner {
+  /* width: 100dvw; */
+}
+
 .project-info-outer {
   display: grid;
   place-items: center;
@@ -3287,6 +3296,7 @@ header h2 {
 .tech-icons {
   margin: 20px 0;
   display: flex;
+  flex-wrap: wrap;
   text-align: left;
   align-items: center;
   max-width: 500px;
@@ -3937,6 +3947,14 @@ header h2 {
   /*-----------------------------------*\
   #PROJECTS
 \*-----------------------------------*/
+  .review .card {
+    flex: 0 0 100%;
+    max-width: 28rem;
+  }
+
+  .review .username {
+    margin-top: 0;
+  }
 
   .up-head {
     display: flex;
@@ -3947,7 +3965,7 @@ header h2 {
   }
 
   .up-head h1 {
-    font-size: 7rem;
+    font-size: 3rem;
   }
 
   .up-head h2 {
@@ -4407,6 +4425,73 @@ header h2 {
   #admin-body .post-group button:hover {
     transform: scale(1.2);
   }
+
+  .app-container {
+    grid-template-columns: 1fr;
+  }
+
+  .course-container {
+    width: 100dvw;
+    padding: 5px;
+  }
+
+  .course-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5em;
+  }
+
+  .course-header p {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+  }
+
+  .app-container .course-overview {
+    margin: auto;
+  }
+
+  .access-download,
+  .purchase-form-container .purchase-form {
+    width: 300px;
+  }
+
+  .up-head {
+    height: 200px;
+  }
+
+  .up-head h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5em;
+  }
+
+  .project-inner {
+    max-width: 340px;
+  }
+
+  .project-image {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+
+  /* Desktop/TV look */
+  .desktop-look {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .posit {
+    bottom: -30px;
+  }
+
+  /*-----------------------------------*\
+  #Pagination
+\*-----------------------------------*/
+.paginator {
+  justify-content: center;
+  margin-top: 50px;
+}
+
 
 
 

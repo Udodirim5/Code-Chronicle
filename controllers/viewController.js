@@ -281,8 +281,7 @@ exports.getMarketPlace = catchAsync(async (req, res, next) => {
 exports.getItem = catchAsync(async (req, res, next) => {
   // 1) Get the item data (including reviews)
   const item = await Item.findOne({ slug: req.params.slug }).populate({
-    path: "reviews",
-    select: "review rating user",
+    path: "reviews"
   });
 
   // Check if Item

@@ -14,7 +14,8 @@ export const handlePaymentCallback = async (
 
   try {
     const response = await axios.post(
-      `${getBaseUrl()}/api/v1/purchases/create-purchase`,
+      // `${getBaseUrl()}/api/v1/purchases/create-purchase`,
+      `${getBaseUrl()}/api/v1/purchases/webhook`,
       {
         item: itemId,
         buyerName: name,

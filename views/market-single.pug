@@ -1,18 +1,21 @@
-extends clients-base
+extends clients-base 
 
-mixin reviewCard(review)
-  .card
-    .review-header
-      .user-info
+mixin reviewCard(review) 
+  .card 
+    .review-header 
+      .user-info 
         p.username= review.name
         - const releasedAt = new Date(review.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
         p.date= `${releasedAt}`
-    .title-rating
-      h3.title= review.title
-      .rating
-        each star in [1, 2, 3, 4, 5]
+    .title-rating 
+      if review.title
+        h3.title= review.title 
+      .rating 
+        each star in [1, 2, 3, 4, 5] 
           i.fa.fa-star.star(class= review.rating >= star ? 'filled' : '')
-    .description= review.review
+    if review.review
+      .description= review.review
+
 
 block content
   main
