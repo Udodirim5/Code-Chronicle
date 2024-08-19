@@ -61,19 +61,17 @@ exports.createPurchase = catchAsync(async (req, res, next) => {
 
 exports.webhookCheckout = (req, res, next) => {
   console.log("Webhook received");
-
+  
   // Log all headers for debugging
-  console.log("Headers:", req.headers);
+  // console.log("Headers:", req.headers);
 
-  // Access the correct header for the secret hash sent by Flutterwave
+  // Access the correct header
   const signature = req.headers["verif-hash"] || req.headers["Verif-Hash"];
-  console.log("Signature:", signature);
+  // console.log("Signature:", signature);
 
   let eventData;
   try {
     eventData = req.body;
-
-    // Check if the signature matches the secret hash set in your environment variables
     if (!signature || signature !== process.env.FLUTTERWAVE_SECRET_HASH) {
       throw new Error("Invalid signature");
     }
@@ -82,22 +80,18 @@ exports.webhookCheckout = (req, res, next) => {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
-  // Handle the event if it's a completed charge
   if (eventData.event === "charge.completed") {
     createPurchaseCheckout(eventData.data);
   }
 
-  // Send a successful response back to Flutterwave
   res.status(200).json({ received: true });
 };
 
-// Function to handle creating the purchase record
 const createPurchaseCheckout = catchAsync(async (eventData) => {
   const item = eventData.tx_ref;
   const buyerName = eventData.customer.name;
   const buyerEmail = eventData.customer.email;
   const price = eventData.amount;
-
   await Purchase.create({
     item,
     buyerName,
@@ -106,49 +100,6 @@ const createPurchaseCheckout = catchAsync(async (eventData) => {
     paid: true,
   });
 });
-
-
-// exports.webhookCheckout = (req, res, next) => {
-//   console.log("Webhook received");
-  
-//   // Log all headers for debugging
-//   console.log("Headers:", req.headers);
-
-//   // Access the correct header
-//   const signature = req.headers["verif-hash"] || req.headers["Verif-Hash"];
-//   console.log("Signature:", signature);
-
-//   let eventData;
-//   try {
-//     eventData = req.body;
-//     if (!signature || signature !== process.env.FLUTTERWAVE_ENCRYPTION_KEY) {
-//       throw new Error("Invalid signature");
-//     }
-//   } catch (err) {
-//     console.error("Webhook error:", err);
-//     return res.status(400).send(`Webhook error: ${err.message}`);
-//   }
-
-//   if (eventData.event === "charge.completed") {
-//     createPurchaseCheckout(eventData.data);
-//   }
-
-//   res.status(200).json({ received: true });
-// };
-
-// const createPurchaseCheckout = catchAsync(async (eventData) => {
-//   const item = eventData.tx_ref;
-//   const buyerName = eventData.customer.name;
-//   const buyerEmail = eventData.customer.email;
-//   const price = eventData.amount;
-//   await Purchase.create({
-//     item,
-//     buyerName,
-//     buyerEmail,
-//     price,
-//     paid: true,
-//   });
-// });
 
 // Controller for verifying email and generating token
 exports.verifyEmail = catchAsync(async (req, res, next) => {

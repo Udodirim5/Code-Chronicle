@@ -7,24 +7,25 @@ footer.footer
         p.footer-text
           | Our success in creating business solutions is due in large part to our talented and highly committed team.
         ul.social-list
+          //- if socialLinks
+            if socialLinks.twitter
+              a(href=`https://twitter.com/${socialLinks.twitter}` target="_blank")
           li
             a.social-link(href="#" target="_blank")
-              ion-icon(name="logo-facebook")
+              i.fa.fa-facebook
           li
             a.social-link(href="#" target="_blank")
-              ion-icon(name="logo-twitter")
+              i.fa.fa-twitter
           li
             a.social-link(href="#" target="_blank")
-              ion-icon(name="logo-instagram")
+              i.fa.fa-instagram
           li
             a.social-link(href="#" target="_blank")
-              ion-icon(name="logo-youtube")
+              i.fa.fa-youtube
 
       .footer-list
         p.title.footer-list-title.has-after Useful Links
         ul
-          li
-            a.footer-link(href="#") Tournaments
           li
             a.footer-link(href="#") Help Center
           li
@@ -55,7 +56,7 @@ footer.footer
   .footer-bottom
     .container
       - const currentYear = new Date().getFullYear();
-      p.copyright &copy; #{currentYear} All Rights Reserved.
+      p.copyright Dev Memoirs &copy; #{currentYear} All Rights Reserved.
 
   //- GO TO User
   .admin-end

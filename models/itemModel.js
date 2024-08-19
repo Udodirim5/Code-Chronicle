@@ -87,6 +87,18 @@ itemSchema.pre(/^find/, function(next) {
   next();
 });
 
+// Pre hook: runs before a document is removed
+itemSchema.pre('remove', async function (next) {
+  try {
+    // Remove all Reviews where the postId matches this post's ID
+    await Review.deleteMany({ itemId: this._id });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 itemSchema.pre("save", async function(next) {
   // If the itemName is not modified, proceed to the next middleware
   if (!this.isModified("name")) return next();

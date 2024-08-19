@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .querySelector("span").innerText = allTimeCount;
 
   // FIXME: editPost Not working
-  // if (editPost) {
+  if (editPost) {
     editPost.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -227,18 +227,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const category = document.getElementById("categories").value;
       const newPostImg = document.getElementById("new-post-img").files[0];
 
-      updatePost(
-        title,
-        content,
-        excerpt,
-        tags,
-        category,
-        newPostImg,
-        postId
-      );
-
+      updatePost(title, content, excerpt, tags, category, newPostImg, postId);
     });
-  // }
+  }
 
   // FIXME: createProjectForm Not working
   if (createProjectForm) {
@@ -250,10 +241,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const description = document.querySelector("#description").value;
       const liveUrl = document.querySelector("#live-url").value;
       const githubUrl = document.querySelector("#github-url").value;
-      const technologies = Array.from(
-        document.querySelectorAll('input[name="technologies"]:checked')
-      ).map((el) => el.value);
-
+      const technologies = document
+        .getElementById("technologies")
+        .value.split(",");
       const desktopImg = document.querySelector("#desktop-img").files[0];
       const mobileImg = document.querySelector("#mobile-img").files[0];
 
@@ -263,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       formData.append("description", description);
       formData.append("liveUrl", liveUrl);
       formData.append("githubUrl", githubUrl);
-      formData.append("technologies", JSON.stringify(technologies)); // Correctly format technologies
+      formData.append("technologies", technologies);
       formData.append("desktopImg", desktopImg);
       formData.append("mobileImg", mobileImg);
 
@@ -292,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function() {
           tx_ref: "AK_" + Math.floor(Math.random() * 1000000000 + 1),
           amount: price,
           currency: "USD",
-          payment_options: "card",
+          payment_options: "card, mobilemoney, ussd ",
           customer: {
             email: email,
             name: name,
@@ -301,111 +291,118 @@ document.addEventListener("DOMContentLoaded", function() {
             handlePaymentCallback(data, itemId, name, email, price),
           customizations: {
             title: "Dev Memoirs",
-            description: "FlutterWave Integration in Javascript.",
-            // logo: "flutterwave/usecover.gif",
+            description: "Buy a project from Dev Memoirs",
+            // logo: "https://devmemoirs.com/logo.png",
+            logo: "/img/logo.jpg",
           },
         });
       } catch (error) {
+        showAlert(
+          "error",
+          "There was an error initiating the payment, Please try again later"
+        );
         console.error("Error initiating payment:", error);
       }
     });
   }
-});
 
-const submitReviews = document.querySelector("#submit-review");
-if (submitReviews) {
-  submitReviews.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const submitReviews = document.querySelector("#submit-review");
+  if (submitReviews) {
+    submitReviews.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const form = e.target;
-    const itemId = form.getAttribute("data-item-id");
-    const rating = form.querySelector('input[name="rating"]:checked').value;
-    const reviewTitle = form.querySelector("#review-title").value;
-    const reviewContent = form.querySelector("textarea").value;
-    const purchaseSecret = form.getAttribute("data-purchase-secret");
+      const form = e.target;
+      const itemId = form.getAttribute("data-item-id");
+      const rating = form.querySelector('input[name="rating"]:checked').value;
+      const reviewTitle = form.querySelector("#review-title").value;
+      const reviewContent = form.querySelector("textarea").value;
+      const purchaseSecret = form.getAttribute("data-purchase-secret");
 
-    const data = {
-      title: reviewTitle,
-      review: reviewContent,
-      rating,
-      item: itemId,
-    };
+      const data = {
+        title: reviewTitle,
+        review: reviewContent,
+        rating,
+        item: itemId,
+      };
 
-    try {
-      await createReview(data, purchaseSecret);
-    } catch (error) {
-      showAlert("error", "There was an error submitting your review.");
-    }
-  });
-}
+      try {
+        await createReview(data, purchaseSecret);
+      } catch (error) {
+        showAlert("error", "There was an error submitting your review.");
+      }
+    });
+  }
 
-const verifyToDownloadItem = document.querySelector(".verify-to-download-form");
+  const verifyToDownloadItem = document.querySelector(
+    ".verify-to-download-form"
+  );
 
-if (verifyToDownloadItem) {
-  const verifyButton = document.querySelector(".access-download");
-  const verifyBtn = document.querySelector(".access-download button.action");
+  if (verifyToDownloadItem) {
+    const verifyButton = document.querySelector(".access-download");
+    const verifyBtn = document.querySelector(".access-download button.action");
 
-  verifyButton.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    verifyButton.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const form = e.target;
-    const email = document.querySelector("#verify-email").value;
-    const itemId = form.getAttribute("data-purchased-item-id");
+      const form = e.target;
+      const email = document.querySelector("#verify-email").value;
+      const itemId = form.getAttribute("data-purchased-item-id");
 
-    // Ensure email and itemId are provided
-    if (!email || !itemId) {
-      showAlert("error", "Please provide your email.");
-      return;
-    }
+      // Ensure email and itemId are provided
+      if (!email || !itemId) {
+        showAlert("error", "Please provide your email.");
+        return;
+      }
 
-    verifyBtn.innerHTML = "Processing!...";
-    verifyBtn.disabled = true;
-    // Call the verification function
-    await verifyEmailFn(email, itemId);
-    setTimeout(() => {
-      verifyBtn.innerHTML = "Verify Me";
-      verifyBtn.disabled = false;
-      verifyButton.reset();
-    }, 5000);
-  });
-}
-
-const redirectForm = document.querySelector(".redirect-form");
-
-if (redirectForm) {
-  // Automatically submit form after 5 seconds (if required)
-  setTimeout(() => {
-    redirectForm.submit();
-  }, 5000);
-
-  const redirectBtn = document.querySelector(".redirect-btn");
-  redirectForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const email = document.querySelector("#redirect-email").value.trim();
-    const itemId = form.getAttribute("data-purchased-item-id");
-
-    // Ensure email and itemId are provided
-    if (!email || !itemId) {
-      showAlert("error", "Please provide your email.");
-      return;
-    }
-
-    redirectBtn.innerHTML = "Processing!...";
-    redirectBtn.disabled = true;
-
-    try {
+      verifyBtn.innerHTML = "Processing!...";
+      verifyBtn.disabled = true;
       // Call the verification function
       await verifyEmailFn(email, itemId);
-    } catch (error) {
-      showAlert("error", "Verification failed. Please try again.");
-    } finally {
-      // Reset the button after 5 seconds or based on the verification process
       setTimeout(() => {
-        redirectBtn.innerHTML = "Click Here";
-        redirectBtn.disabled = false;
+        verifyBtn.innerHTML = "Verify Me";
+        verifyBtn.disabled = false;
+        verifyButton.reset();
       }, 5000);
-    }
-  });
-}
+    });
+  }
+
+  const redirectForm = document.querySelector(".redirect-form");
+
+  if (redirectForm) {
+    // Automatically submit form after 5 seconds (if required)
+    setTimeout(() => {
+      redirectForm.submit();
+    }, 5000);
+
+    const redirectBtn = document.querySelector(".redirect-btn");
+    redirectForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const email = document.querySelector("#redirect-email").value.trim();
+      const itemId = form.getAttribute("data-purchased-item-id");
+
+      // Ensure email and itemId are provided
+      if (!email || !itemId) {
+        showAlert("error", "Please provide your email.");
+        return;
+      }
+
+      redirectBtn.innerHTML = "Processing!...";
+      redirectBtn.disabled = true;
+
+      try {
+        // Call the verification function
+        await verifyEmailFn(email, itemId);
+      } catch (error) {
+        showAlert("error", "Verification failed. Please try again.");
+      } finally {
+        // Reset the button after 5 seconds or based on the verification process
+        setTimeout(() => {
+          redirectBtn.innerHTML = "Click Here";
+          redirectBtn.disabled = false;
+        }, 5000);
+      }
+    });
+  }
+});

@@ -177,21 +177,10 @@ exports.submitPost = catchAsync(async (req, res, next) => {
 
 // Update post with photo upload handling
 exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
+  // Sanitize content
   const sanitizedContent = sanitizeHtml(req.body.content, {
     allowedTags: [
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "p",
-      "ul",
-      "li",
-      "img",
-      "a",
-      "pre",
-      "code",
+      "h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "li", "img", "a", "pre", "code",
     ],
     allowedAttributes: {
       a: ["href", "name", "target"],
@@ -201,6 +190,7 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
 
   const { title, excerpt, tags, category, published } = req.body;
 
+  // Validate ObjectId for category
   if (!mongoose.Types.ObjectId.isValid(category)) {
     return res.status(400).json({
       status: "fail",
@@ -208,6 +198,7 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     });
   }
 
+  // Check required fields
   if (!title || !req.body.content || !excerpt || !category) {
     return res.status(400).json({
       status: "fail",
@@ -215,6 +206,7 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     });
   }
 
+  // Check if the category exists
   const categoryExists = await Category.findById(category);
   if (!categoryExists) {
     return res.status(400).json({
@@ -223,23 +215,31 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     });
   }
 
+  // Prepare update data
   const updateData = {
     title,
     content: sanitizedContent,
     excerpt,
-    tags: tags ? tags.split(",") : [],
+    tags: tags ? tags.split(",").filter(tag => tag.trim() !== "") : [],
     category: mongoose.Types.ObjectId(category),
-    published: published === "true",
+    published: published === "true", // Convert to boolean if it's a string
   };
 
-  if (req.body.photo) {
+  // Handle photo update if applicable
+  if (req.file) {
+    updateData.photo = req.file.filename;
+  } else if (req.body.photo) {
     updateData.photo = req.body.photo;
   }
 
-  if (req.body.images) {
+  // Handle images update if applicable
+  if (req.files && req.files.images) {
+    updateData.images = req.files.images.map(file => file.filename);
+  } else if (req.body.images) {
     updateData.images = req.body.images;
   }
 
+  // Update the post
   const post = await Post.findByIdAndUpdate(req.params.id, updateData, {
     new: true,
     runValidators: true,

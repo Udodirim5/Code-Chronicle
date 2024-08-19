@@ -522,6 +522,26 @@ body {
   color: var(--bg-oxford-blue-beta-80);
 }
 
+.hero-banner-inner {
+  margin: auto;
+  background-color: var(--bg-oxford-blue);
+  padding: 20px;
+  height: 500px;
+  width: 500px;
+  border-radius: 20%;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-banner-inner img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20%;
+  /* object-fit: cover; */
+}
+
 .hero-banner-bg {
   display: none;
 }
@@ -3874,6 +3894,14 @@ header h2 {
 
 @media (max-width: 767px) {
 
+
+  .hero-banner-inner {
+    height: 300px;
+    width: 300px;
+  }
+
+
+
   /* ============= POST SINGLE */
   .post-single main {
     flex-direction: column;
@@ -4503,7 +4531,7 @@ header h2 {
     width: 80%;
     border: 3px solid red;
   }
-  
+
 
 
 

@@ -58,7 +58,7 @@ purchaseSchema.pre("save", async function (next) {
 purchaseSchema.pre(/^find/, function (next) {
   this.populate({
     path: "item",
-    select: "name",
+    select: "name description",
   });
   next();
 });

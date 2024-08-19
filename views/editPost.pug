@@ -5,6 +5,7 @@ block content
     section#new-posts
       h2 Edit Post
 
+      //- form.new-content-form#editPost(action=`/admin/edit-post/${post._id}` method="POST" enctype="multipart/form-data")
       form.new-content-form#editPost(data-post-id=post ? post._id : '')
         .post-group
           label(for="new-post-title") Title
@@ -55,3 +56,25 @@ block content
         .post-group
           button(type="submit") Submit
 
+  //- script.
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('editPost');
+
+      // Example: Add an event listener to the form's submit event
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default submission for demonstration
+
+        // Logic here (e.g., validation, AJAX submission, etc.)
+        console.log('Form submitted!');
+      });
+
+      // Example: Add event listeners to the buttons in the elements list
+      const buttons = document.querySelectorAll('.elements button');
+      buttons.forEach(button => {
+        button.addEventListener('click', function () {
+          const element = button.getAttribute('data-element');
+          console.log(`Button for ${element} clicked!`);
+          // Logic to insert element into the content editor
+        });
+      });
+    });

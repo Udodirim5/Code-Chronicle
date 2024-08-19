@@ -250,11 +250,14 @@ exports.getAboutPage = catchAsync(async (req, res) => {
   });
 });
 
-exports.getHomePage = (req, res) => {
+exports.getHomePage = async (req, res) => {
   const user = res.locals.user;
+  const me = await User.findOne();
+
   res.status(200).render("home", {
     title: "Home Page",
     user,
+    me
   });
 };
 
@@ -283,7 +286,7 @@ exports.getMarketPlace = catchAsync(async (req, res, next) => {
 exports.getItem = catchAsync(async (req, res, next) => {
   // 1) Get the item data (including reviews)
   const item = await Item.findOne({ slug: req.params.slug }).populate({
-    path: "reviews"
+    path: "reviews",
   });
 
   // Check if Item
@@ -359,12 +362,12 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
   // }
 
   // Render the view with the purchase and review details
-  res.status(200).render('pay-success', {
-    title: 'Redirecting',
+  res.status(200).render("pay-success", {
+    title: "Redirecting",
     // purchase,
     item: itemId, // Pass the item ID to the view
     buyerEmail,
-    buyerName
+    buyerName,
   });
 });
 

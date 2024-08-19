@@ -25,6 +25,12 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError("Your token has expired! Please log in again.", 401);
 
+const handlePugError = () =>
+  new AppError(
+    "There was an error rendering the page. Please try again later.",
+    401
+  );
+
 const sendErrorDev = (err, req, res) => {
   // A) API
   if (req.originalUrl.startsWith("/api")) {
@@ -106,6 +112,8 @@ module.exports = (err, req, res, next) => {
       error = handleValidationErrorDB(error);
     if (error.name === "JsonWebTokenError") error = handleJWTError();
     if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
+    if (err.name === "PugError" || err.code === "PUG:SELF_CLOSING_CONTENT")
+      error = handlePugError();
 
     sendErrorProd(error, req, res);
   }

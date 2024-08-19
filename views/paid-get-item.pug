@@ -7,12 +7,12 @@ block content
         .download-paid-section
           .confirmation-message
             h1= `Thank you for your purchase, ${purchase.buyerName}!`
-            p Order Number: #123456
+            p= `Order Number: #${purchase.purchaseId}`
             p Date of Purchase: #{purchase.createdAt.toDateString()} 
 
           .product-info
             h2= purchase.item.name
-            p Product description goes here...
+            p= purchase.item.description
             a(href="" class="download-btn" download="file.txt") Download Now
 
           .review-section

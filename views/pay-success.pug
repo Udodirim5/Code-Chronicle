@@ -7,14 +7,14 @@ block content
         .download-paid-section
           .confirmation-message
             h1 Thank you for your purchase, #{buyerName}!
-            p Order Number: #{item} // Adjust if you have a purchase ID
-            p Date of Purchase: #{new Date().toDateString()} // Use the current date or purchase date if available
+            p Order Number: #{item}
+            p Date of Purchase: #{new Date().toDateString()}
 
           .redirect-container
             if !reviewExists
               form.redirect-form(action="/your-redirect-url", method="post")
                 input#redirect-email(type="hidden", name="buyerEmail", value=buyerEmail)
-                input#item(type="hidden", name="purchaseId", value=item) // Ensure this is correct if you have a purchase ID
+                input#item(type="hidden", name="purchaseId", value=item)
                 p If you're not redirected in 5 seconds,
                 button(type="submit", class="redirect-btn") Click Here
 

@@ -12,7 +12,9 @@ block content
             | Web Developer!
           a.btn(href="/contact" data-btn) GET IN TOUCH
           .hero-banner
-            img(src="./img/hero-banner.png" width="850" height="414" alt="hero banner" class="w-100")
+            .hero-banner-inner 
+              img(src=`/img/users/${me.photo}`)
+            //- img(src="./img/hero-banner.png" width="850" height="414" alt="hero banner" class="w-100")
             img(src="./img/hero-banner-bg.png" alt="" class="hero-banner-bg")
       
       section.testimonials(aria-labelledby="testimonials-label" id="testimonials")
