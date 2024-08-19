@@ -29,6 +29,6 @@ block content
                     a.warning(href="") Edit
                     button(type="button" class="delete-btn danger" data-id=project._id data-type="projects") Delete
       else 
-        .empty-message No message found.
+        .empty-message No project found.
 
     +paginate('admin/projects', page, pages)

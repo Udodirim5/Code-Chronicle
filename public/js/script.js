@@ -189,11 +189,11 @@ if (createPostForm) {
   initializeImagePreview("#iPNGimg", "#new-post-img");
 }
 
-const createProjectForm = document.querySelector("#createProject");
-if (createProjectForm) {
-  initializeImagePreview("#desktop-img-view", "#desktop-img");
-  initializeImagePreview("#mobile-img-view", "#mobile-img");
-}
+// const createProjectForm = document.querySelector("#createProject");
+// if (createProjectForm) {
+//   initializeImagePreview("#desktop-img-view", "#desktop-img");
+//   initializeImagePreview("#mobile-img-view", "#mobile-img");
+// }
 /**
  * Post single
  */

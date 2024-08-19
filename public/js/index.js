@@ -230,38 +230,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       updatePost(title, content, excerpt, tags, category, newPostImg, postId);
     });
   }
-
-  // FIXME: createProjectForm Not working
-  if (createProjectForm) {
-    createProjectForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // Extract form data
-      const title = document.querySelector("#new-project-title").value;
-      const description = document.querySelector("#description").value;
-      const liveUrl = document.querySelector("#live-url").value;
-      const githubUrl = document.querySelector("#github-url").value;
-      const technologies = document
-        .getElementById("technologies")
-        .value.split(",");
-      const desktopImg = document.querySelector("#desktop-img").files[0];
-      const mobileImg = document.querySelector("#mobile-img").files[0];
-
-      // Create FormData object
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("liveUrl", liveUrl);
-      formData.append("githubUrl", githubUrl);
-      formData.append("technologies", technologies);
-      formData.append("desktopImg", desktopImg);
-      formData.append("mobileImg", mobileImg);
-
-      // Call the addProject function
-      await addProject(formData);
-    });
-  }
 });
+
+if (createProjectForm) {
+  createProjectForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Extract form data
+    const title = document.querySelector("#new-project-title").value;
+    const description = document.querySelector("#description").value;
+    const liveUrl = document.querySelector("#live-url").value;
+    const githubUrl = document.querySelector("#github-url").value;
+
+    // Extract selected technologies (checkboxes)
+    const technologies = Array.from(
+      document.querySelectorAll('input[name="technologies"]:checked')
+    ).map((checkbox) => checkbox.value);
+
+    // Extract image files
+    const desktopImg = document.querySelector("#desktop-img").files[0];
+    const mobileImg = document.querySelector("#mobile-img").files[0];
+
+    // Create FormData object
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("liveUrl", liveUrl);
+    formData.append("gitHubUrl", githubUrl);
+    formData.append("technologies", technologies);
+    formData.append("desktopImg", desktopImg);
+    formData.append("mobileImg", mobileImg);
+
+    // Call the addProject function
+    await addProject(formData);
+  });
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   const itemPurchaseForm = document.querySelector("#purchase-form");

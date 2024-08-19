@@ -42,12 +42,12 @@ const projectSchema = new mongoose.Schema({
   },
   desktopImg: {
     type: String,
-    // required: [true, "Desktop image is required"],
+    required: [true, "Desktop image is required"],
     trim: true,
   },
   mobileImg: {
     type: String,
-    // required: [true, "Mobile image is required"],
+    required: [true, "Mobile image is required"],
     trim: true,
   },
   createdAt: {

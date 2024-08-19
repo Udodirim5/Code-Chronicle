@@ -29,11 +29,7 @@ exports.uploadProjectImages = upload.fields([
 
 // RESIZE UPLOADED IMAGES
 exports.resizeProjectImages = catchAsync(async (req, res, next) => {
-  console.log('body:', req.body); // Debugging log
-  console.log('Files:', req.files); // Debugging log
-  console.log('desktopImg:', req.files.desktopImg);
-  console.log('mobileImg:', req.files.mobileImg);
-  
+
   if (!req.files || (!req.files.desktopImg && !req.files.mobileImg)) {
     return next(
       new AppError("Both desktop and mobile images are required.", 400)
@@ -45,32 +41,55 @@ exports.resizeProjectImages = catchAsync(async (req, res, next) => {
   req.body.mobileImg = "";
 
   // Process desktop image
-  if (req.files.desktopImg) {
-    const desktopFilename = `project-${req.params.id}-${Date.now()}-desktopImg.jpeg`;
-    await sharp(req.files.desktopImg[0].buffer)
-      .resize(2000, 1333)
-      .toFormat("jpeg")
-      .jpeg({ quality: 90 })
-      .toFile(`public/img/projects/${desktopFilename}`);
-    req.body.desktopImg = desktopFilename;
-  }
+  try {
+    if (req.files.desktopImg) {
+      const desktopFilename = `project-${
+        req.params.id
+      }-${Date.now()}-desktopImg.jpeg`;
+      await sharp(req.files.desktopImg[0].buffer)
+        .resize(2000, 1333)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/projects/${desktopFilename}`);
+      req.body.desktopImg = desktopFilename;
+    }
 
-  // Process mobile image
-  if (req.files.mobileImg) {
-    const mobileFilename = `project-${req.params.id}-${Date.now()}-mobileImg.jpeg`;
-    await sharp(req.files.mobileImg[0].buffer)
-      .resize(1333, 2000)
-      .toFormat("jpeg")
-      .jpeg({ quality: 90 })
-      .toFile(`public/img/projects/${mobileFilename}`);
-    req.body.mobileImg = mobileFilename;
+    if (req.files.mobileImg) {
+      const mobileFilename = `project-${
+        req.params.id
+      }-${Date.now()}-mobileImg.jpeg`;
+      await sharp(req.files.mobileImg[0].buffer)
+        .resize(1333, 2000)
+        .toFormat("jpeg")
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/projects/${mobileFilename}`);
+      req.body.mobileImg = mobileFilename;
+    }
+  } catch (error) {
+    return next(
+      new AppError("Error processing images. Please try again later.", 500)
+    );
   }
 
   next();
 });
 
+exports.createProject = catchAsync(async (req, res, next) => {
+  // Check if technologies is a string and split it into an array
+  if (typeof req.body.technologies === 'string') {
+    req.body.technologies = req.body.technologies.split(',').map(tech => tech.trim()); // Converts the string into an array
+  }
+
+  const newProject = await Project.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      project: newProject,
+    },
+  });
+});
+
 // CRUD operations using factory functions
-exports.createProject = factory.createOne(Project);
 exports.getProject = factory.getOne(Project);
 exports.getAllProjects = factory.getAll(Project);
 exports.updateProject = factory.updateOne(Project);
