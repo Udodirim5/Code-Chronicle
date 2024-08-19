@@ -5,7 +5,7 @@ block content
     section#new-posts
       h2 Edit Post
 
-      form.new-content-form#editPo-st(data-post-id=post ? post._id : '')
+      form.new-content-form#editPost(data-post-id=post ? post._id : '')
         .post-group
           label(for="new-post-title") Title
           input#new-post-title(type="text" name="title" required autofocus value=post ? post.title : '')
@@ -55,4 +55,3 @@ block content
         .post-group
           button(type="submit") Submit
 
-  //- script( src='/js/test.js')

@@ -2846,19 +2846,26 @@ button.buy:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 200px;
 }
 
-#admin-body .admin-login-pass .login-pass input {
-  all: unset;
-  width: 90px;
-  padding: 10px;
-  border-bottom: 1px solid red;
-  border-radius: 4px;
-  height: 30px;
-  font-size: 5rem;
-  border-radius: 4px;
-  background: var(--bg-oxford-blue-beta-80);
-  margin-bottom: 15px;
+.admin-login-pass .login-pass {
+  display: flex;
+}
+
+.admin-login-pass .login-pass input {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-2);
+  text-align: center;
+  border: none;
+  color: var(--text-white);
+  margin: 0 10px;
+}
+
+.admin-login-pass .login-pass input:focus {
+  border-bottom: 1.5px solid royalblue;
+  outline: none;
 }
 
 #admin-body .log-pass {
@@ -2896,7 +2903,7 @@ button.buy:hover {
 #admin-body #getIn .forgot-password {
   position: absolute;
   right: 20px;
-  top: 210px;
+  top: 190px;
 }
 
 #admin-body #getIn-inner button {
@@ -2915,10 +2922,10 @@ button.buy:hover {
   #Forget Password
 \*-----------------------------------*/
 #admin-body #admin-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #admin-body .container--1 {
@@ -4487,12 +4494,16 @@ header h2 {
   /*-----------------------------------*\
   #Pagination
 \*-----------------------------------*/
-.paginator {
-  justify-content: center;
-  margin-top: 50px;
-}
+  .paginator {
+    justify-content: center;
+    margin-top: 50px;
+  }
 
-
+  #admin-body .new-content-form {
+    width: 80%;
+    border: 3px solid red;
+  }
+  
 
 
 

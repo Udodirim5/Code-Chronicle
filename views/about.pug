@@ -6,8 +6,7 @@ mixin feedPostCard()
   .menu-body-item-content 
     .item-content 
       .item-name-content 
-        //- img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
-        img(src=`/img/users/user-1.jpg` alt=`Photo of user`)
+        img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
         .item-inform
           h4 Content Title 1 
           h5 01 Jan 2024
@@ -31,33 +30,34 @@ block content
         .about-Us
           .profile-card
             .card-top
-              //- img(src=`/img/users/${user ? user.photo : 'default.jpg'}` alt=`Photo of ${user ? user.name : 'Default User'}`)
-              img(src=`/img/users/user-1.jpg` alt=`Photo of user`)
+              img(src=`/img/users/${user ? user.photo : 'user-1.jpg'}` alt=`Photo of ${user ? user.name : 'Default User'}`)
               .card-top-inner
                 .card-top-info 
                   .card-top-name
-                    //- h2= `${user ? user.name : 'Nnodimele Udodirim'} 💡`
-                    h2 Nnodimele Udodirim 💡
+                    h2= `${user ? user.name : 'Nnodimele Udodirim'} 💡`
                     p Senior Web Engineer. Creative Developer.
                   .card-top-date 
                     span August 19th
                     span.mx-2 •
                     span Joined Jan 2023
                 .text-muted-p
+                  p.text-muted= `${user ? user.bio : 'Nnodimele Udodirim'}`
                   p.text-muted Brings ideas to life with code! ✨
                   p.text-muted Content Creator. Whimsical Specialist. International Speaker. Ex-Google.
                 p.text-muted Keep up to date with my latest projects and adventures!
-            .follow-btn
-              a(href="" target="_blank" aria-label="follow-btn")
-                i.fa.fa-twitter
-              a(href="" target="_blank" aria-label="follow-btn")
-                i.fa.fa-tiktok
-              a(href="" target="_blank" aria-label="follow-btn")
-                i.fa.fa-youtube
-              a(href="" target="_blank" aria-label="follow-btn")
-                i.fa.fa-facebook
-              a(href="" target="_blank" aria-label="follow-btn")
-                i.fa.fa-whatsapp
+
+            if socials
+              .follow-btn
+                a(href=`https://twitter.com/${socials.twitter}` target="_blank" aria-label="follow-btn")
+                  i.fa.fa-twitter
+                a(href=`https://t.me.com/${socials.telegram}` target="_blank" aria-label="follow-btn")
+                  i.fa.fa-telegram
+                a(href=`https://youtube.com/${socials.youtube}` target="_blank" aria-label="follow-btn")
+                  i.fa.fa-youtube
+                a(href=`https://facebook.com/${socials.facebook}` target="_blank" aria-label="follow-btn")
+                  i.fa.fa-facebook
+                a(href=`https://whatsapp.com/channel/${socials.whatsapp}` target="_blank" aria-label="follow-btn")
+                  i.fa.fa-whatsapp
 
         .menu-opt 
           .menu-top

@@ -241,10 +241,12 @@ exports.getCreateProjectForm = catchAsync(async (req, res) => {
 });
 
 exports.getAboutPage = catchAsync(async (req, res) => {
-  const user = await User.find();
+  const user = await User.findOne();
+  const socials = await Social.findOne();
   res.status(200).render("about", {
     title: "About Me",
     user,
+    socials,
   });
 });
 

@@ -1,35 +1,40 @@
 extends login-base
 
 block content
-  body(id="admin-body")
-    main(class="admin-main")
-      section.admin-login-pass
-        h1 Login Pass
-        form.login-pass
-          input(type="password" id="pass" maxlength='6' required)
+  main(class="admin-main")
+    section.admin-login-pass
+      h1 Login Pass
+      form.login-pass 
+        input(id="otp-input1" type="text" maxlength="1" autofocus) 
+        input(id="otp-input2" type="text" maxlength="1") 
+        input(id="otp-input3" type="text" maxlength="1") 
+        input(id="otp-input4" type="text" maxlength="1") 
+        input(id="otp-input5" type="text" maxlength="1") 
+        input(id="otp-input6" type="text" maxlength="1") 
 
-      section.log-pass(id="getIn")
-        div(id="getIn-inner")
-          form(class="new-content-form" id='form--login')
-            h2 Log in
 
-            .post-group
-              label(for="email") Email Address
-              input(type="email" id="email" required)
+    section.log-pass(id="getIn")
+      div(id="getIn-inner")
+        form(class="new-content-form" id='form--login')
+          h2 Log in
 
-            .post-group
-              label(for="password") Password
-              input(type="password" id="password" required)
-              button(type="button" id="showPassword" class="toggle-password") Show
+          .post-group
+            label(for="email") Email Address
+            input(type="email" id="email" required)
 
-            .post-group
-              button(type="submit") Login
+          .post-group
+            label(for="password") Password
+            input(type="password" id="password" required)
+            button(type="button" id="showPassword" class="toggle-password") Show
 
-            p.goIn
-              | Don't have an account? 
-              a(href="/signup") Register
+          .post-group
+            button(type="submit") Login
 
-          .forgot-password
-            a(href="/forget-password") Forgot Password?
+          p.goIn
+            | Don't have an account? 
+            a(href="/signup") Register
 
-    script(src="/js/script.js")
+        .forgot-password
+          a(href="/forget-password") Forgot Password?
+
+  script(src="/js/script.js")

@@ -494,21 +494,6 @@ if (adminActionButtons) {
   });
 }
 
-const loginPass = document.getElementById("pass");
-if (loginPass) {
-  const getIn = document.getElementById("getIn");
-  const adminLoginPass = document.querySelector(".admin-login-pass");
-  loginPass.addEventListener("change", () => {
-    if (loginPass.value === "123456") {
-      getIn.classList.add("get-active");
-      adminLoginPass.style.display = "none";
-    } else {
-      getIn.classList.remove("get-active");
-      adminLoginPass.style.display = "block";
-    }
-  });
-}
-
 const clickToPay = document.querySelector("#buy-now-btn");
 const closeClickToPay = document.querySelector("#close-pay-btn");
 const payForm = document.querySelector(".purchase-form-container");
@@ -542,9 +527,11 @@ if (viewOTPForm) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  const inputContainer = document.querySelector(".inputs");
-  const inputs = document.querySelectorAll(".inputs input");
+  const inputContainer = document.querySelector(".login-pass");
+  const inputs = document.querySelectorAll(".login-pass input");
+
   if (inputContainer) {
+    // Handle navigation between inputs
     inputs.forEach((input, index) => {
       input.addEventListener("keyup", (e) => {
         const nextInput = inputs[index + 1];
@@ -554,6 +541,30 @@ document.addEventListener("DOMContentLoaded", function() {
           nextInput.focus();
         } else if (e.key === "Backspace" && prevInput) {
           prevInput.focus();
+        }
+      });
+    });
+
+    const getIn = document.getElementById("getIn");
+    const adminLoginPass = document.querySelector(".admin-login-pass");
+
+    // Function to get the combined value of all input fields
+    function getInputValue() {
+      return Array.from(inputs).map(input => input.value).join("");
+    }
+
+    // Event listener for input changes
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        const inputValue = getInputValue();
+
+        // Check if the combined value matches the correct passcode
+        if (inputValue === "123456") {
+          getIn.classList.add("get-active");
+          adminLoginPass.style.display = "none";
+        } else {
+          getIn.classList.remove("get-active");
+          adminLoginPass.style.display = "block";
         }
       });
     });
