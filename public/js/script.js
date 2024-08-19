@@ -128,19 +128,19 @@ addEventOnElements(hoverElements, "mouseout", function() {
 /**
  * Admin side JavaScript
  */
-const initializeImagePreview = function(imgSelector, inputSelector) {
-  const imgElement = document.querySelector(imgSelector);
-  const inputElement = document.querySelector(inputSelector);
+// const initializeImagePreview = function(imgSelector, inputSelector) {
+//   const imgElement = document.querySelector(imgSelector);
+//   const inputElement = document.querySelector(inputSelector);
 
-  if (inputElement) {
-    inputElement.addEventListener("change", () => {
-      const file = inputElement.files[0];
-      if (file) {
-        imgElement.src = URL.createObjectURL(file);
-      }
-    });
-  }
-};
+//   if (inputElement) {
+//     inputElement.addEventListener("change", () => {
+//       const file = inputElement.files[0];
+//       if (file) {
+//         imgElement.src = URL.createObjectURL(file);
+//       }
+//     });
+//   }
+// };
 
 const initializePasswordToggle = function(
   passwordInputSelector,
@@ -184,10 +184,10 @@ if (profileForm) {
   initializeImagePreview("#imgForImg", "#forImg");
 }
 
-const createPostForm = document.querySelector("#createPost");
-if (createPostForm) {
-  initializeImagePreview("#iPNGimg", "#new-post-img");
-}
+// const createPostForm = document.querySelector("#createPost");
+// if (createPostForm) {
+//   initializeImagePreview("#iPNGimg", "#new-post-img");
+// }
 
 // const createProjectForm = document.querySelector("#createProject");
 // if (createProjectForm) {
