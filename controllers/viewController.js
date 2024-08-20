@@ -240,6 +240,20 @@ exports.getCreateProjectForm = catchAsync(async (req, res) => {
   });
 });
 
+// Controller to render the project editing form
+exports.getEditProjectForm = catchAsync(async (req, res, next) => {
+  const project = await Project.findById(req.params.id);
+
+  if (!project) {
+    return next(new AppError('No project found with that ID', 404));
+  }
+
+  res.status(200).render('editProject', {
+    title: 'Edit Project',
+    project, // Pass the project data to the Pug template
+  });
+});
+
 exports.getAboutPage = catchAsync(async (req, res) => {
   const user = await User.findOne();
   const socials = await Social.findOne();

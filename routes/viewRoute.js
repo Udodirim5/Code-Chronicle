@@ -39,5 +39,7 @@ router.get("/admin/all-users", viewController.userProfile);
 router.get("/admin/myWork", viewController.getAdminProject);
 router.get("/admin/messages", viewController.getAdminMessages);
 router.get("/admin/create-project", viewController.getCreateProjectForm);
+router.get('/projects/edit/:id', viewController.getEditProjectForm);
+
 
 module.exports = router;
