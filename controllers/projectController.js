@@ -29,7 +29,6 @@ exports.uploadProjectImages = upload.fields([
 
 // RESIZE UPLOADED IMAGES
 exports.resizeProjectImages = catchAsync(async (req, res, next) => {
-
   if (!req.files || (!req.files.desktopImg && !req.files.mobileImg)) {
     return next(
       new AppError("Both desktop and mobile images are required.", 400)
@@ -76,13 +75,17 @@ exports.resizeProjectImages = catchAsync(async (req, res, next) => {
 
 exports.createProject = catchAsync(async (req, res, next) => {
   // Check if technologies is a string and split it into an array
-  if (typeof req.body.technologies === 'string') {
-    req.body.technologies = req.body.technologies.split(',').map(tech => tech.trim()); // Converts the string into an array
+  console.log(req.body.technologies);
+  if (typeof req.body.technologies === "string") {
+    req.body.technologies = req.body.technologies
+      .split(",")
+      .map((tech) => tech.trim()); // Converts the string into an array
   }
+  console.log(req.body.technologies);
 
   const newProject = await Project.create(req.body);
   res.status(201).json({
-    status: 'success',
+    status: "success",
     data: {
       project: newProject,
     },

@@ -2,9 +2,10 @@ const express = require("express");
 const authController = require("./../controllers/authController");
 const postController = require("./../controllers/postController");
 // const relatedPosts = require("../middlewares/relatedPosts");
-
 const router = express.Router();
 
+router.post("/posts/:id/like", authController.protect, postController.like);
+router.post("/posts/:id/dislike", authController.protect, postController.dislike);
 router.post(
   "/submit-post",
   authController.protect,
@@ -29,9 +30,9 @@ router
     postController.updatePostWithPhoto
   )
   .get(
+    postController.incPost,
     postController.relatePosts,
     postController.popularPosts,
-    postController.incPost,
     postController.getPost
   )
   .delete(authController.protect, postController.deletePost);

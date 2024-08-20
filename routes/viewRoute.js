@@ -20,9 +20,9 @@ router.get("/blog/:slug", viewController.getPost);
 router.get("/contact", viewController.getContact);
 router.get("/about", viewController.getAboutPage);
 router.get("/projects", viewController.getProjects);
+router.get("/redirect", viewController.paidRedirect);
 router.get("/market-place/:slug", viewController.getItem);
 router.get("/market-place", viewController.getMarketPlace);
-router.get("/redirect", viewController.paidRedirect);
 router.get("/payment-success/:token", viewController.paidGetItem);
 
 // Admin- side routes
@@ -38,8 +38,8 @@ router.get("/admin/create-post", viewController.getCreatePostForm);
 router.get("/admin/all-users", viewController.userProfile);
 router.get("/admin/myWork", viewController.getAdminProject);
 router.get("/admin/messages", viewController.getAdminMessages);
-router.get("/admin/create-project", viewController.getCreateProjectForm);
 router.get('/projects/edit/:id', viewController.getEditProjectForm);
+router.get("/admin/create-project", viewController.getCreateProjectForm);
 
 
 module.exports = router;

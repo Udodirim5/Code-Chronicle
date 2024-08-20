@@ -15,13 +15,17 @@ exports.createOne = (Model) =>
 exports.getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
+
+    // Apply populate options if provided
     if (populateOptions) {
-      if (typeof populateOptions === "string") {
-        query = query.populate(populateOptions);
-      } else {
+      if (Array.isArray(populateOptions)) {
+        // If it's an array, use forEach to apply each populate option
         populateOptions.forEach((option) => {
           query = query.populate(option);
         });
+      } else {
+        // If it's a single object or string, apply populate directly
+        query = query.populate(populateOptions);
       }
     }
     const doc = await query;
@@ -108,28 +112,18 @@ exports.deleteOne = (Model) =>
 
 exports.viewsCounter = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { views: 1 } },
-      { new: true }
-    );
-
+    console.log("viewsCounter middleware triggered"); // Add a log here
+    const doc = await Model.findById(req.params.id);
     if (!doc) {
-      return next(new AppError("No document found with that ID", 404));
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Post not found" });
     }
 
-    // Proceed to the next middleware or controller
+    console.log(`Views before: ${doc.views}`); // Log views before incrementing
+    await doc.incrementViews();
+    console.log(`Views after: ${doc.views}`); // Log views after incrementing
+
+    req.doc = doc;
     next();
   });
-
-// exports.getAllPages = (Model, viewName) =>
-//   catchAsync(async (req, res, next) => {
-//     // 1) Get Data From The Collection
-//     const docs = await Model.find();
-
-//     // 2) Render The View Using Pug
-//     res.render(viewName, {
-//       title: viewName.charAt(0).toUpperCase() + viewName.slice(1),
-//       data: docs
-//     });
-//   });

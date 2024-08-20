@@ -75,66 +75,88 @@ postSchema.virtual("comments", {
 // Indexing for slug to ensure uniqueness and efficient querying
 postSchema.index({ slug: 1 }, { unique: true });
 
-
 // Increment views middleware
-postSchema.methods.incrementViews = catchAsync(async function() {
+postSchema.methods.incrementViews = async function() {
+  console.log("Views before:", this.views); // Debug log
   this.views += 1;
   await this.save();
-});
+  console.log("Views after:", this.views); // Debug log
+};
 
-// Add a like
-postSchema.methods.addLike = catchAsync(async function(userId) {
-  if (!this.likes.includes(userId)) {
-    this.likes.push(userId);
-    // Remove from dislikes if already present
-    this.dislikes = this.dislikes.filter(
-      (id) => id.toString() !== userId.toString()
-    );
+// Add or Remove Like
+postSchema.methods.toggleLike = async function(userId) {
+  try {
+    if (this.likes.includes(userId)) {
+      // If the user has already liked the post, remove the like
+      this.likes = this.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+    } else {
+      // Otherwise, add the like and remove any existing dislike
+      this.likes.push(userId);
+      this.dislikes = this.dislikes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+    }
     await this.save();
+  } catch (err) {
+    console.error(err);
   }
-});
+};
 
-// Add a dislike
-postSchema.methods.addDislike = catchAsync(async function(userId) {
-  if (!this.dislikes.includes(userId)) {
-    this.dislikes.push(userId);
-    // Remove from likes if already present
-    this.likes = this.likes.filter((id) => id.toString() !== userId.toString());
+// Add or Remove Dislike
+postSchema.methods.toggleDislike = async function(userId) {
+  try {
+    if (this.dislikes.includes(userId)) {
+      // If the user has already disliked the post, remove the dislike
+      this.dislikes = this.dislikes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+    } else {
+      // Otherwise, add the dislike and remove any existing like
+      this.dislikes.push(userId);
+      this.likes = this.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+    }
     await this.save();
+  } catch (err) {
+    console.error(err);
   }
-});
+};
 
-// Remove a like
-postSchema.methods.removeLike = catchAsync(async function(userId) {
-  this.likes = this.likes.filter((id) => id.toString() !== userId.toString());
-  await this.save();
-});
+postSchema.pre("save", async function(next) {
+  if (this.isModified("title")) {
+    let slug = slugify(this.title, { lower: true });
 
-// Remove a dislike
-postSchema.methods.removeDislike = catchAsync(async function(userId) {
-  this.dislikes = this.dislikes.filter(
-    (id) => id.toString() !== userId.toString()
-  );
-  await this.save();
+    // Handle slug uniqueness
+    const existingPost = await mongoose.model("Post").findOne({ slug });
+    if (existingPost && existingPost._id.toString() !== this._id.toString()) {
+      slug = `${slug}-${Date.now()}`;
+    }
+
+    this.slug = slug;
+  }
+
+  // Ensure `updatedAt` is set whenever the document is modified
+  this.updatedAt = Date.now();
+  next();
 });
 
 // Pre hook: runs before a document is removed
-postSchema.pre(
-  "remove",
-  catchAsync(async function (next) {
-    // Remove all comments where the postId matches this post's ID
-    await Comment.deleteMany({ postId: this._id });
+postSchema.pre("remove", async function(next) {
+  // Remove all comments where the postId matches this post's ID
+  await Comment.deleteMany({ postId: this._id });
 
-    // Handle file deletion on post removal
-    if (this.photo) {
-      const imagePath = path.join(__dirname, "..", this.photo);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
+  // Handle file deletion on post removal
+  if (this.photo) {
+    const imagePath = path.join(__dirname, "..", this.photo);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
     }
-    next();
-  })
-);
+  }
+  next();
+});
 
 // Middleware for findOneAndDelete
 // postSchema.pre(
@@ -152,51 +174,23 @@ postSchema.pre(
 // );
 
 // Middleware to handle file updates
-postSchema.pre(
-  "save",
-  catchAsync(async function (next) {
-    if (this.isModified("photo") && this.photo) {
-      const oldPost = await this.model.findById(this._id);
-      if (oldPost && oldPost.photo !== this.photo) {
-        const oldImagePath = path.join(__dirname, "..", oldPost.photo);
-        if (fs.existsSync(oldImagePath)) {
-          try {
-            fs.unlinkSync(oldImagePath);
-          } catch (err) {
-            console.error(`Error deleting old file at ${oldImagePath}:`, err);
-          }
-        }
-      }
-    }
-    next();
-  })
-);
+// postSchema.pre("save", async function(next) {
+//   if (this.isModified("photo") && this.photo) {
+//     const oldPost = await this.model.findById(this._id);
+//     if (oldPost && oldPost.photo !== this.photo) {
+//       const oldImagePath = path.join(__dirname, "..", oldPost.photo);
+//       if (fs.existsSync(oldImagePath)) {
+//         try {
+//           fs.unlinkSync(oldImagePath);
+//         } catch (err) {
+//           console.error(`Error deleting old file at ${oldImagePath}:`, err);
+//         }
+//       }
+//     }
+//   }
+//   next();
+// });
 
-// Document middleware: runs before .save() and .create()
-postSchema.pre(
-  "save",
-  catchAsync(async function(next) {
-    if (this.isModified("title")) {
-      // Slugify the title to create a URL-friendly version
-      let slug = slugify(this.title, { lower: true });
-
-      // Check if the slug already exists and handle duplicates
-      const existingPost = await mongoose.model("Post").findOne({ slug });
-      if (existingPost && existingPost._id.toString() !== this._id.toString()) {
-        slug = `${slug}-${Date.now()}`;
-      }
-
-      this.slug = slug;
-
-      // Update the updatedAt field
-      this.updatedAt = Date.now();
-    }
-
-    next();
-  })
-);
-
-// Query middleware: runs before any find query
 postSchema.pre(/^find/, function(next) {
   // Populate the author and category fields with referenced data
   this.populate({
@@ -210,7 +204,6 @@ postSchema.pre(/^find/, function(next) {
   next();
 });
 
-// Aggregation middleware: runs before any aggregate query
 postSchema.pre("aggregate", function(next) {
   // Add a match stage to filter out secret posts unless explicitly included
   this.pipeline().unshift({ $match: { secretPost: { $ne: true } } });

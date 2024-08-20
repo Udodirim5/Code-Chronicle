@@ -180,7 +180,19 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
   // Sanitize content
   const sanitizedContent = sanitizeHtml(req.body.content, {
     allowedTags: [
-      "h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "li", "img", "a", "pre", "code",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "p",
+      "ul",
+      "li",
+      "img",
+      "a",
+      "pre",
+      "code",
     ],
     allowedAttributes: {
       a: ["href", "name", "target"],
@@ -220,7 +232,7 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
     title,
     content: sanitizedContent,
     excerpt,
-    tags: tags ? tags.split(",").filter(tag => tag.trim() !== "") : [],
+    tags: tags ? tags.split(",").filter((tag) => tag.trim() !== "") : [],
     category: mongoose.Types.ObjectId(category),
     published: published === "true", // Convert to boolean if it's a string
   };
@@ -234,7 +246,7 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
 
   // Handle images update if applicable
   if (req.files && req.files.images) {
-    updateData.images = req.files.images.map(file => file.filename);
+    updateData.images = req.files.images.map((file) => file.filename);
   } else if (req.body.images) {
     updateData.images = req.body.images;
   }
@@ -257,24 +269,24 @@ exports.updatePostWithPhoto = catchAsync(async (req, res, next) => {
   });
 });
 
-// // // Like a post
-// // // router.post('/posts/:id/like', authController.protect, async (req, res) => {
-// // //   const post = await Post.findById(req.params.id);
-// // //   if (!post) {
-// // //     return res.status(404).json({ status: "fail", message: "Post not found" });
-// // //   }
+// Like a post
+exports.like = catchAsync(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ status: "fail", message: "Post not found" });
+  }
 
-// // //   await post.addLike(req.user._id); // Add like
-// // //   res.status(200).json({ status: "success", message: "Post liked" });
-// // // });
+  await post.toggleLike(req.user._id); // Toggle like
+  res.status(200).json({ status: "success", message: "Like toggled successfully" });
+});
 
-// // // // Dislike a post
-// // // router.post('/posts/:id/dislike', authController.protect, async (req, res) => {
-// // //   const post = await Post.findById(req.params.id);
-// // //   if (!post) {
-// // //     return res.status(404).json({ status: "fail", message: "Post not found" });
-// // //   }
+// Dislike a post
+exports.dislike = catchAsync(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    return res.status(404).json({ status: "fail", message: "Post not found" });
+  }
 
-// // //   await post.addDislike(req.user._id); // Add dislike
-// // //   res.status(200).json({ status: "success", message: "Post disliked" });
-// // // });
+  await post.toggleDislike(req.user._id); // Toggle dislike
+  res.status(200).json({ status: "success", message: "Dislike toggled successfully" });
+});
