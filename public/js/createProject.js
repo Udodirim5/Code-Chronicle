@@ -4,15 +4,21 @@ import { showAlert } from "./alert";
 import { getBaseUrl } from "./baseUrl";
 
 // Add Project Function
-const addProject = async (formData, type) => {
+const addProject = async (formData, type, projectId = null) => {
   let method;
   let url = `${getBaseUrl()}/api/v1/projects`;
+
   if (type === "create") {
-    url = url
     method = "post";
-  } else if (type === "update") {
-    url = `${url}/${project._id}`;
+  } else if (type === "update" && projectId) {
+    url = `${url}/${projectId}`;
     method = "patch";
+  } else {
+    showAlert(
+      "error",
+      "Invalid operation type or missing project ID for update."
+    );
+    return;
   }
 
   try {
@@ -26,23 +32,29 @@ const addProject = async (formData, type) => {
     });
 
     if (res.data.status === "success") {
-      if (type === "create") {
-        showAlert("success", "Project added successfully");
-        location.assign("/admin/myWork");
-      } else if (type === "update") {
-        showAlert("success", "Project updated successfully");
-        location.assign(`/admin/project/${res.data.data._id}`);
-      }
+      const message =
+        type === "create"
+          ? "Project added successfully"
+          : "Project updated successfully";
+      showAlert("success", message);
+
+      // Redirect after success
+      const redirectUrl = "/admin/myWork";
+      location.assign(redirectUrl);
     } else {
-      showAlert("error", "Unexpected status:", res.data.status);
+      showAlert("error", `Unexpected status: ${res.data.status}`);
     }
   } catch (err) {
     showAlert("error", "Something went wrong. Please try again.");
   }
 };
 
-// Function to handle form submissions
-export const handleProjectFormSubmit = async (form, actionType) => {
+// Usage in the form handler
+export const handleProjectFormSubmit = async (
+  form,
+  actionType,
+  projectId = null
+) => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -71,7 +83,7 @@ export const handleProjectFormSubmit = async (form, actionType) => {
     formData.append("desktopImg", desktopImg);
     formData.append("mobileImg", mobileImg);
 
-    // Call the addProject function with appropriate action type
-    await addProject(formData, actionType);
+    // Call the addProject function with the correct action type and projectId
+    await addProject(formData, actionType, projectId);
   });
 };

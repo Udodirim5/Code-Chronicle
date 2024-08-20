@@ -6,12 +6,12 @@ import { createPost } from "./createPost";
 import { createItems } from "./createItems";
 import { updatePost } from "./updatePost.js";
 import { deleteItem } from "./handleDeletes";
-import { handleProjectFormSubmit } from "./createProject";
 import { login, logout, signup } from "./login";
 import { formatNumber } from "./formatNumber.js";
 import { createComment } from "./createCommentFn";
 import { updateSettings } from "./updateSettings";
 import { fetchTrafficData } from "./fetchTrafficData.js";
+import { handleProjectFormSubmit } from "./createProject";
 import { handlePaymentCallback } from "./handlePayment.js";
 import { createReview, verifyEmailFn } from "./handleReview";
 
@@ -240,8 +240,10 @@ if (createProjectForm) {
 }
 
 if (editProjectForm) {
-  handleProjectFormSubmit(editProjectForm, "update");
+  const projectId = editProjectForm.dataset.projectId;
+  handleProjectFormSubmit(editProjectForm, "update", projectId);
 }
+
 
   const itemPurchaseForm = document.querySelector("#purchase-form");
 
