@@ -20,7 +20,7 @@ router.get("/blog/:slug", viewController.getPost);
 router.get("/contact", viewController.getContact);
 router.get("/about", viewController.getAboutPage);
 router.get("/projects", viewController.getProjects);
-router.get("/redirect", viewController.paidRedirect);
+router.get("/redirect/:purchaseId", viewController.paidRedirect);
 router.get("/market-place/:slug", viewController.getItem);
 router.get("/market-place", viewController.getMarketPlace);
 router.get("/payment-success/:token", viewController.paidGetItem);

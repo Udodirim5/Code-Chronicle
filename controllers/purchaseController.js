@@ -24,11 +24,12 @@ exports.createPurchase = catchAsync(async (req, res, next) => {
   const { item, buyerName, buyerEmail, price } = req.body;
 
     // Store email in session
-    req.session.buyerName = buyerName;
-    req.session.buyerEmail = buyerEmail;
-    req.session.item = item;
+    // req.session.buyerName = buyerName;
+    // req.session.buyerEmail = buyerEmail;
+    // req.session.item = item;
 
-    console.log(req.session);
+    // console.log(req.session);
+
   // Ensure item exists
   const purchasedItem = await Item.findById(item);
   if (!purchasedItem) {

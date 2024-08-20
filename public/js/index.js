@@ -231,19 +231,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-// Attach event listeners to forms
-const createProjectForm = document.querySelector("#createProject");
-const editProjectForm = document.querySelector("#editProject");
+  // Attach event listeners to forms
+  const createProjectForm = document.querySelector("#createProject");
+  const editProjectForm = document.querySelector("#editProject");
 
-if (createProjectForm) {
-  handleProjectFormSubmit(createProjectForm, "create");
-}
+  if (createProjectForm) {
+    handleProjectFormSubmit(createProjectForm, "create");
+  }
 
-if (editProjectForm) {
-  const projectId = editProjectForm.dataset.projectId;
-  handleProjectFormSubmit(editProjectForm, "update", projectId);
-}
-
+  if (editProjectForm) {
+    const projectId = editProjectForm.dataset.projectId;
+    handleProjectFormSubmit(editProjectForm, "update", projectId);
+  }
 
   const itemPurchaseForm = document.querySelector("#purchase-form");
 
@@ -350,18 +349,25 @@ if (editProjectForm) {
   const redirectForm = document.querySelector(".redirect-form");
 
   if (redirectForm) {
-    // Automatically submit form after 5 seconds (if required)
+    const redirectBtn = document.querySelector(".redirect-btn");
+
+    // Automatically submit form after 5 seconds
     setTimeout(() => {
-      redirectForm.submit();
+      const submitEvent = new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      });
+      redirectForm.dispatchEvent(submitEvent); // This will trigger the submit event listener
     }, 5000);
 
-    const redirectBtn = document.querySelector(".redirect-btn");
     redirectForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const form = e.target;
       const email = document.querySelector("#redirect-email").value.trim();
-      const itemId = form.getAttribute("data-purchased-item-id");
+      const itemId = document.querySelector("#item").value.trim();
+      console.log("email", email);
+      console.log("itemId", itemId);
 
       // Ensure email and itemId are provided
       if (!email || !itemId) {

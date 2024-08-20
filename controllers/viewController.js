@@ -245,11 +245,11 @@ exports.getEditProjectForm = catchAsync(async (req, res, next) => {
   const project = await Project.findById(req.params.id);
 
   if (!project) {
-    return next(new AppError('No project found with that ID', 404));
+    return next(new AppError("No project found with that ID", 404));
   }
 
-  res.status(200).render('editProject', {
-    title: 'Edit Project',
+  res.status(200).render("editProject", {
+    title: "Edit Project",
     project, // Pass the project data to the Pug template
   });
 });
@@ -271,7 +271,7 @@ exports.getHomePage = async (req, res) => {
   res.status(200).render("home", {
     title: "Home Page",
     user,
-    me
+    me,
   });
 };
 
@@ -354,36 +354,47 @@ exports.paidGetItem = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.paidRedirect = catchAsync(async (req, res, next) => {
-  const buyerEmail = req.session.buyerEmail;
-  const buyerName = req.session.buyerName;
-  const itemId = req.session.item;
-
-  // Ensure both buyerEmail and itemId are provided
-  // if (!buyerEmail || !itemId) {
-  //   return next(new AppError("Buyer email and item ID are required.", 400));
-  // }
-
-  // Fetch purchase details (uncomment and adjust if needed)
-  // const purchase = await Purchase.findOne({
-  //   buyerEmail: buyerEmail.toLowerCase(),
-  //   item: itemId,
-  // });
-
+exports.getRedirect = catchAsync(async (req, res, next) => {
   // If purchase not found
   // if (!purchase) {
   //   return next(new AppError("No purchase found with that ID", 404));
   // }
 
-  // Render the view with the purchase and review details
+  // Redirect the user
+  res.redirect(301, `/redirect/${purchase.item._id}`);
+  // const buyerEmail = req.session.buyerEmail;
+  // const buyerName = req.session.buyerName;
+  // const itemId = req.session.item;
+});
+
+exports.paidRedirect = catchAsync(async (req, res, next) => {
+  const { purchaseId } = req.params;
+
+  // Hardcoded buyer email and item ID for testing
+  const itemId = '66bfb9690b10371568d367b6';
+  const buyerEmail = 'admin@natours.io';
+
+  // Fetch purchase details
+  const purchase = await Purchase.findOne({
+    buyerEmail: buyerEmail.toLowerCase(),
+    item: itemId,
+  });
+
+  // If purchase not found
+  if (!purchase) {
+    return next(new AppError("No purchase found with that ID", 404));
+  }
+
+  // Render the view with the purchase details
   res.status(200).render("pay-success", {
     title: "Redirecting",
-    // purchase,
+    purchase,
     item: itemId, // Pass the item ID to the view
     buyerEmail,
-    buyerName,
+    buyerName: purchase.buyerName, // Assuming buyerName is in your purchase model
   });
 });
+
 
 // exports.paidRedirect = catchAsync(async (req, res, next) => {
 //   const { purchaseId } = req.params;

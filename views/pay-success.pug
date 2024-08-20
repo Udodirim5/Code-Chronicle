@@ -8,64 +8,12 @@ block content
           .confirmation-message
             h1 Thank you for your purchase, #{buyerName}!
             p Order Number: #{item}
-            p Date of Purchase: #{new Date().toDateString()}
+            p Date of Purchase: #{purchaseDate}
 
           .redirect-container
             if !reviewExists
-              form.redirect-form(action="/your-redirect-url", method="post")
+              form.redirect-form
                 input#redirect-email(type="hidden", name="buyerEmail", value=buyerEmail)
                 input#item(type="hidden", name="purchaseId", value=item)
                 p If you're not redirected in 5 seconds,
                 button(type="submit", class="redirect-btn") Click Here
-
-
-
-
-
-//- extends clients-base
-
-//- block content
-//-   main
-//-     article
-//-       section.get-download(aria-label="our latest market")
-//-         .download-paid-section
-//-           .confirmation-message
-//-             h1 Thank you for your purchase, #{purchase.buyerName}!
-//-             p Order Number: #{purchase.purchaseId} 
-//-             p Date of Purchase: #{purchase.createdAt.toDateString()}
-
-//-           .redirect-container
-//-             if !reviewExists
-//-               form.redirect-form
-//-                 input#redirect-email(type="hidden", name="buyerEmail", value=purchase.buyerEmail)
-//-                 input#item(type="hidden", name="purchaseId", value=purchase.item)
-//-                 p If you're not redirected in 5 seconds,
-//-                 button(type="submit", class="redirect-btn") Click Here
-
-
-
-
-
-
-
-
-
-
-//- extends clients-base
-
-//- block content
-//-   main
-//-     article
-//-       section.get-download(aria-label="our latest market")
-//-         .download-paid-section
-//-           .confirmation-message
-//-             h1= `Thank you for your purchase, ${purchase.buyerName}!`
-//-             p Order Number: #123456
-//-             p Date of Purchase: #{purchase.createdAt.toDateString()} 
-
-//-           .redirect-container 
-//-             if !reviewExists
-//-               form.redirect-form(data-purchased-item-id=item._id)
-//-                 input#redirect-input(type="hidden", value=purchase ? purchase.buyerEmail : '')
-//-                 p If you're not redirect in 5 secs. 
-//-                 button(type="submit") Click Here
