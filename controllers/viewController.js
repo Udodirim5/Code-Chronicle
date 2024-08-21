@@ -320,6 +320,12 @@ exports.getItem = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getCreateItemForm = catchAsync(async (req, res) => {
+  res.status(200).render("createItem", {
+    title: "Create New Item",
+  });
+});
+
 exports.paidGetItem = catchAsync(async (req, res, next) => {
   const { token } = req.params;
 
@@ -354,30 +360,40 @@ exports.paidGetItem = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getRedirect = catchAsync(async (req, res, next) => {
-  // If purchase not found
-  // if (!purchase) {
-  //   return next(new AppError("No purchase found with that ID", 404));
-  // }
+// exports.getRedirect = catchAsync(async (req, res, next) => {
+//   // If purchase not found
+//   // if (!purchase) {
+//   //   return next(new AppError("No purchase found with that ID", 404));
+//   // }
 
-  // Redirect the user
-  res.redirect(301, `/redirect/${purchase.item._id}`);
-  // const buyerEmail = req.session.buyerEmail;
-  // const buyerName = req.session.buyerName;
-  // const itemId = req.session.item;
-});
+//   // Redirect the user
+//   res.redirect(301, `/redirect/${purchase.item._id}`);
+//   // const buyerEmail = req.session.buyerEmail;
+//   // const buyerName = req.session.buyerName;
+//   // const itemId = req.session.item;
+// });
 
 exports.paidRedirect = catchAsync(async (req, res, next) => {
-  const { purchaseId } = req.params;
+  // const { purchaseId } = req.params;
+  const { purchaseId, item, buyerEmail } = req.params;
 
   // Hardcoded buyer email and item ID for testing
-  const itemId = '66bfb9690b10371568d367b6';
-  const buyerEmail = 'admin@natours.io';
+  // const itemId = '66bfb9690b10371568d367b6';
+  // const buyerEmail = 'admin@natours.io';
+
+  // Log the parameters to debug
+  console.log("purchaseId:", purchaseId);
+  console.log("itemId:", item);
+  console.log("buyerEmail:", buyerEmail);
+
+  if (!item || !buyerEmail) {
+    return next(new AppError("Item ID or Buyer Email is missing", 400));
+  }
 
   // Fetch purchase details
   const purchase = await Purchase.findOne({
     buyerEmail: buyerEmail.toLowerCase(),
-    item: itemId,
+    item
   });
 
   // If purchase not found
@@ -394,7 +410,6 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
     buyerName: purchase.buyerName, // Assuming buyerName is in your purchase model
   });
 });
-
 
 // exports.paidRedirect = catchAsync(async (req, res, next) => {
 //   const { purchaseId } = req.params;

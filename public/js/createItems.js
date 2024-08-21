@@ -2,7 +2,7 @@ import axios from "axios";
 import { showAlert } from "./alert";
 import { getBaseUrl } from "./baseUrl";
 
-export const createItems = async (name, email, message, contactForm) => {
+export const createContactUs = async (name, email, message, contactForm) => {
   try {
     const res = await axios.post(`${getBaseUrl()}/api/v1/contact-us`, {
       name,
@@ -12,6 +12,23 @@ export const createItems = async (name, email, message, contactForm) => {
 
     if (res.data.status === "created") {
       showAlert("success", "Message sent successfully!");
+    }
+  } catch (err) {
+    console.error(err);
+    showAlert("error", "Something went wrong. Please try again.");
+  }
+};
+
+export const createItem = async (formData) => {
+  try {
+    const res = await axios.post(`${getBaseUrl()}/api/v1/items`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    if (res.data.status === "created") {
+      showAlert("success", "Item created successfully!");
     }
   } catch (err) {
     console.error(err);

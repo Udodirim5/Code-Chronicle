@@ -6,7 +6,7 @@ mixin feedPostCard()
   .menu-body-item-content 
     .item-content 
       .item-name-content 
-        img(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+        img(src=`/uploads/users/${user.photo}` alt=`Photo of ${user.name}`)
         .item-inform
           h4 Content Title 1 
           h5 01 Jan 2024
@@ -30,7 +30,7 @@ block content
         .about-Us
           .profile-card
             .card-top
-              img(src=`/img/users/${user ? user.photo : 'user-1.jpg'}` alt=`Photo of ${user ? user.name : 'Default User'}`)
+              img(src=`/uploads/users/${user ? user.photo : 'user-1.jpg'}` alt=`Photo of ${user ? user.name : 'Default User'}`)
               .card-top-inner
                 .card-top-info 
                   .card-top-name

@@ -20,16 +20,17 @@ router.get("/blog/:slug", viewController.getPost);
 router.get("/contact", viewController.getContact);
 router.get("/about", viewController.getAboutPage);
 router.get("/projects", viewController.getProjects);
-router.get("/redirect/:purchaseId", viewController.paidRedirect);
 router.get("/market-place/:slug", viewController.getItem);
 router.get("/market-place", viewController.getMarketPlace);
 router.get("/payment-success/:token", viewController.paidGetItem);
+router.get("/redirect/:purchaseId/:item/:buyerEmail", viewController.paidRedirect);
 
 // Admin- side routes
 router.get("/admin/profile", viewController.admin);
 router.get("/express-admin", viewController.userDashboard);
 router.get("/admin/admin-posts", viewController.getAdminPost);
 router.get("/admin/edit-post/:id", viewController.getEditPost);
+router.get("/admin/create-item", viewController.getCreateItemForm);
 router.get("/admin/create-post", viewController.getCreatePostForm);
 
 // Admin Only

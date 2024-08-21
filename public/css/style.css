@@ -3026,6 +3026,12 @@ button.buy:hover {
 }
 
 
+/* #admin-body .post-group button { */
+#admin-body .price-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
 
 
 
@@ -3249,12 +3255,14 @@ button.buy:hover {
 .up-head {
   display: grid;
   place-items: center;
-  margin-bottom: 40px;
+  margin: 40px 0;
+  padding: 20px 0;
   background: var(--gradient-2);
 }
 
 .up-head h1 {
-  font-size: 14rem;
+  font-size: 10rem;
+  font-weight: 400;
 }
 
 .up-head h2 {

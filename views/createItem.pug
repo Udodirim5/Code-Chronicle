@@ -1,0 +1,34 @@
+extends admin-base
+
+block content
+  main.admin-main
+    section#new-posts
+      h2 Add New Item
+
+      form.new-content-form#createItem
+        .post-group
+          label(for="new-item-name") Title
+          input#new-item-name(type="text" name="name" required autofocus)
+
+        .post-group
+          label(for="description") Description:
+          textarea#description(name="description", required)
+
+        .price-area 
+          .post-group
+            label(for="itemImg") File Image:
+            input(type="file" id="itemImg" name="itemImg" required)
+          .post-group
+            label(for="file") Add A Zip File:
+            input(type="file" id="zipFile" name="file" required)
+
+        .price-area 
+          .post-group
+            label(for="price") Price
+            input(type="number" id="price" name="price" required)
+          .post-group
+            label(for="priceDiscount") Discount Price (Optional)
+            input(type="number" id="priceDiscount" name="priceDiscount")
+
+        .post-group
+          button(type="submit") Submit

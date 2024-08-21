@@ -27,10 +27,10 @@ block content
                         a.view-repo(href=`${project.gitHubUrl}` target='blank') GitHub Repo
                   .project-image
                     .desktop-look
-                      img(src=`/img/projects/${project.desktopImg}` alt=`The desktop illustration of ${project.title}`)
+                      img(src=`/uploads/projects/${project.desktopImg}` alt=`The desktop illustration of ${project.title}`)
                     .posit
                       .mobile-look
-                        img(src=`/img/projects/${project.mobileImg}` alt=`The mobile illustration of ${project.title}`)
+                        img(src=`/uploads/projects/${project.mobileImg}` alt=`The mobile illustration of ${project.title}`)
               +paginate('projects', page, pages)
 
             else 

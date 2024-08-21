@@ -43,7 +43,7 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
       .resize(2000, 1333)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`public/img/blogs/${req.body.photo}`);
+      .toFile(`public/uploads/blogs/${req.body.photo}`);
   }
 
   // Process other images

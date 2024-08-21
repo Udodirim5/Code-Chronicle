@@ -15,7 +15,7 @@ block content
             span.post-comments= `Comments: ${post.comments ? post.comments.length : 0}`
             //- span.post-likes= `Likes: ${post.likes.length}`
             //- span.post-dislikes= `Dislikes: ${post.dislikes.length}`
-        img.post-cover(src=`/img/blogs/${post.photo}`, alt=`the cover photo of ${post.title}`)
+        img.post-cover(src=`/uploads/blogs/${post.photo}`, alt=`the cover photo of ${post.title}`)
         #post-content
           != post.content
 
@@ -61,7 +61,7 @@ block content
           each recentPost in recentPosts
             .recent-post-inner
               a(href=`/blog/${recentPost.slug}`)
-                img(src=`/img/blogs/${recentPost.photo}`, alt=recentPost.title)
+                img(src=`/uploads/blogs/${recentPost.photo}`, alt=recentPost.title)
                 h2.recent-post-title= recentPost.title
         else
           p No recent posts available.

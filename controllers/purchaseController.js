@@ -23,26 +23,20 @@ const flw = new Flutterwave(
 exports.createPurchase = catchAsync(async (req, res, next) => {
   const { item, buyerName, buyerEmail, price } = req.body;
 
-    // Store email in session
-    // req.session.buyerName = buyerName;
-    // req.session.buyerEmail = buyerEmail;
-    // req.session.item = item;
-
-    // console.log(req.session);
-
-  // Ensure item exists
+  // Ensure the item exists
   const purchasedItem = await Item.findById(item);
   if (!purchasedItem) {
     return next(new AppError("No item found with that ID", 404));
   }
 
-  const secret = generateSecret(); // Generate a unique secret
+  // Generate a unique secret (ensure this function is properly defined)
+  const secret = generateSecret();
 
   try {
     const newPurchase = await Purchase.create({
       item,
       buyerName,
-      buyerEmail,
+      buyerEmail: buyerEmail.toLowerCase(), // Store email in lowercase for consistency
       price,
       paid: true, // Update based on actual payment status
       secret, // Store the secret
@@ -52,11 +46,13 @@ exports.createPurchase = catchAsync(async (req, res, next) => {
       status: "success",
       data: {
         purchase: newPurchase,
-        purchaseId: newPurchase.purchaseId,
+        item: newPurchase.item,
+        purchaseId: newPurchase._id, // Use _id as purchaseId
+        buyerEmail: newPurchase.buyerEmail,
       },
     });
   } catch (error) {
-    next(new AppError("Error creating purchase", 500));
+    next(new AppError("Error creating purchase: " + error.message, 500));
   }
 });
 

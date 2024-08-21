@@ -11,6 +11,7 @@ router
     authController.protect,
     projectController.uploadProjectImages,
     projectController.resizeProjectImages,
+    projectController.splitTech,
     projectController.createProject
   );
 
@@ -21,6 +22,7 @@ router
     authController.protect,
     projectController.uploadProjectImages,
     projectController.resizeProjectImages,
+    projectController.splitTech,
     projectController.updateProject
   )
   .delete(projectController.deleteProject);

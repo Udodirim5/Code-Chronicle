@@ -3,7 +3,6 @@ import "@babel/polyfill";
 import { showAlert } from "./alert";
 import { getBaseUrl } from "./baseUrl";
 import { createPost } from "./createPost";
-import { createItems } from "./createItems";
 import { updatePost } from "./updatePost.js";
 import { deleteItem } from "./handleDeletes";
 import { login, logout, signup } from "./login";
@@ -13,6 +12,7 @@ import { updateSettings } from "./updateSettings";
 import { fetchTrafficData } from "./fetchTrafficData.js";
 import { handleProjectFormSubmit } from "./createProject";
 import { handlePaymentCallback } from "./handlePayment.js";
+import { createContactUs, createItem } from "./createItems";
 import { createReview, verifyEmailFn } from "./handleReview";
 
 // DOM ELEMENTS
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const email = document.getElementById("email").value;
       const message = document.getElementById("message").value;
 
-      await createItems(name, email, message, contactForm);
+      await createContactUs(name, email, message, contactForm);
       contactForm.reset(); // Reset form after successful submission
     });
   }
@@ -360,6 +360,16 @@ document.addEventListener("DOMContentLoaded", function() {
       redirectForm.dispatchEvent(submitEvent); // This will trigger the submit event listener
     }, 5000);
 
+    let count = 5;
+    const counter = document.querySelector("#counter");
+    const interval = setInterval(() => {
+      count--;
+      counter.innerText = `If you're not redirected in ${count} seconds,`;
+      if (count === 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
     redirectForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -389,6 +399,37 @@ document.addEventListener("DOMContentLoaded", function() {
           redirectBtn.innerHTML = "Click Here";
           redirectBtn.disabled = false;
         }, 5000);
+      }
+    });
+  }
+
+  const createItemForm = document.querySelector("#createItem");
+
+  if (createItemForm) {
+    createItemForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.querySelector("#new-item-name").value;
+      const description = form.querySelector("#description").value;
+      const price = form.querySelector("#price").value;
+      const priceDiscount = form.querySelector("#priceDiscount").value;
+      const itemImg = form.querySelector("#itemImg").files[0];
+      const zipFile = form.querySelector("#zipFile").files[0];
+
+      // Create FormData object
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("priceDiscount", priceDiscount);
+      formData.append("image", itemImg);
+      formData.append("itemZipFile", zipFile);
+
+      console.log("FormData:", formData);
+      try {
+        await createItem(formData);
+      } catch (error) {
+        showAlert("error", "There was an error creating the item.");
       }
     });
   }

@@ -13,7 +13,7 @@ block content
           .product-info
             h2= purchase.item.name
             p= purchase.item.description
-            a(href="" class="download-btn" download="file.txt") Download Now
+            a(href=purchase.itemZipFile, class="download-btn", download) Download Now
 
           .review-section
             if !reviewExists

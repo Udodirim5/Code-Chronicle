@@ -49,7 +49,7 @@ exports.resizeProjectImages = catchAsync(async (req, res, next) => {
         .resize(2000, 1333)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`public/img/projects/${desktopFilename}`);
+        .toFile(`public/uploads/projects/${desktopFilename}`);
       req.body.desktopImg = desktopFilename;
     }
 
@@ -61,7 +61,7 @@ exports.resizeProjectImages = catchAsync(async (req, res, next) => {
         .resize(1333, 2000)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`public/img/projects/${mobileFilename}`);
+        .toFile(`public/uploads/projects/${mobileFilename}`);
       req.body.mobileImg = mobileFilename;
     }
   } catch (error) {
@@ -73,17 +73,19 @@ exports.resizeProjectImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.createProject = catchAsync(async (req, res, next) => {
+exports.splitTech = catchAsync(async (req, res, next) => {
   // Check if technologies is a string and split it into an array
-  console.log(req.body.technologies);
   if (typeof req.body.technologies === "string") {
     req.body.technologies = req.body.technologies
       .split(",")
       .map((tech) => tech.trim()); // Converts the string into an array
   }
-  console.log(req.body.technologies);
+  next();
+});
 
+exports.createProject = catchAsync(async (req, res, next) => {
   const newProject = await Project.create(req.body);
+
   res.status(201).json({
     status: "success",
     data: {

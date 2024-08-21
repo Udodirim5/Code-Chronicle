@@ -28,11 +28,12 @@ export const handlePaymentCallback = async (
     const result = response.data;
     if (result.status === "success") {
       const purchaseId = response.data.data.purchaseId;
-      console.log(purchaseId);
+      const item = response.data.data.item;
+      const buyerEmail = encodeURIComponent(response.data.data.buyerEmail); // Safely encode the email
       showAlert("success", "Payment complete! Reference: " + reference);
-      window.location.href = `/redirect/`;
+      window.location.href = `/redirect/${purchaseId}/${item}/${buyerEmail}`;
     } else {
-      showAlert("error", "Error processing payment. Please try again.");
+          showAlert("error", "Error processing payment. Please try again.");
     }
   } catch (error) {
     showAlert("error", "Error processing payment. Please try again.");

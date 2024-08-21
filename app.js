@@ -30,10 +30,14 @@ const contactRoutes = require("./routes/contactRoute");
 const commentRoutes = require("./routes/commentRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const purchaseRoute = require("./routes/purchaseRoute");
+const createUploadDirs = require('./utils/createFolders');
 require("./utils/cronJobs");
 require('./utils/tokenCleanup');
 
 const app = express();
+
+createUploadDirs();
+
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 

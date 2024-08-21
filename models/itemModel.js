@@ -26,11 +26,11 @@ const itemSchema = new mongoose.Schema(
     },
     itemImage: {
       type: String,
-      required: [true, "An item must have an image URL."],
+      // required: [true, "An item must have an image URL."],
     },
-    itemUrl: {
+    itemZipFile: {
       type: String,
-      required: [true, "An item must have a URL."],
+      // required: [true, "An item must have a URL."],
     },
     ratingsAverage: {
       type: Number,
