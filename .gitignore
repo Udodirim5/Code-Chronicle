@@ -49,5 +49,4 @@ coverage/
 .env.production.local
 
 # Ignore generated bundle.js files
-/public/js/bundle.js
-/public/js/bundle.js.map
+.cache/

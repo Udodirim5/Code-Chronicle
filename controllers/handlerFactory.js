@@ -112,7 +112,6 @@ exports.deleteOne = (Model) =>
 
 exports.viewsCounter = (Model) =>
   catchAsync(async (req, res, next) => {
-    console.log("viewsCounter middleware triggered"); // Add a log here
     const doc = await Model.findById(req.params.id);
     if (!doc) {
       return res
@@ -120,9 +119,7 @@ exports.viewsCounter = (Model) =>
         .json({ status: "fail", message: "Post not found" });
     }
 
-    console.log(`Views before: ${doc.views}`); // Log views before incrementing
     await doc.incrementViews();
-    console.log(`Views after: ${doc.views}`); // Log views after incrementing
 
     req.doc = doc;
     next();

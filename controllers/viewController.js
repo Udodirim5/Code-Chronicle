@@ -382,10 +382,6 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
   // const buyerEmail = 'admin@natours.io';
 
   // Log the parameters to debug
-  console.log("purchaseId:", purchaseId);
-  console.log("itemId:", item);
-  console.log("buyerEmail:", buyerEmail);
-
   if (!item || !buyerEmail) {
     return next(new AppError("Item ID or Buyer Email is missing", 400));
   }
@@ -393,7 +389,7 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
   // Fetch purchase details
   const purchase = await Purchase.findOne({
     buyerEmail: buyerEmail.toLowerCase(),
-    item
+    item,
   });
 
   // If purchase not found
@@ -408,6 +404,34 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
     item: itemId, // Pass the item ID to the view
     buyerEmail,
     buyerName: purchase.buyerName, // Assuming buyerName is in your purchase model
+  });
+});
+
+exports.getMyItems = catchAsync(async (req, res, next) => {
+  const { buyerEmail } = req.params;
+
+  // 1. Get all the purchase with the buyerEmail
+  const purchases = await Purchase.find({
+    buyerEmail: buyerEmail.toLowerCase(),
+  });
+  // 2. Loop through each purchase and get the item details
+  const itemDetails = await Promise.all(
+    myPurchases.map(async (purchase) => ({
+      item: await Item.findById(purchase.item),
+      purchase,
+    }))
+  );
+
+  // 2. Filter the purchases to only include those for the specific item
+  const myPurchases = purchases.filter(
+    (purchase) => purchase.item.toString() === item
+  );
+
+  // Render it
+  res.status(200).render("my-items", {
+    title: "My Items",
+    myPurchases,
+    itemDetails,
   });
 });
 

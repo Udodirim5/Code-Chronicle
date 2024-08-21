@@ -57,14 +57,8 @@ exports.createPurchase = catchAsync(async (req, res, next) => {
 });
 
 exports.webhookCheckout = (req, res, next) => {
-  console.log("Webhook received");
-  
-  // Log all headers for debugging
-  // console.log("Headers:", req.headers);
-
   // Access the correct header
   const signature = req.headers["verif-hash"] || req.headers["Verif-Hash"];
-  // console.log("Signature:", signature);
 
   let eventData;
   try {
@@ -73,7 +67,6 @@ exports.webhookCheckout = (req, res, next) => {
       throw new Error("Invalid signature");
     }
   } catch (err) {
-    console.error("Webhook error:", err);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
@@ -161,9 +154,6 @@ exports.deletePurchase = factory.deleteOne(Purchase);
 
 exports.purchaseId = catchAsync(async (req, res, next) => {
   const { buyerEmail, itemId } = req.body;
-
-  console.log('buyerEmail:', buyerEmail);
-  console.log('itemId:', itemId);
 
   // Ensure both buyerEmail and itemId are provided
   if (!buyerEmail || !itemId) {

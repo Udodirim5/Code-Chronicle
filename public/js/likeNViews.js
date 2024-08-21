@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         showAlert("error", 'Something went wrong!');
       }
     } catch (error) {
-      console.error('Error:', error);
     }
   };
 

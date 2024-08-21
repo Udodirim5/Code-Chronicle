@@ -5,8 +5,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const hpp = require("hpp");
-// const cors = require('cors');
-// const compression = require('compression');
+const cors = require('cors');
+const compression = require('compression');
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -44,7 +44,7 @@ app.set("views", path.join(__dirname, "views"));
 // 1) GLOBAL MIDDLEWARES
 
 // Enable CORS
-// app.use(cors());
+app.use(cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -82,7 +82,7 @@ app.use(session({
 }));
 
 // Compress response bodies
-// app.use(compression());
+app.use(compression());
 
 // Limiting the requests from one IP per hour
 const limiter = rateLimit({

@@ -12,7 +12,7 @@ export const deleteItem = async (type, id) => {
       if (itemElement) {
         itemElement.remove();
       } else {
-        console.error(`Element with selector .${type}[data-id="${id}"] not found in the DOM.`);
+        showAlert('error', `Element with selector .${type}[data-id="${id}"] not found in the DOM.`);
       }
     } else {
       showAlert('error', `Failed to delete the ${type}`);

@@ -356,7 +356,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
           })
           .catch((error) => {
-            console.error("Error fetching search results:", error);
             searchResultUl.innerHTML = "<li>Error fetching results</li>";
           });
 

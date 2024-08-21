@@ -27,7 +27,6 @@ const checkPostOwnership = async (req, res, next) => {
     req.post = post; // Store the post in the request object for use in the controller
     next();
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       status: 'error',
       message: 'Server error',

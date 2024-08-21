@@ -11,8 +11,8 @@ cron.schedule('0 0 * * *', async () => {
         { used: true }
       ]
     });
-    console.log("Old tokens cleaned up.");
+    showAlert('success', "Old tokens cleaned up.");
   } catch (err) {
-    console.error("Error cleaning up tokens:", err);
+    showAlert('error', "Error cleaning up tokens:", err);
   }
 });

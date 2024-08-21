@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function() {
           "error",
           "There was an error initiating the payment, Please try again later"
         );
-        console.error("Error initiating payment:", error);
+        showAlert('error', "Error initiating payment:");
       }
     });
   }
@@ -376,9 +376,6 @@ document.addEventListener("DOMContentLoaded", function() {
       const form = e.target;
       const email = document.querySelector("#redirect-email").value.trim();
       const itemId = document.querySelector("#item").value.trim();
-      console.log("email", email);
-      console.log("itemId", itemId);
-
       // Ensure email and itemId are provided
       if (!email || !itemId) {
         showAlert("error", "Please provide your email.");
@@ -425,7 +422,6 @@ document.addEventListener("DOMContentLoaded", function() {
       formData.append("image", itemImg);
       formData.append("itemZipFile", zipFile);
 
-      console.log("FormData:", formData);
       try {
         await createItem(formData);
       } catch (error) {

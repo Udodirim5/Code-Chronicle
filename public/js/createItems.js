@@ -14,7 +14,6 @@ export const createContactUs = async (name, email, message, contactForm) => {
       showAlert("success", "Message sent successfully!");
     }
   } catch (err) {
-    console.error(err);
     showAlert("error", "Something went wrong. Please try again.");
   }
 };
@@ -31,7 +30,6 @@ export const createItem = async (formData) => {
       showAlert("success", "Item created successfully!");
     }
   } catch (err) {
-    console.error(err);
     showAlert("error", "Something went wrong. Please try again.");
   }
 };

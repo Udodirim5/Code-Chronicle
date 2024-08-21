@@ -52,9 +52,6 @@ const uploadFiles = upload.fields([
 exports.createItem = [
   uploadFiles,
   catchAsync(async (req, res, next) => {
-    console.log('Files:', req.files);
-    console.log('Body:', req.body);
-
     const { name, description, price } = req.body;
     const itemImage = req.files["itemImage"]
       ? req.files["itemImage"][0].path

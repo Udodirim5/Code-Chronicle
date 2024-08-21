@@ -12,7 +12,7 @@ const resetDailyTraffic = catchAsync(async () => {
   );
 
   await Traffic.updateMany({ date: { $lt: startOfToday } }, { dailyCount: 0 });
-  console.log("Daily traffic count reset successfully.");
+  showAlert('success', "Daily traffic count reset successfully.");
 });
 
 // Function to reset monthly traffic count
@@ -24,7 +24,7 @@ const resetMonthlyTraffic = catchAsync(async () => {
     { date: { $lt: startOfMonth } },
     { monthlyCount: 0 }
   );
-  console.log("Monthly traffic count reset successfully.");
+  showAlert('success', "Monthly traffic count reset successfully.");
 });
 
 // Schedule daily reset at midnight

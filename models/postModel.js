@@ -77,10 +77,8 @@ postSchema.index({ slug: 1 }, { unique: true });
 
 // Increment views middleware
 postSchema.methods.incrementViews = async function() {
-  console.log("Views before:", this.views); // Debug log
   this.views += 1;
   await this.save();
-  console.log("Views after:", this.views); // Debug log
 };
 
 // Add or Remove Like
@@ -100,7 +98,6 @@ postSchema.methods.toggleLike = async function(userId) {
     }
     await this.save();
   } catch (err) {
-    console.error(err);
   }
 };
 
@@ -121,7 +118,6 @@ postSchema.methods.toggleDislike = async function(userId) {
     }
     await this.save();
   } catch (err) {
-    console.error(err);
   }
 };
 

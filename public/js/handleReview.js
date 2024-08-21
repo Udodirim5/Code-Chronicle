@@ -44,14 +44,11 @@ export const verifyEmailFn = async (email, itemId) => {
           "The token is invalid or has expired. Please request a new one."
         );
       } else {
-        showAlert(
-          "error",
-          error.response.data.message || "Something went wrong."
-        );
+        showAlert("error", "Something went wrong.");
       }
     } else {
       showAlert("error", "An unexpected error occurred. Please try again.");
     }
-    console.error("Error verifying email:", error);
+    showAlert("error", "Error verifying email:");
   }
 };
