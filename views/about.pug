@@ -6,7 +6,7 @@ mixin feedPostCard()
   .menu-body-item-content 
     .item-content 
       .item-name-content 
-        img(src=`/uploads/users/${user.photo}` alt=`Photo of ${user.name}`)
+        img(src=`/uploads/users/${ user && user.photo ? user.photo : 'default.png'}`, alt=`Photo of ${user && user.name ? user.name : "admin"}`, onerror="this.src='/uploads/users/default.png'")
         .item-inform
           h4 Content Title 1 
           h5 01 Jan 2024
@@ -16,7 +16,7 @@ mixin feedPostCard()
         button.item-close-btn x
         .item-read-more-content
           p.item-read-content Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum nisi neque debitis sapiente distinctio cum, asperiores culpa corporis rerum saepe minima atque, excepturi tempora fuga necessitatibus aperiam. Quaerat, deserunt consequuntur.
-      img(src="/img/blogs/news-1.jpg" alt="")
+      img(src="/uploads/blogs/news-1.jpg" alt="")
       .item-name-button 
         button Like
 

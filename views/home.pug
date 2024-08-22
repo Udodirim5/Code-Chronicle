@@ -13,8 +13,7 @@ block content
           a.btn(href="/contact" data-btn) GET IN TOUCH
           .hero-banner
             .hero-banner-inner 
-              img(src=`/uploads/users/${me.photo}`)
-            //- img(src="./img/hero-banner.png" width="850" height="414" alt="hero banner" class="w-100")
+              img(src=`/uploads/users/${ me && me.photo ? me.photo : 'default.png'}`, alt="A profile photo.", onerror="this.src='/uploads/users/default.png'")
             img(src="./img/hero-banner-bg.png" alt="" class="hero-banner-bg")
       
       section.testimonials(aria-labelledby="testimonials-label" id="testimonials")
@@ -40,7 +39,7 @@ block content
                   strong I would recommend Udodirim in a heartbeat.
               span.quote-icon.closing ”
             .author
-              img(src=`/uploads/users/${user.photo}` alt="John Doe Jr.")
+              img(src=`/uploads/users/${user && user.photo ? user.photo : 'default.png'}`, alt="John Doe Jr.", onerror="this.src='/uploads/users/default.png'")
               p
                 strong John Doe Jr.,
                 br
@@ -49,7 +48,7 @@ block content
 
           .testimonial-content(data-reveal="bottom")
             .author
-              img(src=`/uploads/users/${user.photo}` alt="John Doe Jr.")
+              img(src=`/uploads/users/${user && user.photo ? user.photo : 'default.png'}`, alt="John Doe Jr.", onerror="this.src='/uploads/users/default.png'")
               p
                 strong John Doe Jr.,
                 br
