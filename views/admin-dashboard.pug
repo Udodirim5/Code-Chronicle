@@ -7,31 +7,29 @@ block content
       .info 
         img(src=`/uploads/users/${user.photo}` alt=`Photo of ${user.name}`)
         .cards
-          span= `Name: ${user.name}` 
+          p= `Name: ${user.name}` 
           p= `Username: ${user.username}` 
           p= `Email: ${user.email}` 
           p= `User Role: ${user.role}` 
-
-
 
 
       .top 
         h2.traffic Traffics
         .top-inner
           .box
-            p Daily Traffic
+            p Daily 
             h3#dailyCount Loading...
             .detailed#daily
               span 0
             i.fas.fa-user-tie
           .box
-            p Monthly Traffic
+            p Monthly 
             h3#monthlyCount Loading...
             .detailed#monthly
               span 0
             i.fas.fa-user-tie
           .box
-            p All Time Traffic
+            p All Time 
             h3#allTimeCount Loading...
             .detailed#allTime 
               span 0

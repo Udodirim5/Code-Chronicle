@@ -374,12 +374,12 @@ exports.paidGetItem = catchAsync(async (req, res, next) => {
 // });
 
 exports.paidRedirect = catchAsync(async (req, res, next) => {
-  // const { purchaseId } = req.params;
-  const { purchaseId, item, buyerEmail } = req.params;
+  // const { purchaseId, item, buyerEmail } = req.params;
 
   // Hardcoded buyer email and item ID for testing
-  // const itemId = '66bfb9690b10371568d367b6';
-  // const buyerEmail = 'admin@natours.io';
+  const itemId = '66bfb9690b10371568d367b6';
+  const buyerEmail = 'admin@natours.io';
+  const purchaseId = '126578';
 
   // Log the parameters to debug
   if (!item || !buyerEmail) {
@@ -408,30 +408,30 @@ exports.paidRedirect = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyItems = catchAsync(async (req, res, next) => {
-  const { buyerEmail } = req.params;
+  const { buyerEmail, item } = req.params;
 
-  // 1. Get all the purchase with the buyerEmail
-  const purchases = await Purchase.find({
+  // 1. Get all the purchases with the buyerEmail and the specific item
+  const myPurchases = await Purchase.find({
     buyerEmail: buyerEmail.toLowerCase(),
+    item
   });
-  // 2. Loop through each purchase and get the item details
+
+  if (!myPurchases.length) {
+    return next(new AppError("No purchases found for this item.", 404));
+  }
+
+  // 2. Get item details for each purchase
   const itemDetails = await Promise.all(
     myPurchases.map(async (purchase) => ({
       item: await Item.findById(purchase.item),
-      purchase,
+      purchase
     }))
   );
 
-  // 2. Filter the purchases to only include those for the specific item
-  const myPurchases = purchases.filter(
-    (purchase) => purchase.item.toString() === item
-  );
-
-  // Render it
+  // 3. Render the items
   res.status(200).render("my-items", {
     title: "My Items",
-    myPurchases,
-    itemDetails,
+    itemDetails
   });
 });
 

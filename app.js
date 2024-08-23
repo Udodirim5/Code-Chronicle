@@ -35,6 +35,7 @@ require("./utils/cronJobs");
 require('./utils/tokenCleanup');
 
 const app = express();
+app.enable('trust proxy')
 
 createUploadDirs();
 
@@ -45,6 +46,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // Enable CORS
 app.use(cors());
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, "public")));

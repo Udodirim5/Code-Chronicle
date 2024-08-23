@@ -21,7 +21,7 @@ block content
                 td= index + 1
                 td= `${post.title.substring(0, 15)}..`
                 td= post.author.name
-                - const releasedAt = new Date(post.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                - const releasedAt = new Date(post.createdAt).toLocaleDateString("en-US", { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' })
                 td= releasedAt
                 td.actions
                   span.fas.fa-ellipsis-v

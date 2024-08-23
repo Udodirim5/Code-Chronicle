@@ -2,11 +2,29 @@ doctype html
 html
   head
     meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
-    link(rel="stylesheet" href="/css/style.css")
-    link(rel="shortcut icon" href="/img/favicon.svg" type="image/svg+xml")
+
+    //- Primary meta tags
     title Dev Memoirs  | #{title}
+    meta(name="title" content="Dev Memoirs!")
+    meta(name="description" content="This is an where I will be sharing my works")
+
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+    link(rel="shortcut icon" href="/img/favicon.svg" type="image/svg+xml")
+
+    //- Google font link
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Work+Sans:wght@600&display=swap" rel="stylesheet")
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
+
+    //- Custom CSS link
+    link(rel="stylesheet" href="/css/style.css")
+
+    //- Preload images
+    link(rel="preload" as="image" href="/img/hero-banner.png")
+    link(rel="preload" as="image" href="/img/hero-banner-bg.png")
 
   body#admin-body
     //- ASIdE
@@ -14,5 +32,12 @@ html
 
     //- CONTENT
     block content
+
+    a.back-top-btn(href="#admin-body" aria-label="back to top" data-back-top-btn) &uarr;
+
+
+    //- CUSTOM CURSOR
+    .cursor(id="data-cursor")
+
     script(src='/js/bundle.js')
     script(src='/js/script.js')

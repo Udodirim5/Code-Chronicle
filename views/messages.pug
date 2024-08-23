@@ -21,7 +21,7 @@ block content
                 td= index + 1
                 td= contact.name 
                 td= contact.email
-                - const releasedAt = new Date(contact.createdAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                - const releasedAt = new Date(contact.createdAt).toLocaleDateString("en-US", { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric' })
                 td= `${releasedAt}`
                 td.actions
                   span.fas.fa-ellipsis-v

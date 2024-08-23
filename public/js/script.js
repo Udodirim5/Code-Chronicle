@@ -549,11 +549,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to get the combined value of all input fields
     function getInputValue() {
-      return Array.from(inputs).map(input => input.value).join("");
+      return Array.from(inputs)
+        .map((input) => input.value)
+        .join("");
     }
 
     // Event listener for input changes
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       input.addEventListener("input", () => {
         const inputValue = getInputValue();
 

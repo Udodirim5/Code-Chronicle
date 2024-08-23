@@ -23,7 +23,8 @@ router.get("/projects", viewController.getProjects);
 router.get("/market-place/:slug", viewController.getItem);
 router.get("/market-place", viewController.getMarketPlace);
 router.get("/payment-success/:token", viewController.paidGetItem);
-router.get("/redirect/:purchaseId/:item/:buyerEmail", viewController.paidRedirect);
+// router.get("/redirect/:purchaseId/:item/:buyerEmail", viewController.paidRedirect);
+router.get("/redirect", viewController.paidRedirect);
 
 // Admin- side routes
 router.get("/admin/profile", viewController.admin);

@@ -12,8 +12,8 @@ import { updateSettings } from "./updateSettings";
 import { fetchTrafficData } from "./fetchTrafficData.js";
 import { handleProjectFormSubmit } from "./createProject";
 import { handlePaymentCallback } from "./handlePayment.js";
-import { createContactUs, createItem } from "./createItems";
 import { createReview, verifyEmailFn } from "./handleReview";
+import { createContactUs, createItem, addCategory } from "./createItems";
 
 // DOM ELEMENTS
 const editPost = document.querySelector("#editPost");
@@ -23,7 +23,7 @@ const signupForm = document.querySelector("#signUpForm");
 const contactForm = document.querySelector(".contact-form");
 const commentForm = document.getElementById("comment-form");
 const createPostForm = document.querySelector("#createPost");
-const userDataForm = document.querySelector(".form-user-data");
+const userDataForm = document.querySelector("#form-user-data");
 const updateSocialForm = document.querySelector(".updateSocial");
 const updatePasswordForm = document.querySelector(".form-user-password");
 
@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function() {
           "error",
           "There was an error initiating the payment, Please try again later"
         );
-        showAlert('error', "Error initiating payment:");
+        showAlert("error", "Error initiating payment:");
       }
     });
   }
@@ -428,5 +428,48 @@ document.addEventListener("DOMContentLoaded", function() {
         showAlert("error", "There was an error creating the item.");
       }
     });
+  }
+
+  const newCategory = document.querySelector(".post-group.categories");
+
+  if (newCategory) {
+    const addCatBtn = document.querySelector("#addNewCat");
+    const addCatDiv = document.querySelector(".new-category");
+    const closeCat = document.querySelector("#cancel");
+
+    if (addCatBtn && addCatDiv && closeCat) {
+      addCatBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        addCatDiv.classList.add("addCat");
+        document.body.style.overflow = "hidden";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      closeCat.addEventListener("click", (e) => {
+        e.preventDefault();
+        addCatDiv.classList.remove("addCat");
+        document.body.style.overflow = "";
+      });
+    }
+
+    const addCatForm = document.querySelector("#add-category-form");
+
+    if (addCatForm) {
+      addCatForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.querySelector("#category-name").value;
+        const description = document.querySelector("#category-description")
+          .value;
+
+        const data = { name, description };
+        addCatForm.reset();
+        try {
+          await addCategory(data);
+        } catch (err) {
+          showAlert("error", "Error adding category:", err);
+        }
+      });
+    }
   }
 });

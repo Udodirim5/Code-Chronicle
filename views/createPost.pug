@@ -37,7 +37,8 @@ block content
           label(for="tags") Tags:
           input(type="text" id="tags" name="tags")
 
-        .post-group
+        .post-group.categories
+          button(type="button" id="addNewCat") Add New
           label(for="categories") Choose a category:
           select#categories(name="category" required)
             option(value="") Select a category
@@ -52,3 +53,17 @@ block content
 
         .post-group
           button(type="submit") Submit
+
+      .categories-container
+        .new-category
+          h2 Add New
+          form(id="add-category-form") 
+            .post-group
+              label(for="category-name") Category's Name:
+              input(type="text" id="category-name" name="categoryName", required)
+            .post-group
+              label(for="category-description") Short Description:
+              input(type="text" id="category-description" name="categoryDescription", required)
+            .addNClose
+              button(type="submit") Add 
+              button(type="button" id ="cancel") Cancel 

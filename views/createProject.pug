@@ -50,20 +50,21 @@ block content
               label.switch(for="node") Node JS 
                 input#node(type="checkbox", name="technologies", value="node")
 
-        .select-img
-          .post-desktop
-            label(for="desktop-img", aria-label="upload image") Desktop View
-            br
-            input#desktop-img(type="file", name="desktopImg", required)
-            .cover-img
-              img#desktop-img-view(src="/img/svg/upload.svg", alt="")
+        .post-group
+          .select-img
+            .post-desktop
+              label(for="desktop-img", aria-label="upload image") Desktop View
+              br
+              input#desktop-img(type="file", name="desktopImg", required)
+              .cover-img
+                img#desktop-img-view(src="/img/svg/upload.svg", alt="")
 
-          .post-mobile 
-            label(for="mobile-img", aria-label="upload image") Mobile View
-            br
-            input#mobile-img(type="file", name="mobileImg", required)
-            .cover-img
-              img#mobile-img-view(src="/img/svg/upload.svg", alt="")
+            .post-mobile 
+              label(for="mobile-img", aria-label="upload image") Mobile View
+              br
+              input#mobile-img(type="file", name="mobileImg", required)
+              .cover-img
+                img#mobile-img-view(src="/img/svg/upload.svg", alt="")
 
         .post-group
           button(type="submit") Submit

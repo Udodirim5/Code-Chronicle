@@ -33,3 +33,17 @@ export const createItem = async (formData) => {
     showAlert("error", "Something went wrong. Please try again.");
   }
 };
+
+export const addCategory = async (data) => {
+  try {
+    const res = await axios.post(`${getBaseUrl()}/api/v1/categories`, data);
+
+    if (res.data.status === "created") {
+      showAlert("success", "Category added successfully!");
+    } else {
+      showAlert("error", "Failed to add the category.");
+    }
+  } catch (err) {
+    showAlert("error", "Something went wrong. Please try again.");
+  }
+};

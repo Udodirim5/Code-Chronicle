@@ -2707,6 +2707,7 @@ button.buy:hover {
   margin-bottom: 20px;
 }
 
+
 #admin-body .post-group .elements {
   display: grid;
   padding: 20px;
@@ -2724,6 +2725,18 @@ button.buy:hover {
   border-radius: 10px;
   cursor: pointer;
   transition: all var(--transition-1);
+}
+
+#admin-body .post-group.categories {
+  position: relative;
+}
+
+#admin-body .post-group.categories #addNewCat {
+  all: unset;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.5rem;
 }
 
 #imgForImg {
@@ -2833,11 +2846,36 @@ button.buy:hover {
   transform: scale(1.2);
 }
 
-/* USER */
-#admin-body #user {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+#admin-body .new-category {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-oxford-blue);
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--shadow-2);
+  z-index: -100;
+  visibility: hidden;
+}
+
+#admin-body .new-category.addCat {
+  display: block;
+  visibility: visible;
+  z-index: 100;
+}
+
+.addNClose {
+  display: flex;
   gap: 20px;
+  overflow: hidden;
+}
+
+.addNClose button {
+  all: unset;
+  border-radius: 10px;
+  border: 2px solid var(--border-space-cadet);
 }
 
 #admin-body #user .item {
@@ -2908,7 +2946,6 @@ button.buy:hover {
 }
 
 #admin-body #getIn form {
-  width: 400px;
   text-align: center;
 }
 
@@ -2924,7 +2961,7 @@ button.buy:hover {
 #admin-body #getIn .forgot-password {
   position: absolute;
   right: 20px;
-  top: 190px;
+  top: 210px;
 }
 
 #admin-body #getIn-inner button {
@@ -3938,10 +3975,8 @@ header h2 {
 
   #admin-body .actions {
     position: relative;
-    display: block;
-    text-align: center;
-    /* height: 100%; */
-    background: red;
+    display: grid;
+    place-items: center;
   }
 
   #admin-body .actions span {
@@ -3951,10 +3986,12 @@ header h2 {
 
   #admin-body .actions-inner {
     display: none;
+    flex-direction: column;
     position: absolute;
-    top: 30px;
-    right: 50px;
-    background-color: #00000083;
+    top: 0;
+    right: -100px;
+    background-color: var(--border-space-cadet);
+    gap: 5px;
     border-radius: 5px;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px #00000080;
@@ -3963,13 +4000,19 @@ header h2 {
   }
 
   #admin-body .actions-inner.show-actions {
-    display: block;
+    right: 80px;
+    display: flex;
+  }
+
+  #admin-body .actions-inner :is(a, button) {
+    font-size: 16px;
   }
 
   /* USER */
   #admin-body #user {
     grid-template-columns: 1fr;
   }
+
 
   main#post-single-container {
     margin: auto 10px;
@@ -4031,8 +4074,11 @@ header h2 {
   #ABOUT
 \*-----------------------------------*/
 
+
   .card-top-inner {
     width: 90dvw;
+    margin-left: 1rem;
+    flex: 1;
   }
 
   .card-top {
@@ -4042,11 +4088,6 @@ header h2 {
 
   .card-top img {
     margin: 20px auto;
-  }
-
-  .card-top-inner {
-    margin-left: 1rem;
-    flex: 1;
   }
 
   .card-top-info {
@@ -4181,6 +4222,11 @@ header h2 {
   }
 
 
+  #admin-body .sidebar {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
   #admin-body .sidebar .sidebar-header a {
     all: unset;
   }
@@ -4188,7 +4234,7 @@ header h2 {
   #admin-body .sidebar .sidebar-header img,
   #admin-body .sidebar .sidebar-header a img {
     border-radius: 50%;
-    width: 42px;
+    width: 52px;
   }
 
   #admin-body .sidebar .sidebar-header,
@@ -4199,7 +4245,7 @@ header h2 {
 
   #admin-body .sidebar .sidebar-header h2,
   #admin-body .sidebar .sidebar-header a h2 {
-    font-size: var(--fontSize-5);
+    font-size: var(--fontSize-3);
     font-weight: var(--weight-semiBold);
     text-transform: uppercase;
     margin-left: 23px;
@@ -4280,7 +4326,7 @@ header h2 {
 
   #admin-body .user-profile h3 {
     font-weight: 600;
-    font-size: 0.775rem;
+    font-size: 2rem;
   }
 
   #admin-body .user-profile span {
@@ -4536,10 +4582,73 @@ header h2 {
     margin-top: 50px;
   }
 
-  #admin-body .new-content-form {
-    width: 80%;
-    border: 3px solid red;
+  #new-project .checkbox-inner {
+    display: grid;
+    border-radius: 10px;
+    background: var(--bg-oxford-blue-beta-80);
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    height: 120px;
+    overflow: hidden;
+    transition: all var(--transition-2);
   }
+  
+  #new-project .checkbox-inner:hover {
+    height: max-content;
+  }
+
+
+
+  
+  #new-project .checkbox-inner input[type='checkbox'] {
+    display: none;
+  }
+
+  #new-project .select-img {
+    flex-direction: column;
+  }
+
+  #new-project .select-img .cover-img {
+    display: none;
+  }
+
+  #new-project .select-img input {
+    width: 90%;
+  }
+
+  #admin-body .log-pass {
+    display: none;
+    width: 90%;
+  }
+
+  #admin-body #dashboard .top-inner {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+
+  #admin-body #dashboard .top-inner .box {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid red;
+  }
+
+  #admin-body #dashboard .top-inner p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5em;
+  }
+
+  #admin-body #dashboard .top-inner h3 {
+    font-size: 1rem;
+  }
+
+  #admin-body .new-category {
+    width: 310px;
+  }
+  
+  
+
 
 
 
@@ -4952,6 +5061,21 @@ header h2 {
     padding: 40px 20px;
   }
 
+  #admin-body #getIn form {
+    width: 400px;
+  }
+
+  /* USER */
+  #admin-body #user {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  #admin-body .new-category {
+    width: 400px;
+  }
+  
 
 }
 
